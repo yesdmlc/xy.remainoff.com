@@ -1,0 +1,16 @@
+---
+title: "All Posts"
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <h1>All Posts</h1>
+  <ul class="post-list">
+    {% for post in collections.posts | reverse %}
+      <li>
+        <a href="{{ post.url }}">{{ post.data.title }}</a><br>
+        <small>{{ post.date | date("yyyy-MM-dd") }}</small>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

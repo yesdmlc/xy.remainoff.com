@@ -1,0 +1,10 @@
+{
+  "title": "Kitchen Series",
+  "date": "2025-08-02",
+  "description": "A photo series exploring clean, modern kitchen design.",
+  "images": [
+    { "src": "kitchen1.jpg", "locked": false },
+    { "src": "kitchen2.jpg", "locked": true },
+    { "src": "kitchen3.jpg", "locked": true }
+  ]
+}

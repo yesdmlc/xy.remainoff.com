@@ -1,0 +1,14 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <article class="post">
+    <h1>{{ title }}</h1>
+    <p>{{ date | date("MMMM D, YYYY") }}</p>
+
+    {% if image %}
+      <img src="/images/originals/{{ image }}" alt="{{ alt or 'Post image' }}">
+    {% endif %}
+
+    {{ content | safe }}
+  </article>
+{% endblock %}

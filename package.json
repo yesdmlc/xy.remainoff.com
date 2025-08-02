@@ -1,0 +1,20 @@
+{
+  "name": "xy.remainoff.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx eleventy --serve",
+    "build": "npx eleventy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0"
+  },
+  "dependencies": {
+    "@11ty/eleventy-img": "^6.0.4",
+    "luxon": "^3.7.1"
+  }
+}

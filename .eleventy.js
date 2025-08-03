@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { DateTime } = require("luxon");
-const imageShortcode = require("./src/utils/image"); // ✅ Add this line
+const imageShortcode = require("./src/utils/image");
 
 
 module.exports = function(eleventyConfig) {
@@ -10,20 +10,20 @@ module.exports = function(eleventyConfig) {
   console.log("🔍 Checking layout path:", layoutPath);
   console.log("🔍 Exists?", fs.existsSync(layoutPath));
 
-  // ✅ Add date filter for Nunjucks
+  // Add date filter for Nunjucks
   eleventyConfig.addFilter("date", (dateObj, format = "yyyy-MM-dd") => {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
 
-  // ✅ Register image shortcodes
+  // Register image shortcodes
   eleventyConfig.addNunjucksAsyncShortcode("optimizedImage", imageShortcode);
   eleventyConfig.addLiquidShortcode("optimizedImage", imageShortcode);
   eleventyConfig.addJavaScriptFunction("optimizedImage", imageShortcode);
 
-  // ✅ Passthrough copy for static assets
+  // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
-  // ✅ Add posts collection
+  // Add posts collection
   eleventyConfig.addCollection("posts", function(collectionApi) {
     return collectionApi.getFilteredByGlob("src/posts/*.md");
   });

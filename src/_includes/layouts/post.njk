@@ -1,14 +1,26 @@
 {% extends "layouts/base.njk" %}
 
 {% block content %}
-  <article class="post">
-    <h1>{{ title }}</h1>
-    <p>{{ date | date("MMMM D, YYYY") }}</p>
+<article class="post">
+  {% if image %}
+  {% set altText = alt or title %}
+  {% set imageOptions = { "src": image, "alt": altText } %}
+  <div class="featured-image">
+    <div class="image-wrapper">
+      {% optimizedImage imageOptions %}
+    </div>
+  </div>
+{% endif %}
 
-    {% if image %}
-      <img src="/images/originals/{{ image }}" alt="{{ alt or 'Post image' }}">
-    {% endif %}
+  <h1 class="post-title">{{ title }}</h1>
+  <p class="post-meta">Posted on {{ date | date("MMMM dd, yyyy") }}</p>
 
+  <div class="post-content">
     {{ content | safe }}
-  </article>
+  </div>
+
+  <div class="post-footer">
+    <a href="/" class="back-link">← Back to Collection</a>
+  </div>
+</article>
 {% endblock %}

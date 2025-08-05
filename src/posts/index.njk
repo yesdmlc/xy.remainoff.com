@@ -1,16 +1,22 @@
----
-title: "All Posts"
----
 {% extends "layouts/base.njk" %}
 
 {% block content %}
-  <h1>All Posts</h1>
-  <ul class="post-list">
-    {% for post in collections.posts | reverse %}
-      <li>
-        <a href="{{ post.url }}">{{ post.data.title }}</a><br>
-        <small>{{ post.date | date("yyyy-MM-dd") }}</small>
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <h1>All Posts</h1>
+    <ul class="post-list">
+      {% for post in collections.posts %}
+        <li class="post-item">
+          <a href="{{ post.url }}">
+            {% if post.data.image %}
+              {% set altText = post.data.alt or post.data.title %}
+              {% set imageOptions = { src: post.data.image, alt: altText, class: "post-thumb" } %}
+              {% optimizedImage imageOptions %}
+            {% endif %}
+            <h2>{{ post.data.title }}</h2>
+          </a>
+          <small>{{ post.date | date("yyyy-MM-dd") }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

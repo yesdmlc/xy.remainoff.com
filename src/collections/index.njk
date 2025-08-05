@@ -1,0 +1,24 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Photo Collections</h1>
+    <ul class="collection-grid">
+      {% for post in collections.collections %}
+        <li class="collection-card">
+          <a href="{{ post.url }}">
+            {% if post.data.image %}
+              {% set altText = post.data.alt or post.data.title %}
+              {% set imageOptions = { src: post.data.image, alt: altText, class: "collection-thumb" } %}
+              {% optimizedImage imageOptions %}
+            {% endif %}
+            <h2>{{ post.data.title }}</h2>
+            {% if post.data.description %}
+              <p class="collection-description">{{ post.data.description }}</p>
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

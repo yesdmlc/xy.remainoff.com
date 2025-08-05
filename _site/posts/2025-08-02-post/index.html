@@ -68,8 +68,23 @@
 
     </div>
   </main>
-  <footer>
-    <p>&copy; 2025 xy.remainoff.com</p>
-  </footer>
+
+  <footer class="site-footer">
+  <nav class="footer-nav">
+    <a href="/">Home</a>
+    <a href="/posts">Posts</a>
+    <a href="/collections">Collections</a>
+    <a href="/about">About</a>
+    <a href="https://instagram.com/mc88xx" target="_blank">Instagram</a>
+  </nav>
+
+  <div class="footer-meta">
+    <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>

@@ -5,16 +5,28 @@
   "main": "index.js",
   "scripts": {
     "start": "npx eleventy --serve",
-    "build": "npx eleventy"
+    "build": "npx eleventy",
+    "create-bucket": "node scripts/createBucket.js",
+    "add-collection": "node scripts/addCollection.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0"
+    "@11ty/eleventy": "^2.0.0",
+    "@types/node": "^24.3.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@11ty/eleventy-img": "^6.0.4",
-    "luxon": "^3.7.1"
+    "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.55.0",
+    "dotenv": "^17.2.1",
+    "luxon": "^3.7.1",
+    "mime-types": "^3.0.1",
+    "sharp": "^0.34.3"
   }
 }

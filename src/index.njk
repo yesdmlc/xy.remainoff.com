@@ -17,7 +17,7 @@ title: Home
   <section class="home-collections">
     <h2>Latest Collections</h2>
     <ul class="collection-list">
-      {% for c in photoCollections %}
+      {% for c in signedPhotoCollections %}
       <li>
         <a href="/collections/{{ c.slug }}/">
           <img src="{{ c.cover_image_url }}" alt="{{ c.title }}" class="collection-thumb" loading="lazy">
@@ -26,23 +26,24 @@ title: Home
       </li>
       {% endfor %}
     </ul>
+    {% for c in signedPhotoCollections %}
+      {{ loop.index }} - {{ c.slug }}<br>
+    {% endfor %}
   </section>
 
   <section class="home-latest-post">
-  <h2>Latest Posts</h2>
-
-  <div class="post-grid">
-    {% for post in supabasePosts %}
-      {% if post.data.access_level == "public" and post.data.images.length > 0 %}
-      <article class="post-entry">
-        <img src="{{ post.data.images[0] }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy">
-        <p>{{ post.data.title }}</p>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </div>
-</section>
-
+    <h2>Latest Posts</h2>
+    <div class="post-grid">
+      {% for post in supabasePosts %}
+        {% if post.data.access_level == "public" and post.data.images.length > 0 %}
+        <article class="post-entry">
+          <img src="{{ post.data.images[0] }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy">
+          <p>{{ post.data.title }}</p>
+        </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>

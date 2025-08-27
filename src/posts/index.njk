@@ -1,22 +1,47 @@
-{% extends "layouts/base.njk" %}
+---
+layout: base.njk
+title: All Posts
+---
 
-{% block content %}
-  <div class="container">
-    <h1>All Posts</h1>
-    <ul class="post-list">
-      {% for post in collections.posts %}
-        <li class="post-item">
-          <a href="{{ post.url }}">
-            {% if post.data.image %}
-              {% set altText = post.data.alt or post.data.title %}
-              {% set imageOptions = { src: post.data.image, alt: altText, class: "post-thumb" } %}
-              {% optimizedImage imageOptions %}
-            {% endif %}
-            <h2>{{ post.data.title }}</h2>
-          </a>
-          <small>{{ post.date | date("yyyy-MM-dd") }}</small>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endblock %}
+<h1>All Posts</h1>
+
+<section class="post-feed">
+  {% for post in collections.posts | reverse %}
+  <article class="post-entry">
+    <a href="{{ post.url }}" class="post-link">
+      <div class="post-card">
+        {% set isGated = post.data.access_level != "public" %}
+        {% if isGated and user.access_level != post.data.access_level %}
+        <div class="blurred-post">
+          <img src="{{ post.data.images[0] }}" alt="{{ post.data.title }}" class="blurred-thumb">
+          <div class="overlay">
+            <span class="access-label">{{ post.data.access_level | capitalize }} Only</span>
+            <a href="/login/" class="access-button">Log In to View</a>
+          </div>
+        </div>
+        {% else %}
+        {% if post.data.images %}
+        <div class="post-thumb-wrapper">
+          {% set altText = post.data.alt or post.data.title %}
+          <img
+            src="{{ post.data.images[0] }}"
+            alt="{{ altText }}"
+            class="post-thumb"
+            loading="lazy"
+          />
+          {% if post.data.images.length > 1 %}
+          <div class="more-indicator">+{{ post.data.images.length - 1 }}</div>
+          {% endif %}
+        </div>
+
+        {% endif %}
+        <div class="post-caption">
+          <p>{{ post.data.caption }}</p>
+          <small>{{ post.date | date("yyyy-MM-dd") }}{% if post.data.mood %} · {{ post.data.mood }}{% endif %}</small>
+        </div>
+        {% endif %}
+      </div>
+    </a>
+  </article>
+  {% endfor %}
+</section>

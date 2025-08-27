@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>This was the kitchen back then</title>
+  <title>It&#39;s never this good</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+  
+    <meta name="supabase-url" content="https://kaqqyhjsvddvfxtyhmak.supabase.co">
+    <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+      (function() {
+        var url = document.querySelector('meta[name="supabase-url"]').getAttribute('content');
+        var key = document.querySelector('meta[name="supabase-anon-key"]').getAttribute('content');
+        if (window.supabase === undefined && window.Supabase) {
+          window.supabase = window.Supabase;
+        }
+        if (window.supabase && !window.supabaseClient && url && key) {
+          window.supabaseClient = window.supabase.createClient(url, key);
+        }
+      })();
+    </script>
+  
+  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
 </head>
 <body class="site-body">
 
@@ -17,6 +42,7 @@
     <li><a href="/posts">Posts</a></li>
     <li><a href="/collections">Collections</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/login/">Login</a></li>
   </ul>
   </nav>
 
@@ -25,47 +51,86 @@
   <main class="site-main">
     <div class="container">
       
-<article class="post">
+<main class="post-content">
+<article class="post single-post">
+  
+
   
   
+    
   
-  <div class="featured-image">
-    <div class="image-wrapper">
-      <picture><source type="image/avif" srcset="/img/viCMUjZhxg-600.avif 600w, /img/viCMUjZhxg-1200.avif 1200w, /img/viCMUjZhxg-1600.avif 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/viCMUjZhxg-600.webp 600w, /img/viCMUjZhxg-1200.webp 1200w, /img/viCMUjZhxg-1600.webp 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/viCMUjZhxg-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1600" height="1200" srcset="/img/viCMUjZhxg-600.jpeg 600w, /img/viCMUjZhxg-1200.jpeg 1200w, /img/viCMUjZhxg-1600.jpeg 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
-    </div>
-  </div>
 
+  
 
-  <h1 class="post-title">This was the kitchen back then</h1>
-  <p class="post-meta">Posted on July 31, 2025</p>
+  
+    
+      <div class="post-image-scroll">
+        
+          
+          
+          <picture><source type="image/avif" srcset="/img/bzKtKM_g5--600.avif 600w, /img/bzKtKM_g5--1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/bzKtKM_g5--600.webp 600w, /img/bzKtKM_g5--1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/bzKtKM_g5--600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/bzKtKM_g5--600.jpeg 600w, /img/bzKtKM_g5--1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        
+          
+          
+          <picture><source type="image/avif" srcset="/img/TgUhffgCTl-600.avif 600w, /img/TgUhffgCTl-1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/TgUhffgCTl-600.webp 600w, /img/TgUhffgCTl-1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/TgUhffgCTl-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/TgUhffgCTl-600.jpeg 600w, /img/TgUhffgCTl-1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        
+      </div>
+    
 
-  <div class="post-content">
-    <p>Welcome to the site! This is the first update — and it’s just the beginning.</p>
+    <header class="post-header">
+      <h1>It&#39;s never this good</h1>
+      <time class="post-date">2025-08-05</time>
+    </header>
+
+    <div class="post-content">
+      <p>Welcome to the site! This is the first update — and it’s just the beginning.</p>
 <p>We’ve been quietly building behind the scenes, and today marks the first step toward something exciting. Here's a quick look at what’s happening:</p>
-<h3>🚀 What's New</h3>
-<ul>
-<li>The site is live! 🎉</li>
-<li>Clean, responsive layout powered by Eleventy</li>
-<li>Optimized image handling for faster load times</li>
-<li>Tag-based navigation to help you explore content</li>
-</ul>
-<h3>🛠️ What We're Working On</h3>
-<ul>
-<li>A members-only section for exclusive updates</li>
-<li>Dark mode toggle (because your eyes deserve it)</li>
-<li>A newsletter to keep you in the loop</li>
-</ul>
-<h3>💬 Why This Matters</h3>
-<p>This space is meant to be more than just a blog — it’s a place to share ideas, updates, and experiments. Whether you're here for inspiration or just curious, we’re glad you stopped by.</p>
-<p>Stay tuned for more posts, deeper dives, and maybe even a few surprises.</p>
-<p>Until next time — keep building, keep dreaming.</p>
 
-  </div>
-
-  <div class="post-footer">
-    <a href="/" class="back-link">← Back to Collection</a>
-  </div>
+    </div>
+  
 </article>
+
+
+
+
+
+
+
+  
+
+
+  
+    
+  
+
+
+
+
+
+
+<nav class="post-nav">
+  
+    <a href="/posts/" class="nav-card prev">
+      
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">All Posts</span>
+    </a>
+  
+  
+    <a href="/posts/2025-08-02-post/" class="nav-card next">
+      
+        
+        <div class="nav-thumb">
+          
+          <picture><source type="image/avif" srcset="/img/TgUhffgCTl-600.avif 600w, /img/TgUhffgCTl-1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/TgUhffgCTl-600.webp 600w, /img/TgUhffgCTl-1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/TgUhffgCTl-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/TgUhffgCTl-600.jpeg 600w, /img/TgUhffgCTl-1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        </div>
+      
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">could this post be seen?</span>
+    </a>
+  
+</nav>
+</main>
 
     </div>
   </main>

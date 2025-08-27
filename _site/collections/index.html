@@ -5,6 +5,31 @@
   <title>Collections</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+  
+    <meta name="supabase-url" content="https://kaqqyhjsvddvfxtyhmak.supabase.co">
+    <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+      (function() {
+        var url = document.querySelector('meta[name="supabase-url"]').getAttribute('content');
+        var key = document.querySelector('meta[name="supabase-anon-key"]').getAttribute('content');
+        if (window.supabase === undefined && window.Supabase) {
+          window.supabase = window.Supabase;
+        }
+        if (window.supabase && !window.supabaseClient && url && key) {
+          window.supabaseClient = window.supabase.createClient(url, key);
+        }
+      })();
+    </script>
+  
+  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
 </head>
 <body class="site-body">
 
@@ -17,6 +42,7 @@
     <li><a href="/posts">Posts</a></li>
     <li><a href="/collections">Collections</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/login/">Login</a></li>
   </ul>
   </nav>
 
@@ -25,6 +51,242 @@
   <main class="site-main">
     <div class="container">
       
+
+
+
+<section class="collections-page">
+  <header class="page-header">
+    <h1>Photo Collections</h1>
+    <p class="intro-text">Moments grouped by mood, session, or silence. Some are open. Some are waiting for you.</p>
+  </header>
+
+  <div class="collections-grid">
+    
+    <section class="collection-thumbnail" data-slug="soft-against-the-window">
+      <a href="/collections/soft-against-the-window/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.wgS-rq1Bx9TnyBuNSn6N94g3KAPgBcDvbTyVOe95dzA" alt="Soft Against The Window" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.wgS-rq1Bx9TnyBuNSn6N94g3KAPgBcDvbTyVOe95dzA" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>Soft Against The Window</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">18 photos</p>
+      </div>
+    </section>
+    
+    <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
+      <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.TdMay6nLIb5FA8eZdoYfvRW1fIc6Lgvqa8JR9Eyt4D0" alt="2025 07 Darkness In Shower" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.TdMay6nLIb5FA8eZdoYfvRW1fIc6Lgvqa8JR9Eyt4D0" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>2025 07 Darkness In Shower</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">10 photos</p>
+      </div>
+    </section>
+    
+    <section class="collection-thumbnail" data-slug="2025-06-burnaby">
+      <a href="/collections/2025-06-burnaby/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTYzMTg3MTksImV4cCI6MTc1NjMyMjMxOX0.8FuWc_2OZ1lRaqBwnq_RSX_D0XL082CF1R6MAWUlmJ0" alt="2025 06 Burnaby" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTYzMTg3MTksImV4cCI6MTc1NjMyMjMxOX0.8FuWc_2OZ1lRaqBwnq_RSX_D0XL082CF1R6MAWUlmJ0" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>2025 06 Burnaby</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">5 photos</p>
+      </div>
+    </section>
+    
+    <section class="collection-thumbnail" data-slug="soft-against-the-window">
+      <a href="/collections/soft-against-the-window/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOCwiZXhwIjoxNzU2MzIyMzE4fQ.SP_f4F4BlBVSbvep0Cc7rv9W7tZZmPHe9ya9nj_f1No" alt="Soft Against The Window" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOCwiZXhwIjoxNzU2MzIyMzE4fQ.SP_f4F4BlBVSbvep0Cc7rv9W7tZZmPHe9ya9nj_f1No" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>Soft Against The Window</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">18 photos</p>
+      </div>
+    </section>
+    
+    <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
+      <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.TdMay6nLIb5FA8eZdoYfvRW1fIc6Lgvqa8JR9Eyt4D0" alt="2025 07 Darkness In Shower" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjMxODcxOSwiZXhwIjoxNzU2MzIyMzE5fQ.TdMay6nLIb5FA8eZdoYfvRW1fIc6Lgvqa8JR9Eyt4D0" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>2025 07 Darkness In Shower</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">10 photos</p>
+      </div>
+    </section>
+    
+    <section class="collection-thumbnail" data-slug="2025-06-burnaby">
+      <a href="/collections/2025-06-burnaby/" class="collection-link">
+        <div class="thumbnail-wrapper">
+          
+          
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTYzMTg3MTksImV4cCI6MTc1NjMyMjMxOX0.8FuWc_2OZ1lRaqBwnq_RSX_D0XL082CF1R6MAWUlmJ0" alt="2025 06 Burnaby" class="collection-thumb" loading="lazy"
+            data-photo="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTYzMTg3MTksImV4cCI6MTc1NjMyMjMxOX0.8FuWc_2OZ1lRaqBwnq_RSX_D0XL082CF1R6MAWUlmJ0" />
+          
+
+        </div>
+        <div class="thumbnail-info">
+          <h2>2025 06 Burnaby</h2>
+        </div>
+      </a>
+      <div class="collection-meta">
+        <p class="photo-count">5 photos</p>
+      </div>
+    </section>
+    
+  </div>
+
+  <nav class="pagination">
+    
+    
+    <a href="/collections/" class="page-link active">1</a>
+    
+    
+  </nav>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script src="/assets/auth.js" defer></script>
+<script>
+  function getFolderAndPrefixFromImg(el) {
+    const img = el.querySelector('img[data-photo]');
+    const slug = el.getAttribute('data-slug') || '';
+    const val = img && img.getAttribute('data-photo') || '';
+    const last = val.lastIndexOf('/');
+    const folder = last > -1 ? val.slice(0, last) : '';
+    const file = last > -1 ? val.slice(last + 1) : val;
+    const idx = file.indexOf('-photo-');
+    const filePrefix = idx > -1 ? file.slice(0, idx + 7) : '';
+    const prefix = filePrefix || (slug ? `${slug}-photo-` : '');
+    return { folder, prefix };
+  }
+
+  async function countFromStorage(el) {
+    const supabase = window.supabaseClient;
+    if (!supabase) return null;
+    const { folder, prefix } = getFolderAndPrefixFromImg(el);
+    if (!folder || !prefix) return null;
+    const { data, error } = await supabase
+      .storage
+      .from('photos')
+      .list(folder, { limit: 300, search: prefix });
+    if (error) return null;
+    const prefixLower = prefix.toLowerCase();
+    const files = (data || []).filter(f => {
+      const name = (f.name || '').toLowerCase();
+      return name.startsWith(prefixLower) && /^.+-photo-\d+\.(jpeg|jpg|png|webp)$/.test(name);
+    });
+    return files.length;
+  }
+
+  async function updateCollectionCounts() {
+    const supabase = window.supabaseClient;
+    const cards = Array.from(document.querySelectorAll('.collection-thumbnail[data-slug]'));
+    if (!cards.length) return;
+
+    let dbMap = new Map();
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('collections').select('slug, photo_count');
+        if (!error && Array.isArray(data)) {
+          dbMap = new Map(data.map(r => [r.slug, r.photo_count || 0]));
+        }
+      } catch (_) { }
+    }
+
+    await Promise.all(cards.map(async (el) => {
+      const slug = el.getAttribute('data-slug');
+      let n = dbMap.get(slug);
+      if (!n || n === 0) {
+        const counted = await countFromStorage(el);
+        if (counted != null) n = counted;
+      }
+      if (typeof n === 'number') {
+        const pc = el.querySelector('.photo-count');
+        if (pc) pc.textContent = n === 1 ? '1 photo' : `${n} photos`;
+      }
+    }));
+  }
+
+  async function signImagesExactKey() {
+    const supa = window.supabaseClient;
+    if (!supa) return;
+    const imgs = Array.from(document.querySelectorAll('img[data-photo]'));
+    await Promise.all(imgs.map(async (img) => {
+      const key = img.getAttribute('data-photo') || '';
+      if (!key) return;
+      try {
+        const { data, error } = await supa.storage.from('photos').createSignedUrl(key, 60 * 60);
+        if (!error && data?.signedUrl) img.src = data.signedUrl;
+      } catch (_) { }
+    }));
+  }
+
+  document.addEventListener('supabase-ready', () => {
+    signImagesExactKey();
+    updateCollectionCounts();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+  window.addEventListener('load', () => {
+    if (window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+</script>
     </div>
   </main>
 

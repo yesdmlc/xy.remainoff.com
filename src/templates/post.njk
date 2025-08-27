@@ -1,0 +1,73 @@
+---
+permalink: "/all-posts/"
+eleventyExcludeFromCollections: false
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<h1>All Posts</h1>
+<div class="view-toggle">
+  <button id="toggleView" class="toggle-button">
+    <span class="toggle-icon">🔲</span>
+    <span class="toggle-label">View as Feed</span>
+  </button>
+</div>
+
+<section class="post-feed">
+  {% for post in collections.posts | reverse %}
+    {% set coverPath = post.data.cover_image_path or post.data.image_path or post.data.featured_image_path %}
+    <article class="post-entry">
+      <a href="{{ post.url }}" class="post-link">
+        <div class="post-card">
+          <div class="post-thumb-wrapper">
+            {% if coverPath %}
+              <img
+                data-photo="{{ coverPath }}"
+                src=""
+                alt="{{ post.data.title or post.fileSlug }}"
+              >
+            {% endif %}
+          </div>
+          <div class="post-caption">
+            {% if post.data.caption %}
+              <p>{{ post.data.caption }}</p>
+            {% endif %}
+            <small>{{ post.date | date("%Y-%m-%d") }}</small>
+          </div>
+        </div>
+      </a>
+    </article>
+  {% endfor %}
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('toggleView');
+    if (!toggleBtn) return;
+    const icon = toggleBtn.querySelector('.toggle-icon');
+    const label = toggleBtn.querySelector('.toggle-label');
+    const feed = document.querySelector('.post-feed');
+
+    if (!feed) return;
+
+    toggleBtn.style.opacity = 0;
+    toggleBtn.style.transition = 'opacity 0.8s ease';
+    requestAnimationFrame(() => { toggleBtn.style.opacity = 1; });
+
+    feed.classList.add('grid-view');
+    icon.textContent = '🔲';
+    label.textContent = 'View as Feed';
+
+    toggleBtn.addEventListener('click', () => {
+      const isGrid = feed.classList.contains('grid-view');
+      feed.classList.toggle('grid-view', !isGrid);
+      feed.classList.toggle('feed-view', isGrid);
+      icon.textContent = isGrid ? '📃' : '🔲';
+      label.textContent = isGrid ? 'View as Grid' : 'View as Feed';
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script src="/assets/auth.js" defer></script>
+{% endblock %}

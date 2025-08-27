@@ -1,26 +1,110 @@
 {% extends "layouts/base.njk" %}
 
 {% block content %}
-<article class="post">
-  {% if image %}
-  {% set altText = alt or title %}
-  {% set imageOptions = { "src": image, "alt": altText } %}
-  <div class="featured-image">
-    <div class="image-wrapper">
-      {% optimizedImage imageOptions %}
+<main class="post-content">
+<article class="post single-post">
+  {# Header moved below images and includes post-date #}
+
+  {% set imagesArr = [] %}
+  {% if images %}
+    {% set imagesArr = images %}
+  {% elif image %}
+    {% set imagesArr = [ image ] %}
+  {% endif %}
+
+  {% set isGated = access_level and access_level != 'public' %}
+
+  {% if isGated and (not user or user.access_level != access_level) %}
+    {% if imagesArr | length %}
+      <div class="blurred-post">
+        {% set altText = alt or title %}
+        {% set imageOptions = { src: imagesArr[0], alt: altText, class: "post-thumb" } %}
+        {% optimizedImage imageOptions %}
+        <div class="overlay">
+          <span class="access-label">{{ access_level | capitalize }} Only</span>
+          <a href="/login/" class="access-button">Log In to View</a>
+        </div>
+      </div>
+    {% endif %}
+
+    <header class="post-header">
+      <h1>{{ title }}</h1>
+      <time class="post-date">{{ date | date("yyyy-MM-dd") }}</time>
+    </header>
+
+  {% else %}
+    {% if imagesArr | length %}
+      <div class="post-image-scroll">
+        {% for img in imagesArr %}
+          {% set altText = alt or title %}
+          {% set imageOptions = { src: img, alt: altText, class: "scroll-image" } %}
+          {% optimizedImage imageOptions %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <header class="post-header">
+      <h1>{{ title }}</h1>
+      <time class="post-date">{{ date | date("yyyy-MM-dd") }}</time>
+    </header>
+
+    <div class="post-content">
+      {{ content | safe }}
     </div>
-  </div>
+  {% endif %}
+</article>
+
+{# Compute previous/next posts from the posts collection #}
+{% set previousPost = collections.posts | getPreviousCollectionItem(page) %}
+{% set nextPost = collections.posts | getNextCollectionItem(page) %}
+
+{# Determine thumbnail sources with fallback #}
+{% if previousPost %}
+  {% if previousPost.data.images %}
+    {% set prevImgSrc = previousPost.data.images[0] %}
+  {% elif previousPost.data.image %}
+    {% set prevImgSrc = previousPost.data.image %}
+  {% endif %}
+{% endif %}
+{% if nextPost %}
+  {% if nextPost.data.images %}
+    {% set nextImgSrc = nextPost.data.images[0] %}
+  {% elif nextPost.data.image %}
+    {% set nextImgSrc = nextPost.data.image %}
+  {% endif %}
 {% endif %}
 
-  <h1 class="post-title">{{ title }}</h1>
-  <p class="post-meta">Posted on {{ date | date("MMMM dd, yyyy") }}</p>
+{# Gating flags for nav thumbnails #}
+{% set isGatedPrev = previousPost and previousPost.data.access_level and previousPost.data.access_level != 'public' %}
+{% set isGatedNext = nextPost and nextPost.data.access_level and nextPost.data.access_level != 'public' %}
 
-  <div class="post-content">
-    {{ content | safe }}
-  </div>
-
-  <div class="post-footer">
-    <a href="/" class="back-link">← Back to Collection</a>
-  </div>
-</article>
+<nav class="post-nav">
+  {% if previousPost %}
+    <a href="{{ previousPost.url }}" class="nav-card prev">
+      {% if prevImgSrc %}
+        {% set altText = previousPost.data.alt or previousPost.data.title %}
+        <div class="nav-thumb{% if isGatedPrev %} blurred{% endif %}">
+          {% set imageOptions = { src: prevImgSrc, alt: altText } %}
+          {% optimizedImage imageOptions %}
+        </div>
+      {% endif %}
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">{{ previousPost.data.title }}</span>
+    </a>
+  {% endif %}
+  {% if nextPost %}
+    <a href="{{ nextPost.url }}" class="nav-card next">
+      {% if nextImgSrc %}
+        {% set altText = nextPost.data.alt or nextPost.data.title %}
+        <div class="nav-thumb{% if isGatedNext %} blurred{% endif %}">
+          {% set imageOptions = { src: nextImgSrc, alt: altText } %}
+          {% optimizedImage imageOptions %}
+        </div>
+      {% endif %}
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">{{ nextPost.data.title }}</span>
+    </a>
+  {% endif %}
+</nav>
+</main>
 {% endblock %}

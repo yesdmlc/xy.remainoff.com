@@ -1,0 +1,16 @@
+---
+layout: base.njk
+title: Login
+permalink: "/login/"
+---
+
+<h1>Welcome back</h1>
+<form onsubmit="event.preventDefault(); login(email.value, password.value)">
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <button type="submit">Login</button>
+</form>
+
+<button onclick="logout()">Logout</button>
+
+<script src="/assets/auth.js"></script>

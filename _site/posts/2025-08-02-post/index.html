@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>What happens after the kitchen?</title>
+  <title>could this post be seen?</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+  
+    <meta name="supabase-url" content="https://kaqqyhjsvddvfxtyhmak.supabase.co">
+    <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+      (function() {
+        var url = document.querySelector('meta[name="supabase-url"]').getAttribute('content');
+        var key = document.querySelector('meta[name="supabase-anon-key"]').getAttribute('content');
+        if (window.supabase === undefined && window.Supabase) {
+          window.supabase = window.Supabase;
+        }
+        if (window.supabase && !window.supabaseClient && url && key) {
+          window.supabaseClient = window.supabase.createClient(url, key);
+        }
+      })();
+    </script>
+  
+  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
 </head>
 <body class="site-body">
 
@@ -17,6 +42,7 @@
     <li><a href="/posts">Posts</a></li>
     <li><a href="/collections">Collections</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/login/">Login</a></li>
   </ul>
   </nav>
 
@@ -25,22 +51,35 @@
   <main class="site-main">
     <div class="container">
       
-<article class="post">
+<main class="post-content">
+<article class="post single-post">
+  
+
   
   
+    
   
-  <div class="featured-image">
-    <div class="image-wrapper">
-      <picture><source type="image/avif" srcset="/img/viCMUjZhxg-600.avif 600w, /img/viCMUjZhxg-1200.avif 1200w, /img/viCMUjZhxg-1600.avif 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/viCMUjZhxg-600.webp 600w, /img/viCMUjZhxg-1200.webp 1200w, /img/viCMUjZhxg-1600.webp 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/viCMUjZhxg-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1600" height="1200" srcset="/img/viCMUjZhxg-600.jpeg 600w, /img/viCMUjZhxg-1200.jpeg 1200w, /img/viCMUjZhxg-1600.jpeg 1600w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
-    </div>
-  </div>
 
+  
 
-  <h1 class="post-title">What happens after the kitchen?</h1>
-  <p class="post-meta">Posted on August 01, 2025</p>
+  
+    
+      <div class="post-image-scroll">
+        
+          
+          
+          <picture><source type="image/avif" srcset="/img/TgUhffgCTl-600.avif 600w, /img/TgUhffgCTl-1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/TgUhffgCTl-600.webp 600w, /img/TgUhffgCTl-1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/TgUhffgCTl-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/TgUhffgCTl-600.jpeg 600w, /img/TgUhffgCTl-1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        
+      </div>
+    
 
-  <div class="post-content">
-    <p>It’s been a few days since the first post, and things are already evolving.</p>
+    <header class="post-header">
+      <h1>could this post be seen?</h1>
+      <time class="post-date">2025-08-10</time>
+    </header>
+
+    <div class="post-content">
+      <p>It’s been a few days since the first post, and things are already evolving.</p>
 <p>We’ve been experimenting with new ideas, tweaking layouts, and diving deeper into what this site could become. It’s still early, but the momentum is real — and it’s exciting.</p>
 <h3>🧪 Experiments in Progress</h3>
 <ul>
@@ -59,12 +98,59 @@
 <p>This space is a sandbox, and we’re just getting started.</p>
 <p>Thanks for following along.</p>
 
-  </div>
-
-  <div class="post-footer">
-    <a href="/" class="back-link">← Back to Collection</a>
-  </div>
+    </div>
+  
 </article>
+
+
+
+
+
+
+
+  
+    
+  
+
+
+  
+    
+  
+
+
+
+
+
+
+<nav class="post-nav">
+  
+    <a href="/posts/2025-08-01-post/" class="nav-card prev">
+      
+        
+        <div class="nav-thumb">
+          
+          <picture><source type="image/avif" srcset="/img/bzKtKM_g5--600.avif 600w, /img/bzKtKM_g5--1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/bzKtKM_g5--600.webp 600w, /img/bzKtKM_g5--1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/bzKtKM_g5--600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/bzKtKM_g5--600.jpeg 600w, /img/bzKtKM_g5--1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        </div>
+      
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">It&#39;s never this good</span>
+    </a>
+  
+  
+    <a href="/posts/2025-08-20-post/" class="nav-card next">
+      
+        
+        <div class="nav-thumb">
+          
+          <picture><source type="image/avif" srcset="/img/zWs46yCpy8-600.avif 600w, /img/zWs46yCpy8-1200.avif 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><source type="image/webp" srcset="/img/zWs46yCpy8-600.webp 600w, /img/zWs46yCpy8-1200.webp 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"><img src="/img/zWs46yCpy8-600.jpeg" alt="A clean kitchen" loading="lazy" decoding="async" width="1200" height="1800" srcset="/img/zWs46yCpy8-600.jpeg 600w, /img/zWs46yCpy8-1200.jpeg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 1200px"></picture>
+        </div>
+      
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">This was the kitchen back then</span>
+    </a>
+  
+</nav>
+</main>
 
     </div>
   </main>

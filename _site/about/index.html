@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>About</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+  
+    <meta name="supabase-url" content="https://kaqqyhjsvddvfxtyhmak.supabase.co">
+    <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+      (function() {
+        var url = document.querySelector('meta[name="supabase-url"]').getAttribute('content');
+        var key = document.querySelector('meta[name="supabase-anon-key"]').getAttribute('content');
+        if (window.supabase === undefined && window.Supabase) {
+          window.supabase = window.Supabase;
+        }
+        if (window.supabase && !window.supabaseClient && url && key) {
+          window.supabaseClient = window.supabase.createClient(url, key);
+        }
+      })();
+    </script>
+  
+  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
 </head>
 <body class="site-body">
 
@@ -17,6 +42,7 @@
     <li><a href="/posts">Posts</a></li>
     <li><a href="/collections">Collections</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/login/">Login</a></li>
   </ul>
   </nav>
 
@@ -25,24 +51,23 @@
   <main class="site-main">
     <div class="container">
       
-  <div class="container about-page">
-    <h1>About</h1>
-<p>
-  Remain Off is a quiet space for visual storytelling. No captions. No commentary. Just images — grouped by mood, memory, and light.
-</p>
+<div class="container about-page">
+  <h1>About</h1>
+  <p>
+    Remain Off is a quiet space for visual storytelling. No captions. No commentary. Just images — grouped by mood, memory, and light.
+  </p>
 
-<p>
-  Created by Maino, a visual artist who regularly travels throughout Asia and can often be found wandering the streets of Hong Kong. This site is a slow archive of passing moments, shot mostly on film.
-</p>
+  <p>
+    Created by Maino, a visual artist who regularly travels throughout Asia and can often be found wandering the streets of Hong Kong. This site is a slow archive of passing moments, shot mostly on film.
+  </p>
 
-<p>
-  New collections are added monthly. You’re welcome to explore, reflect, or simply linger.
-</p>
-<p>
-  You can follow along on <a href="https://instagram.com/mc88xx" target="_blank">Instagram (@mc88xx)</a>.
-</p>
-  </div>
-
+  <p>
+    New collections are added monthly. You’re welcome to explore, reflect, or simply linger.
+  </p>
+  <p>
+    You can follow along on <a href="https://instagram.com/mc88xx" target="_blank">Instagram (@mc88xx)</a>.
+  </p>
+</div>
     </div>
   </main>
 

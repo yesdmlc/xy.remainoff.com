@@ -1,0 +1,49 @@
+---
+layout: base.njk
+title: Collection
+user:
+  access_level: public
+---
+<section class="collection-detail page-offset">
+  <h1>{{ collection.title }}</h1>
+  {% if collection.subtitle %}
+    <p class="subtitle">{{ collection.subtitle }}</p>
+  {% endif %}
+  <p class="photo-count" id="photo-count">
+    {{ collection.photo_count or 0 }} photo{% if (collection.photo_count or 0) != 1 %}s{% endif %}
+  </p>
+</section>
+
+<!-- Public Gallery -->
+<div id="public-gallery" class="collection-gallery"></div>
+<div id="public-gallery-empty" style="display: none;">No public images available.</div>
+
+<!-- Gated Gallery Reveal Button -->
+<button id="load-gated-gallery" style="display: none;"></button>
+<div id="gallery-loader" style="display: none;">Loading...</div>
+
+<!-- Gated Gallery Container -->
+<div id="gated-gallery-container" style="display: none;">
+  <h3>Member Gallery</h3>
+  <div id="member-gallery" class="collection-gallery"></div>
+
+  <h3>Premium Gallery</h3>
+  <div id="premium-gallery" class="collection-gallery"></div>
+</div>
+
+<!-- PhotoSwipe Lightbox root markup -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    <div class="pswp__ui pswp__ui--hidden"></div>
+  </div>
+</div>
+
+<script>
+  // Your full gallery script goes here — no changes needed
+</script>

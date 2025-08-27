@@ -1,0 +1,11 @@
+---
+pagination:
+  data: photoCollections
+  size: 1
+  alias: galleryEntry
+eleventyExcludeFromCollections: true
+layout: collection.njk
+title: "{{ galleryEntry.title }}"
+user:
+  access_level: public
+---

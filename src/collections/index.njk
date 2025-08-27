@@ -1,7 +1,16 @@
 ---
 layout: base.njk
 title: Collections
+user:
+  access_level: "public"
+pagination:
+  data: photoCollections
+  size: 12
+  alias: pagedCollections
 ---
+
+
+{% set collections = pagedCollections %}
 
 <section class="collections-page">
   <header class="page-header">
@@ -10,29 +19,143 @@ title: Collections
   </header>
 
   <div class="collections-grid">
-    {% for collection in collections %}
-      <a href="/collections/{{ collection.slug }}/" class="collection-card">
+    {% for collection in pagedCollections %}
+    <section class="collection-thumbnail" data-slug="{{ collection.slug }}">
+      <a href="/collections/{{ collection.slug }}/" class="collection-link">
         <div class="thumbnail-wrapper">
-          {% if collection.access_level == "public" or user.access_level >= collection.access_level %}
-            <img src="{{ collection.cover_image_url }}" alt="{{ collection.title }}">
+          {% set altText = collection.alt or collection.title %}
+          {% if collection.image %}
+          {% set imageOptions = { src: collection.image, alt: altText, class: "collection-thumb", loading: "lazy" } %}
+          {% optimizedImage imageOptions %}
           {% else %}
-            <div class="blurred-thumbnail">
-              <img src="{{ collection.cover_image_url }}" alt="{{ collection.title }}">
-              <div class="overlay">
-                <span class="access-label">
-                  {{ collection.access_level | capitalize }} Only
-                </span>
-              </div>
-            </div>
+          <img src="{{ collection.cover_image_url }}" alt="{{ altText }}" class="collection-thumb" loading="lazy"
+            data-photo="{{ collection.cover_image_url }}" />
           {% endif %}
-        </div>
 
-        <div class="collection-info">
+        </div>
+        <div class="thumbnail-info">
           <h2>{{ collection.title }}</h2>
-          <p class="subtitle">{{ collection.subtitle }}</p>
-          <p class="photo-count">{{ collection.photo_count }} photos</p>
         </div>
       </a>
+      <div class="collection-meta">
+        <p class="photo-count">{{ (collection.photo_count or 0) }} photo{% if (collection.photo_count or 0) != 1 %}s{%
+          endif %}</p>
+      </div>
+    </section>
     {% endfor %}
   </div>
+
+  <nav class="pagination">
+    {% if pagination.href.previous %}
+    <a href="{{ pagination.href.previous }}" class="page-link">←</a>
+    {% endif %}
+    {% for href in pagination.hrefs %}
+    <a href="{{ href }}" class="page-link {% if loop.index0 == pagination.pageNumber %}active{% endif %}">{{ loop.index
+      }}</a>
+    {% endfor %}
+    {% if pagination.href.next %}
+    <a href="{{ pagination.href.next }}" class="page-link">→</a>
+    {% endif %}
+  </nav>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script src="/assets/auth.js" defer></script>
+<script>
+  function getFolderAndPrefixFromImg(el) {
+    const img = el.querySelector('img[data-photo]');
+    const slug = el.getAttribute('data-slug') || '';
+    const val = img && img.getAttribute('data-photo') || '';
+    const last = val.lastIndexOf('/');
+    const folder = last > -1 ? val.slice(0, last) : '';
+    const file = last > -1 ? val.slice(last + 1) : val;
+    const idx = file.indexOf('-photo-');
+    const filePrefix = idx > -1 ? file.slice(0, idx + 7) : '';
+    const prefix = filePrefix || (slug ? `${slug}-photo-` : '');
+    return { folder, prefix };
+  }
+
+  async function countFromStorage(el) {
+    const supabase = window.supabaseClient;
+    if (!supabase) return null;
+    const { folder, prefix } = getFolderAndPrefixFromImg(el);
+    if (!folder || !prefix) return null;
+    const { data, error } = await supabase
+      .storage
+      .from('photos')
+      .list(folder, { limit: 300, search: prefix });
+    if (error) return null;
+    const prefixLower = prefix.toLowerCase();
+    const files = (data || []).filter(f => {
+      const name = (f.name || '').toLowerCase();
+      return name.startsWith(prefixLower) && /^.+-photo-\d+\.(jpeg|jpg|png|webp)$/.test(name);
+    });
+    return files.length;
+  }
+
+  async function updateCollectionCounts() {
+    const supabase = window.supabaseClient;
+    const cards = Array.from(document.querySelectorAll('.collection-thumbnail[data-slug]'));
+    if (!cards.length) return;
+
+    let dbMap = new Map();
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from('collections').select('slug, photo_count');
+        if (!error && Array.isArray(data)) {
+          dbMap = new Map(data.map(r => [r.slug, r.photo_count || 0]));
+        }
+      } catch (_) { }
+    }
+
+    await Promise.all(cards.map(async (el) => {
+      const slug = el.getAttribute('data-slug');
+      let n = dbMap.get(slug);
+      if (!n || n === 0) {
+        const counted = await countFromStorage(el);
+        if (counted != null) n = counted;
+      }
+      if (typeof n === 'number') {
+        const pc = el.querySelector('.photo-count');
+        if (pc) pc.textContent = n === 1 ? '1 photo' : `${n} photos`;
+      }
+    }));
+  }
+
+  async function signImagesExactKey() {
+    const supa = window.supabaseClient;
+    if (!supa) return;
+    const imgs = Array.from(document.querySelectorAll('img[data-photo]'));
+    await Promise.all(imgs.map(async (img) => {
+      const key = img.getAttribute('data-photo') || '';
+      if (!key) return;
+      try {
+        const { data, error } = await supa.storage.from('photos').createSignedUrl(key, 60 * 60);
+        if (!error && data?.signedUrl) img.src = data.signedUrl;
+      } catch (_) { }
+    }));
+  }
+
+  document.addEventListener('supabase-ready', () => {
+    signImagesExactKey();
+    updateCollectionCounts();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+  window.addEventListener('load', () => {
+    if (window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && window.supabaseClient) {
+      signImagesExactKey();
+      updateCollectionCounts();
+    }
+  });
+</script>

@@ -6,7 +6,7 @@ const getPostsWithSignedImageUrls = require('./scripts/fetchPosts');
 const getCollectionsWithSignedUrls = require('./scripts/fetchCollections');
 
 
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("date", (dateObj, format = "yyyy-MM-dd") => {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
   });
 
   // Rename to avoid collision with tag-based collections['collections']
-  eleventyConfig.addCollection("allCollections", function(collectionApi) {
+  eleventyConfig.addCollection("allCollections", function (collectionApi) {
     // Include nested collections and multiple template types
     return collectionApi.getFilteredByGlob("src/collections/**/*.{md,njk,html}");
   });
@@ -59,6 +59,9 @@ module.exports = function(eleventyConfig) {
       output: "_site"
     },
     templateFormats: ["njk", "md", "html"],
-    input: ["src", "eleventy-generators"]
-  };
+    data: {
+      env: process.env
+    }
+  }
+};
 };

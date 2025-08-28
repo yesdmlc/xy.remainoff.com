@@ -1,0 +1,2 @@
+[secrets_scan]
+omit_keys = ["SUPABASE_ANON_KEY", "SUPABASE_URL"]

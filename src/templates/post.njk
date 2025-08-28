@@ -15,16 +15,18 @@ eleventyExcludeFromCollections: false
 
 <section class="post-feed">
   {% for post in collections.posts | reverse %}
-    {% set coverPath = post.data.cover_image_path or post.data.image_path or post.data.featured_image_path %}
+    {% set supa = supabasePosts | selectattr("slug", "equalto", post.data.slug) | first %}
+    {% set imageUrl = supa.image_url if supa and supa.image_url else null %}
     <article class="post-entry">
       <a href="{{ post.url }}" class="post-link">
         <div class="post-card">
           <div class="post-thumb-wrapper">
-            {% if coverPath %}
+            {% if imageUrl %}
               <img
-                data-photo="{{ coverPath }}"
-                src=""
-                alt="{{ post.data.title or post.fileSlug }}"
+                src="{{ imageUrl }}"
+                alt="{{ post.data.alt or post.data.title or post.fileSlug }}"
+                class="post-thumb"
+                loading="lazy"
               >
             {% endif %}
           </div>

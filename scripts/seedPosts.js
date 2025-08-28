@@ -27,8 +27,10 @@ for (const level of accessLevels) {
 
   for (const file of files) {
     const slug = path.basename(file, path.extname(file));
-    const imagePath = `Posts/${level}/${file}`;
-    const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/photos/${imagePath}`;
+    const imagePath = `post-images/${level}/${file}`;
+    const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/media/${imagePath}`;
+
+
 
     if (!postMap.has(slug)) {
       postMap.set(slug, {

@@ -26,24 +26,30 @@ title: Home
       </li>
       {% endfor %}
     </ul>
-    {% for c in signedPhotoCollections %}
-      {{ loop.index }} - {{ c.slug }}<br>
-    {% endfor %}
   </section>
 
+  {% set publicPosts = supabasePosts
+  | selectattr("access_level", "equalto", "public")
+  | selectattr("image_url")
+  | selectattr("image_url", "contains", "/object/sign/") %}
+
+
   <section class="home-latest-post">
-    <h2>Latest Posts</h2>
-    <div class="post-grid">
-      {% for post in supabasePosts %}
-        {% if post.data.access_level == "public" and post.data.images.length > 0 %}
-        <article class="post-entry">
-          <img src="{{ post.data.images[0] }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy">
-          <p>{{ post.data.title }}</p>
-        </article>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </section>
+  <h2>Latest Posts</h2>
+
+  <p>Loaded {{ publicSupabasePosts | length }} posts</p>
+
+  <div class="post-grid">
+    {% for post in publicSupabasePosts %}
+    <article class="post-entry">
+      <img src="{{ post.image_url }}" alt="{{ post.title }}" class="post-thumb" loading="lazy">
+      <p>{{ post.title }}</p>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p><a href="/posts">View all posts →</a></p>
+</section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>

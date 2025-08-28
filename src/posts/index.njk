@@ -7,6 +7,7 @@ title: All Posts
 
 <section class="post-feed">
   {% for post in collections.posts | reverse %}
+  {% set supa = supabasePosts | selectattr("slug", "equalto", post.data.slug) | first %}
   <article class="post-entry">
     <a href="{{ post.url }}" class="post-link">
       <div class="post-card">
@@ -20,21 +21,28 @@ title: All Posts
           </div>
         </div>
         {% else %}
-        {% if post.data.images %}
         <div class="post-thumb-wrapper">
           {% set altText = post.data.alt or post.data.title %}
+          {% if supa and supa.image_url %}
+          <img
+            src="{{ supa.image_url }}"
+            alt="{{ altText }}"
+            class="post-thumb"
+            loading="lazy"
+          />
+          {% elif post.data.images %}
           <img
             src="{{ post.data.images[0] }}"
             alt="{{ altText }}"
             class="post-thumb"
             loading="lazy"
           />
-          {% if post.data.images.length > 1 %}
+          {% endif %}
+          {% if post.data.images and post.data.images.length > 1 %}
           <div class="more-indicator">+{{ post.data.images.length - 1 }}</div>
           {% endif %}
         </div>
 
-        {% endif %}
         <div class="post-caption">
           <p>{{ post.data.caption }}</p>
           <small>{{ post.date | date("yyyy-MM-dd") }}{% if post.data.mood %} · {{ post.data.mood }}{% endif %}</small>

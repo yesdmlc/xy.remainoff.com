@@ -5,49 +5,39 @@
   <title>Home</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+
   <!-- PhotoSwipe CSS -->
   <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+
   <!-- PhotoSwipe JS -->
   <script type="module">
     import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
   </script>
-  
-    <meta name="supabase-url" content="https://kaqqyhjsvddvfxtyhmak.supabase.co">
-    <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script>
-      (function() {
-        var url = document.querySelector('meta[name="supabase-url"]').getAttribute('content');
-        var key = document.querySelector('meta[name="supabase-anon-key"]').getAttribute('content');
-        if (window.supabase === undefined && window.Supabase) {
-          window.supabase = window.Supabase;
-        }
-        if (window.supabase && !window.supabaseClient && url && key) {
-          window.supabaseClient = window.supabase.createClient(url, key);
-        }
-      })();
-    </script>
-  
+
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/assets/auth.js"></script>
+
   <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
 </head>
-<body class="site-body">
 
+<body class="site-body">
   <nav class="floating-nav">
-  <div class="brand">
-    <a href="/">XY</a>
-  </div>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/posts">Posts</a></li>
-    <li><a href="/collections">Collections</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/login/">Login</a></li>
-  </ul>
+    <div class="brand">
+      <a href="/">XY</a>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="/collections">Collections</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/login/">Login</a></li>
+    </ul>
   </nav>
 
-  <header>
-  </header>
+  <header></header>
+
   <main class="site-main">
     <div class="container">
       
@@ -68,21 +58,21 @@
       
       <li>
         <a href="/collections/2025-06-burnaby/">
-          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTY0MDE4MjUsImV4cCI6MTc1NjQwNTQyNX0.jWQRoIjqyMXGg0_G4uPEAh4if6eXXZj6va9a-nKUG7c" alt="2025 06 Burnaby" class="collection-thumb" loading="lazy">
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-06-burnaby-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDYtYnVybmFieS1waG90by0xLmpwZWciLCJpYXQiOjE3NTY0MTY4NzgsImV4cCI6MTc1NjQyMDQ3OH0.mRdVf_mMDCJDwNh3taVf9Gf8MR5vgZIqtkrlbg5c0LY" alt="2025 06 Burnaby" class="collection-thumb" loading="lazy">
           <span>2025 06 Burnaby</span>
         </a>
       </li>
       
       <li>
         <a href="/collections/2025-07-darkness-in-shower/">
-          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjQwMTgyNSwiZXhwIjoxNzU2NDA1NDI1fQ.SqyyEvgfSao3Popn-1g6LH8q5TzU-FqCANOxNi93ASE" alt="2025 07 Darkness In Shower" class="collection-thumb" loading="lazy">
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/2025-07-darkness-in-shower-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljLzIwMjUtMDctZGFya25lc3MtaW4tc2hvd2VyLXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjQxNjg3OSwiZXhwIjoxNzU2NDIwNDc5fQ.Zp79rj7dNb67S2hfGJLDA9sFr7HXtCBWoso6auW-Jyo" alt="2025 07 Darkness In Shower" class="collection-thumb" loading="lazy">
           <span>2025 07 Darkness In Shower</span>
         </a>
       </li>
       
       <li>
         <a href="/collections/soft-against-the-window/">
-          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjQwMTgyNiwiZXhwIjoxNzU2NDA1NDI2fQ.Sz3DgeNZDvsP5Q3EHAx2tM8Ean1l3fwJoVwC-RyEve4" alt="Soft Against The Window" class="collection-thumb" loading="lazy">
+          <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/photos/public/soft-against-the-window-photo-1.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwaG90b3MvcHVibGljL3NvZnQtYWdhaW5zdC10aGUtd2luZG93LXBob3RvLTEuanBlZyIsImlhdCI6MTc1NjQxNjg3OSwiZXhwIjoxNzU2NDIwNDc5fQ.BfYCJ-JrzRWO2G97aB65QIDH6wNDAtLt-5upd_IuAd4" alt="Soft Against The Window" class="collection-thumb" loading="lazy">
           <span>Soft Against The Window</span>
         </a>
       </li>
@@ -101,17 +91,17 @@
     <div class="post-grid">
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY0MDE4MjQsImV4cCI6MTc1NjQwNTQyNH0.9H4jQ0Mlnlc9Dokd2Ok0Gwx6vMlKOtsH4ie93CmfULQ" alt="In The Forest" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY0MTY4NzYsImV4cCI6MTc1NjQyMDQ3Nn0.3eU2TFbBBnrUfv2xaCbxVirklVWE9d5kmFoah8MpyAA" alt="In The Forest" class="post-thumb" loading="lazy">
         <p>In The Forest</p>
       </article>
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/looking-around-in-woods.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvbG9va2luZy1hcm91bmQtaW4td29vZHMuanBnIiwiaWF0IjoxNzU2NDAxODI0LCJleHAiOjE3NTY0MDU0MjR9.RuJv0iJWV-I1logBwvf56kpTxaiENOkAOWA7ttihplY" alt="Looking Around In Woods" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/looking-around-in-woods.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvbG9va2luZy1hcm91bmQtaW4td29vZHMuanBnIiwiaWF0IjoxNzU2NDE2ODc3LCJleHAiOjE3NTY0MjA0Nzd9.-xl9PWtIIFp6Jqd2Gv-6Ajr-WxLzykFc0IGTbKPzWKw" alt="Looking Around In Woods" class="post-thumb" loading="lazy">
         <p>Looking Around In Woods</p>
       </article>
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/trail-walk-path.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvdHJhaWwtd2Fsay1wYXRoLmpwZyIsImlhdCI6MTc1NjQwMTgyNCwiZXhwIjoxNzU2NDA1NDI0fQ.XnnKOMbVzXVTGI5zOLlRm5_KfLtRC_CXJTX0dCgIhY4" alt="Trail Walk Path" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/trail-walk-path.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvdHJhaWwtd2Fsay1wYXRoLmpwZyIsImlhdCI6MTc1NjQxNjg3NywiZXhwIjoxNzU2NDIwNDc3fQ.AzqLtMxlbqtwnLeMxzbdbnumNN_3SbBBkAVWGHnFLdM" alt="Trail Walk Path" class="post-thumb" loading="lazy">
         <p>Trail Walk Path</p>
       </article>
       
@@ -142,21 +132,21 @@
   </main>
 
   <footer class="site-footer">
-  <nav class="footer-nav">
-    <a href="/">Home</a>
-    <a href="/posts">Posts</a>
-    <a href="/collections">Collections</a>
-    <a href="/about">About</a>
-    <a href="https://instagram.com/mc88xx" target="_blank">Instagram</a>
-  </nav>
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/posts">Posts</a>
+      <a href="/collections">Collections</a>
+      <a href="/about">About</a>
+      <a href="https://instagram.com/mc88xx" target="_blank">Instagram</a>
+    </nav>
 
-  <div class="footer-meta">
-    <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
-  </div>
-</footer>
+    <div class="footer-meta">
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
+    </div>
+  </footer>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

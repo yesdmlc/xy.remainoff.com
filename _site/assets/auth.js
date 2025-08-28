@@ -269,4 +269,74 @@
         img.src = img.dataset.photo;
       });
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("registerForm");
+      const message = document.getElementById("registerMessage");
+
+      if (!form || !window.supabaseClient) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = form.email.value.trim();
+        const password = form.password.value;
+        const confirm = form.confirm.value;
+
+        if (password !== confirm) {
+          message.textContent = "Passwords do not match.";
+          return;
+        }
+
+        const { error } = await window.supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: "https://xy.remainoff.com/setup-profile/"
+          }
+        });
+
+        if (error) {
+          message.textContent = error.message;
+        } else {
+          message.textContent = "Account created! Please check your inbox to confirm your email.";
+          form.reset();
+        }
+      });
+    });
+
+    document.addEventListener("supabase-ready", () => {
+      const form = document.getElementById("registerForm");
+      const message = document.getElementById("registerMessage");
+
+      if (!form || !window.supabaseClient) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = form.email.value.trim();
+        const password = form.password.value;
+        const confirm = form.confirm.value;
+
+        if (password !== confirm) {
+          message.textContent = "Passwords do not match.";
+          return;
+        }
+
+        const { error } = await window.supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: "https://xy.remainoff.com/setup-profile/"
+          }
+        });
+
+        if (error) {
+          message.textContent = error.message;
+        } else {
+          message.textContent = "Account created! Please check your inbox to confirm your email.";
+          form.reset();
+        }
+      });
+    });
 })();

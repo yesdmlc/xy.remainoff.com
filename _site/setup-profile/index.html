@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Setup Profile</title>
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
   <!-- PhotoSwipe CSS -->
@@ -52,29 +52,34 @@
     <div class="container">
       
 <section class="auth-form">
-  <h1>Welcome back</h1>
+    <h1 id="welcomeMessage">Welcome!</h1>
+    <p id="confirmationMessage">✅ Your email has been confirmed. Let’s complete your profile to unlock member access.
+    </p>
 
-  <form onsubmit="event.preventDefault(); login(email.value, password.value)">
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="Email" required />
+    <form id="profileForm">
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" required />
 
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Password" required />
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" required />
 
-    <button type="submit">Login</button>
-  </form>
+        <label for="username">Username</label>
+        <input type="text" id="username" required />
 
-  <p id="loginMessage" class="auth-message"></p>
+        <label>
+            <input type="checkbox" id="email_opt_in" />
+            Yes, keep me updated with new content, features, and occasional surprises ✨
+        </label>
 
-  <div class="signup-prompt">
-    <p>Not a member yet? <a href="/register/">Sign up and step inside.</a></p>
-  </div>
 
-  <button onclick="logout()">Logout</button>
+        <button type="submit">Save Profile</button>
+    </form>
+
+    <p id="profileMessage" class="auth-message"></p>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="/assets/auth.js"></script>
+<script src="/assets/setup-profile.js"></script>
     </div>
   </main>
 

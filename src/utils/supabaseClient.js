@@ -23,7 +23,36 @@ async function getCollections() {
   return data;
 }
 
-module.exports = { supabase, getCollections };
+async function getSignedCoverImage(slug) {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('image_url')
+    .eq('slug', slug)
+    .single();
+
+  if (!data?.image_url) {
+    console.error(`❌ No image_url found for slug "${slug}"`);
+    return null;
+  }
+
+  const imageKey = data.image_url;
+  console.log(`🔑 Attempting to sign: ${imageKey} from bucket: media`);
+
+  const { data: signed, error: signError } = await supabase
+    .storage
+    .from('media')
+    .createSignedUrl(imageKey, 3600);
+
+  if (!signError && signed?.signedUrl) {
+    return signed.signedUrl;
+  }
+
+  console.error(`❌ Failed to sign image for slug "${slug}"`);
+  return null;
+}
+
+
+module.exports = { supabase, getCollections, getSignedCoverImage };
 
 // Optional: expose to browser for debugging
 if (typeof window !== 'undefined') {

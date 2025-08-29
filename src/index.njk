@@ -42,7 +42,7 @@ title: Home
     <div class="post-grid">
       {% for post in publicSupabasePosts %}
       <article class="post-entry">
-        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="post-thumb" loading="lazy">
+        <img src="{{ post.signed_cover_image_url }}" alt="{{ post.title }}" class="post-thumb" loading="lazy">
         <p>{{ post.title }}</p>
       </article>
       {% endfor %}
@@ -52,6 +52,9 @@ title: Home
   </section>
 </main>
 
+<script>
+  window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
 <script>

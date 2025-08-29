@@ -51,6 +51,21 @@ module.exports = function (eleventyConfig) {
     return await getCollectionsWithSignedUrls();
   });
 
+  eleventyConfig.addNunjucksShortcode("supabaseUrl", function() {
+    return process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  });
+
+  eleventyConfig.addNunjucksShortcode("supabaseAnonKey", function() {
+    return process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  });
+
+  eleventyConfig.addNunjucksFilter("supabaseConfig", function() {
+    return JSON.stringify({
+      url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+      anonKey: process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+    });
+  });
+
   return {
     dir: {
       input: "src",

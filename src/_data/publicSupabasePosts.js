@@ -1,10 +1,11 @@
-const supabasePosts = require('./supabasePosts');
-
 module.exports = async function () {
-  const posts = await supabasePosts();
-  return posts.filter(p =>
+  const allPosts = await require('./supabasePosts')();
+
+  const publicPosts = allPosts.filter(p =>
     p.access_level === 'public' &&
-    p.image_url &&
-    p.image_url.includes('/object/sign/')
+    typeof p.signed_cover_image_url === 'string' &&
+    p.signed_cover_image_url.length > 0
   );
+
+  return publicPosts;
 };

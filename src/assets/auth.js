@@ -22,29 +22,14 @@
     doc.head.appendChild(s);
   });
 
-  // Read public env from window or meta tags
-  const metaUrl = doc.querySelector('meta[name="supabase-url"]')?.getAttribute('content');
-  const metaKey = doc.querySelector('meta[name="supabase-anon-key"]')?.getAttribute('content');
-  const SUPABASE_URL = win.SUPABASE_URL || metaUrl;
-  const SUPABASE_ANON_KEY = win.SUPABASE_ANON_KEY || metaKey;
-
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.error('Missing SUPABASE_URL/SUPABASE_ANON_KEY. Provide via window or meta tags.');
+  // Use window.SUPABASE_CONFIG for config and client creation
+  const config = window.SUPABASE_CONFIG;
+  if (!config?.url || !config?.anonKey) {
+    console.error("❌ Missing Supabase config object.");
     return;
   }
-
-  // Create and assign supabase client using values from window or meta tags
-  const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = window.supabase.createClient(config.url, config.anonKey);
   window.supabaseClient = supabase;
-
-  // Sign images with class 'supabase-image' using their data-path attribute
-  document.querySelectorAll('.supabase-image').forEach(async (img) => {
-    const path = img.dataset.path;
-    const { data } = await window.supabaseClient.storage.from('photos').createSignedUrl(path, 3600);
-    if (data?.signedUrl) {
-      img.src = data.signedUrl;
-    }
-  });
 
   // Retry-capable initializer with UMD fallback; avoids duplicate clients
   (function ensureSupabaseClient() {
@@ -77,60 +62,29 @@
     }
   })();
 
-  // Global image hydrator for Supabase Storage (photos bucket)
+  // Global image hydrator for Supabase Storage (photos/media bucket)
   (function attachImageHydrator() {
     // Only define once
     if (window.hydrateSignedImages) return;
 
-    function extractBucketAndKey(u) {
-      if (!u) return { bucket: '', key: '' };
-      const q = u.indexOf('?');
-      const noQ = q > -1 ? u.slice(0, q) : u;
-      const pairs = [
-        ['/storage/v1/object/sign/photos/', 'photos'],
-        ['/storage/v1/object/public/photos/', 'photos'],
-        ['/storage/v1/object/photos/', 'photos'],
-        ['/storage/v1/object/sign/media/', 'media'],
-        ['/storage/v1/object/public/media/', 'media'],
-        ['/storage/v1/object/media/', 'media']
-      ];
-      for (const [p, b] of pairs) {
-        const i = noQ.indexOf(p);
-        if (i > -1) return { bucket: b, key: noQ.slice(i + p.length) };
-      }
-      // As a fallback, detect by path segment
-      const j = noQ.indexOf('/photos/');
-      if (j > -1) return { bucket: 'photos', key: noQ.slice(j + '/photos/'.length) };
-      const k = noQ.indexOf('/media/');
-      if (k > -1) return { bucket: 'media', key: noQ.slice(k + '/media/'.length) };
-      return { bucket: '', key: '' };
+    function inferBucketAndKey(path) {
+      let key = path.replace(/^\/+/, '');
+      let bucket = key.startsWith('media/') ? 'media' : 'photos';
+      if (key.startsWith('photos/')) key = key.slice('photos/'.length);
+      if (key.startsWith('media/')) key = key.slice('media/'.length);
+      return { bucket, key };
     }
 
     window.hydrateSignedImages = async function hydrateSignedImages() {
       const supa = window.supabaseClient;
       if (!supa) return;
-      const imgs = Array.from(document.querySelectorAll('img[data-photo], img[data-cover-url]'));
+      // Select all images with .supabase-image, data-path, data-photo, or data-cover-url
+      const imgs = Array.from(document.querySelectorAll('img.supabase-image, img[data-path], img[data-photo], img[data-cover-url]'));
       await Promise.all(imgs.map(async (img) => {
-        const photo = (img.getAttribute('data-photo') || '').trim();
-        const cover = (img.getAttribute('data-cover-url') || '').trim();
-        const source = photo !== '' ? photo : cover;
-        if (!source) return;
-
-        if (source.includes('?token=')) { img.src = source; return; }
-
-        let key = '';
-        let bucket = '';
-        if (/^(https?:)?\/\//.test(source)) {
-          const res = extractBucketAndKey(source);
-          if (!res.key) { img.src = source; return; }
-          key = res.key;
-          bucket = res.bucket || (key.startsWith('post-images/') ? 'media' : 'photos');
-        } else {
-          // Normalize to bucket-relative path
-          key = source.replace(/^\/+/, '').replace(/^(photos|media)\//, '');
-          bucket = key.startsWith('post-images/') ? 'media' : 'photos';
-        }
-
+        let path = img.dataset.path || img.getAttribute('data-photo') || img.getAttribute('data-cover-url') || '';
+        path = path.trim();
+        if (!path || path.includes('?token=')) return;
+        const { bucket, key } = inferBucketAndKey(path);
         try {
           const { data, error } = await supa.storage.from(bucket).createSignedUrl(key, 3600);
           if (!error && data?.signedUrl) img.src = data.signedUrl;
@@ -349,6 +303,27 @@
       } else {
         message.textContent = "Account created! Please check your inbox to confirm your email.";
         form.reset();
+      }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.supabase-image');
+    console.log(`[hydrator] found ${images.length} img(s)`);
+
+    images.forEach(async (img) => {
+      const path = img.dataset.path;
+      if (!path) return;
+
+      const { data, error } = await window.supabaseClient
+        .storage
+        .from('photos')
+        .createSignedUrl(path, 3600);
+
+      if (data?.signedUrl) {
+        img.src = data.signedUrl;
+      } else {
+        console.error(`❌ Failed to sign image: ${path}`, error);
       }
     });
   });

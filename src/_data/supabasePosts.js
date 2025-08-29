@@ -1,19 +1,16 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
 
+const { getSignedCoverImage } = require('../utils/supabaseClient');
+
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const { createClient } = require('@supabase/supabase-js');
-
-const supabase = SUPABASE_URL && SUPABASE_KEY
-  ? createClient(SUPABASE_URL, SUPABASE_KEY)
-  : null;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 module.exports = async function () {
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
     .order('created_at', { ascending: false });
@@ -25,30 +22,17 @@ module.exports = async function () {
 
   const cleanPosts = [];
 
-  for (const post of data) {
-    if (
-      post.access_level !== 'public' ||
-      !post.image_url ||
-      post.image_url.includes('/object/sign/')
-    ) continue;
+  for (const post of posts) {
+    if (post.access_level !== 'public') continue;
 
-    let imagePath = null;
-    try {
-      const url = new URL(post.image_url);
-      imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/media\//, 'media/');
-    } catch (e) {
-      console.error(`❌ Failed to extract image path for post: ${post.title}`, e);
-      imagePath = null;
-    }
+    const signedUrl = await getSignedCoverImage(post.slug);
 
-    if (imagePath) {
-      cleanPosts.push({
-        ...post,
-        image_path: imagePath, // only the storage key, e.g. 'media/public/image.jpg'
-      });
-    }
+    cleanPosts.push({
+      ...post,
+      signed_cover_image_url: signedUrl
+    });
   }
 
-  console.log("✅ Final posts with storage keys:", cleanPosts.map(p => p.slug));
+  console.log("✅ Final posts with signed URLs:", cleanPosts.map(p => p.slug));
   return cleanPosts;
 };

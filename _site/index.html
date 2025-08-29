@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
@@ -15,7 +16,10 @@
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
   </script>
 
-  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
+  <script type="module"
+    integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w=="
+    src="/.11ty/reload-client.js"></script>
+
 </head>
 
 <body class="site-body">
@@ -54,21 +58,21 @@
       
       <li>
         <a href="/collections/2025-06-burnaby/">
-          <img data-path="photos/public/2025-06-burnaby-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 06 Burnaby" loading="lazy">
+          <img data-path="public/2025-06-burnaby-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 06 Burnaby" loading="lazy">
           <span>2025 06 Burnaby</span>
         </a>
       </li>
       
       <li>
         <a href="/collections/2025-07-darkness-in-shower/">
-          <img data-path="photos/public/2025-07-darkness-in-shower-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 07 Darkness In Shower" loading="lazy">
+          <img data-path="public/2025-07-darkness-in-shower-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 07 Darkness In Shower" loading="lazy">
           <span>2025 07 Darkness In Shower</span>
         </a>
       </li>
       
       <li>
         <a href="/collections/soft-against-the-window/">
-          <img data-path="photos/public/soft-against-the-window-photo-1.jpeg" class="collection-thumb supabase-image" alt="Soft Against The Window" loading="lazy">
+          <img data-path="public/soft-against-the-window-photo-1.jpeg" class="collection-thumb supabase-image" alt="Soft Against The Window" loading="lazy">
           <span>Soft Against The Window</span>
         </a>
       </li>
@@ -82,9 +86,24 @@
   <section class="home-latest-post">
     <h2>Latest Posts</h2>
 
-    <p>Loaded 0 posts</p>
+    <p>Loaded 3 posts</p>
 
     <div class="post-grid">
+      
+      <article class="post-entry">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY1MDQ1NTYsImV4cCI6MTc1NjUwODE1Nn0.kGzliUIYVUTzjH_0jRuW2MLFPEUhF2NmoX5SUux0Nb4" alt="In The Forest" class="post-thumb" loading="lazy">
+        <p>In The Forest</p>
+      </article>
+      
+      <article class="post-entry">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/looking-around-in-woods.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvbG9va2luZy1hcm91bmQtaW4td29vZHMuanBnIiwiaWF0IjoxNzU2NTA0NTU3LCJleHAiOjE3NTY1MDgxNTd9.aeCDr0DX-AlsCMae18lIyrwDoWtvm6T7FwNAP1DxRos" alt="Looking Around In Woods" class="post-thumb" loading="lazy">
+        <p>Looking Around In Woods</p>
+      </article>
+      
+      <article class="post-entry">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/trail-walk-path.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvdHJhaWwtd2Fsay1wYXRoLmpwZyIsImlhdCI6MTc1NjUwNDU1OCwiZXhwIjoxNzU2NTA4MTU4fQ.Dmkfd7ZYnPGtkWE0WRtuIvgS0MItC5T5wNmSl1z8I-8" alt="Trail Walk Path" class="post-thumb" loading="lazy">
+        <p>Trail Walk Path</p>
+      </article>
       
     </div>
 
@@ -92,6 +111,9 @@
   </section>
 </main>
 
+<script>
+  window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
 <script>
@@ -122,12 +144,21 @@
     </nav>
 
     <div class="footer-meta">
-      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without
+        permission.</p>
     </div>
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
+  <!-- Supabase -->
+  <script>
+    window.SUPABASE_CONFIG = {"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"};
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="/assets/auth.js" defer></script>
 </body>
+
 </html>

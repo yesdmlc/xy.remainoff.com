@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>{{ title }}</title>
@@ -15,7 +16,10 @@
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
   </script>
 
-  <script type="module" integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w==" src="/.11ty/reload-client.js"></script>
+  <script type="module"
+    integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w=="
+    src="/.11ty/reload-client.js"></script>
+
 </head>
 
 <body class="site-body">
@@ -50,12 +54,21 @@
     </nav>
 
     <div class="footer-meta">
-      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without
+        permission.</p>
     </div>
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
+  <!-- Supabase -->
+  <script>
+    window.SUPABASE_CONFIG = {{ "" | supabaseConfig | safe }};
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="/assets/auth.js" defer></script>
 </body>
+
 </html>

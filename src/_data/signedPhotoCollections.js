@@ -25,7 +25,7 @@ module.exports = async function () {
     if (c.cover_image_url) {
       try {
         const url = new URL(c.cover_image_url);
-        imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\//, '');
+        imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/photos\//, '');
       } catch (e) {
         console.error(`❌ Failed to extract image path for slug "${slug}":`, e);
         imagePath = null;

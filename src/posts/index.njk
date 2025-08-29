@@ -8,40 +8,30 @@ permalink: "/posts/"
 <h1>All Posts</h1>
 
 <section class="post-feed">
-  {% for post in collections.posts | reverse %}
-  {% set supa = supabasePosts | selectattr("slug", "equalto", post.data.slug) | first %}
+  {% for post in publicSupabasePosts %}
   <article class="post-entry">
     <a href="{{ post.url }}" class="post-link">
       <div class="post-card">
-        {% set isGated = post.data.access_level != "public" %}
-        {% if isGated and user.access_level != post.data.access_level %}
-        <div class="blurred-post">
-          <img data-path="{{ post.data.image_path }}" class="supabase-image blurred-thumb" alt="{{ post.data.title }}">
-          <div class="overlay">
-            <span class="access-label">{{ post.data.access_level | capitalize }} Only</span>
-            <a href="/login/" class="access-button">Log In to View</a>
-          </div>
-        </div>
-        {% else %}
         <div class="post-thumb-wrapper">
-          {% set altText = post.data.alt or post.data.title %}
-          {% if supa and supa.image_path %}
-          <img data-path="{{ supa.image_path }}" class="supabase-image post-thumb" alt="{{ altText }}" loading="lazy" />
-          {% elif post.data.images %}
-          <img src="{{ post.data.images[0] }}" alt="{{ altText }}" class="post-thumb" loading="lazy" />
-          {% endif %}
-          {% if post.data.images and post.data.images.length > 1 %}
-          <div class="more-indicator">+{{ post.data.images.length - 1 }}</div>
-          {% endif %}
+          <img
+            src="{{ post.signed_cover_image_url }}"
+            alt="{{ post.alt or post.title }}"
+            class="post-cover"
+            loading="lazy"
+          />
         </div>
-
         <div class="post-caption">
-          <p>{{ post.data.caption }}</p>
-          <small>{{ post.date | date("yyyy-MM-dd") }}{% if post.data.mood %} · {{ post.data.mood }}{% endif %}</small>
+          <p>{{ post.caption }}</p>
+          <small>{{ post.date | date("yyyy-MM-dd") }}{% if post.mood %} · {{ post.mood }}{% endif %}</small>
         </div>
-        {% endif %}
       </div>
     </a>
   </article>
   {% endfor %}
 </section>
+
+<script>
+  window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+<script src="/assets/auth.js" defer></script>

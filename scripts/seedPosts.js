@@ -28,10 +28,7 @@ for (const level of accessLevels) {
 
   for (const file of files) {
     const slug = path.basename(file, path.extname(file));
-    const imagePath = `post-images/${level}/${file}`;
-    const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/media/${imagePath}`;
-
-
+    const imageKey = `post-images/${level}/${file}`; // ✅ storage key, not full URL
 
     if (!postMap.has(slug)) {
       postMap.set(slug, {
@@ -39,14 +36,14 @@ for (const level of accessLevels) {
         title: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
         access_level: level,
         photo_count: 1,
-        image_url: imageUrl
+        image_url: imageKey // ✅ correct format for signing
       });
     } else {
       const entry = postMap.get(slug);
       entry.photo_count += 1;
       if (accessLevels.indexOf(level) > accessLevels.indexOf(entry.access_level)) {
         entry.access_level = level;
-        entry.image_url = imageUrl;
+        entry.image_url = imageKey;
       }
     }
   }

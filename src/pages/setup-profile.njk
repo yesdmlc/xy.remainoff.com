@@ -32,5 +32,8 @@ eleventyExcludeFromCollections: true
     <p id="profileMessage" class="auth-message"></p>
 </section>
 
+<script>
+  window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="/assets/setup-profile.js"></script>

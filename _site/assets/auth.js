@@ -40,6 +40,15 @@
   );
   window.supabaseClient = supabase;
 
+  // Sign images with class 'supabase-image' using their data-path attribute
+  document.querySelectorAll('.supabase-image').forEach(async (img) => {
+    const path = img.dataset.path;
+    const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+    if (data?.signedUrl) {
+      img.src = data.signedUrl;
+    }
+  });
+
   // Retry-capable initializer with UMD fallback; avoids duplicate clients
   (function ensureSupabaseClient() {
     const create = () => {

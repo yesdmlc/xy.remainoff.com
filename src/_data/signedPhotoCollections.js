@@ -15,36 +15,32 @@ module.exports = async function () {
   const rawCollections = await getCollectionsWithSignedUrls();
 
   const seenSlugs = new Set();
-  const signedCollections = [];
+  const cleanCollections = [];
 
   for (const c of rawCollections) {
     const slug = c.slug?.trim().toLowerCase();
     if (!slug || seenSlugs.has(slug)) continue;
 
-    let signedUrl = null;
+    let imagePath = null;
     if (c.cover_image_url) {
       try {
         const url = new URL(c.cover_image_url);
-        const fullPath = url.pathname.replace(/^\/storage\/v1\/object\/public\/photos\//, '');
-        const { data } = await supabase.storage
-          .from('photos')
-          .createSignedUrl(fullPath, 3600);
-        signedUrl = data?.signedUrl || null;
+        imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/photos\//, '');
       } catch (e) {
-        console.error(`❌ Failed to sign image for slug "${slug}":`, e);
-        signedUrl = null;
+        console.error(`❌ Failed to extract image path for slug "${slug}":`, e);
+        imagePath = null;
       }
     }
 
-    if (signedUrl) {
+    if (imagePath) {
       seenSlugs.add(slug);
-      signedCollections.push({
+      cleanCollections.push({
         ...c,
-        cover_image_url: signedUrl,
+        cover_image_path: `photos/${imagePath}`, // only the storage key
       });
     }
   }
 
-  console.log("✅ Final signed and deduplicated slugs:", signedCollections.map(c => c.slug));
-  return signedCollections;
+  console.log("✅ Final deduplicated slugs with storage keys:", cleanCollections.map(c => c.slug));
+  return cleanCollections;
 };

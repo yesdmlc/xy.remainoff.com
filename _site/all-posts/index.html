@@ -54,13 +54,6 @@
         <div class="post-card">
           <div class="post-thumb-wrapper">
             
-              <img
-                src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY0NDE1OTYsImV4cCI6MTc1NjQ0NTE5Nn0._DC5q06Ehb4GUSLVNczSmWOBvQ_Tai1PmfT2Zg27ljc"
-                alt="Looking Around In The Woods"
-                class="post-thumb"
-                loading="lazy"
-              >
-            
           </div>
           <div class="post-caption">
             
@@ -79,13 +72,6 @@
         <div class="post-card">
           <div class="post-thumb-wrapper">
             
-              <img
-                src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY0NDE1OTYsImV4cCI6MTc1NjQ0NTE5Nn0._DC5q06Ehb4GUSLVNczSmWOBvQ_Tai1PmfT2Zg27ljc"
-                alt="Walking the Trail Path"
-                class="post-thumb"
-                loading="lazy"
-              >
-            
           </div>
           <div class="post-caption">
             
@@ -103,13 +89,6 @@
       <a href="/posts/2025-08-01-post/" class="post-link">
         <div class="post-card">
           <div class="post-thumb-wrapper">
-            
-              <img
-                src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY0NDE1OTYsImV4cCI6MTc1NjQ0NTE5Nn0._DC5q06Ehb4GUSLVNczSmWOBvQ_Tai1PmfT2Zg27ljc"
-                alt="In the forest"
-                class="post-thumb"
-                loading="lazy"
-              >
             
           </div>
           <div class="post-caption">
@@ -149,11 +128,24 @@
       icon.textContent = isGrid ? '📃' : '🔲';
       label.textContent = isGrid ? 'View as Grid' : 'View as Feed';
     });
+
+    // Supabase image loader
+    const supabase = window.Supabase.createClient(
+      'https://kaqqyhjsvddvfxtyhmak.supabase.co',
+      'your-anon-key'
+    );
+
+    document.querySelectorAll('.supabase-image').forEach(async (img) => {
+      const path = img.dataset.path;
+      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+      if (data?.signedUrl) {
+        img.src = data.signedUrl;
+      }
+    });
   });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script src="/assets/auth.js" defer></script>
 
     </div>
   </main>

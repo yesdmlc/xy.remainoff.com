@@ -16,16 +16,16 @@ eleventyExcludeFromCollections: false
 <section class="post-feed">
   {% for post in collections.posts | reverse %}
     {% set supa = supabasePosts | selectattr("slug", "equalto", post.data.slug) | first %}
-    {% set imageUrl = supa.image_url if supa and supa.image_url else null %}
+    {% set imagePath = supa.cover_image_path if supa and supa.cover_image_path else null %}
     <article class="post-entry">
       <a href="{{ post.url }}" class="post-link">
         <div class="post-card">
           <div class="post-thumb-wrapper">
-            {% if imageUrl %}
+            {% if imagePath %}
               <img
-                src="{{ imageUrl }}"
+                data-path="{{ imagePath }}"
                 alt="{{ post.data.alt or post.data.title or post.fileSlug }}"
-                class="post-thumb"
+                class="post-thumb supabase-image"
                 loading="lazy"
               >
             {% endif %}
@@ -67,9 +67,22 @@ eleventyExcludeFromCollections: false
       icon.textContent = isGrid ? '📃' : '🔲';
       label.textContent = isGrid ? 'View as Grid' : 'View as Feed';
     });
+
+    // Supabase image loader
+    const supabase = window.Supabase.createClient(
+      'https://kaqqyhjsvddvfxtyhmak.supabase.co',
+      'your-anon-key'
+    );
+
+    document.querySelectorAll('.supabase-image').forEach(async (img) => {
+      const path = img.dataset.path;
+      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+      if (data?.signedUrl) {
+        img.src = data.signedUrl;
+      }
+    });
   });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script src="/assets/auth.js" defer></script>
 {% endblock %}

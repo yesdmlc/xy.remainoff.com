@@ -33,17 +33,14 @@
     return;
   }
 
-  // Explicitly create and assign supabase client
-  const supabase = window.Supabase.createClient(
-    'https://kaqqyhjsvddvfxtyhmak.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas'
-  );
+  // Create and assign supabase client using values from window or meta tags
+  const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   window.supabaseClient = supabase;
 
   // Sign images with class 'supabase-image' using their data-path attribute
   document.querySelectorAll('.supabase-image').forEach(async (img) => {
     const path = img.dataset.path;
-    const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+    const { data } = await window.supabaseClient.storage.from('photos').createSignedUrl(path, 3600);
     if (data?.signedUrl) {
       img.src = data.signedUrl;
     }

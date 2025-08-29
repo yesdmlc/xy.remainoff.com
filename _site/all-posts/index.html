@@ -130,9 +130,10 @@
     });
 
     // Supabase image loader
-    const supabase = window.Supabase.createClient(
-      'https://kaqqyhjsvddvfxtyhmak.supabase.co',
-      'your-anon-key'
+    // Use global supabaseClient if available
+    const supabase = window.supabaseClient || window.Supabase.createClient(
+      window.SUPABASE_URL || '',
+      window.SUPABASE_ANON_KEY || ''
     );
 
     document.querySelectorAll('.supabase-image').forEach(async (img) => {

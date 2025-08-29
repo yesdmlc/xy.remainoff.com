@@ -20,7 +20,7 @@ title: Home
       {% for c in signedPhotoCollections %}
       <li>
         <a href="/collections/{{ c.slug }}/">
-          <img src="{{ c.cover_image_url }}" alt="{{ c.title }}" class="collection-thumb" loading="lazy">
+          <img data-path="{{ c.cover_image_path }}" class="collection-thumb supabase-image" alt="{{ c.title }}" loading="lazy">
           <span>{{ c.title }}</span>
         </a>
       </li>

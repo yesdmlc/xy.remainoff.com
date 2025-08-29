@@ -28,8 +28,7 @@ pagination:
           {% set imageOptions = { src: collection.image, alt: altText, class: "collection-thumb", loading: "lazy" } %}
           {% optimizedImage imageOptions %}
           {% else %}
-          <img src="{{ collection.cover_image_url }}" alt="{{ altText }}" class="collection-thumb" loading="lazy"
-            data-photo="{{ collection.cover_image_url }}" />
+          <img data-path="{{ collection.cover_image_path }}" class="collection-thumb supabase-image" alt="{{ altText }}" loading="lazy" />
           {% endif %}
 
         </div>

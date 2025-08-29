@@ -16,7 +16,7 @@ permalink: "/posts/"
         {% set isGated = post.data.access_level != "public" %}
         {% if isGated and user.access_level != post.data.access_level %}
         <div class="blurred-post">
-          <img src="{{ post.data.images[0] }}" alt="{{ post.data.title }}" class="blurred-thumb">
+          <img data-path="{{ post.data.image_path }}" class="supabase-image blurred-thumb" alt="{{ post.data.title }}">
           <div class="overlay">
             <span class="access-label">{{ post.data.access_level | capitalize }} Only</span>
             <a href="/login/" class="access-button">Log In to View</a>
@@ -25,20 +25,10 @@ permalink: "/posts/"
         {% else %}
         <div class="post-thumb-wrapper">
           {% set altText = post.data.alt or post.data.title %}
-          {% if supa and supa.image_url %}
-          <img
-            src="{{ supa.image_url }}"
-            alt="{{ altText }}"
-            class="post-thumb"
-            loading="lazy"
-          />
+          {% if supa and supa.image_path %}
+          <img data-path="{{ supa.image_path }}" class="supabase-image post-thumb" alt="{{ altText }}" loading="lazy" />
           {% elif post.data.images %}
-          <img
-            src="{{ post.data.images[0] }}"
-            alt="{{ altText }}"
-            class="post-thumb"
-            loading="lazy"
-          />
+          <img src="{{ post.data.images[0] }}" alt="{{ altText }}" class="post-thumb" loading="lazy" />
           {% endif %}
           {% if post.data.images and post.data.images.length > 1 %}
           <div class="more-indicator">+{{ post.data.images.length - 1 }}</div>

@@ -25,7 +25,7 @@ module.exports = async function () {
     if (c.cover_image_url) {
       try {
         const url = new URL(c.cover_image_url);
-        imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/photos\//, '');
+        imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\//, '');
       } catch (e) {
         console.error(`❌ Failed to extract image path for slug "${slug}":`, e);
         imagePath = null;
@@ -36,7 +36,7 @@ module.exports = async function () {
       seenSlugs.add(slug);
       cleanCollections.push({
         ...c,
-        cover_image_path: `photos/${imagePath}`, // only the storage key
+        cover_image_path: imagePath, // only the storage key, e.g. 'photos/public/image.jpg'
       });
     }
   }

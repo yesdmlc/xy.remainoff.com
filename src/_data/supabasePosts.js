@@ -23,7 +23,7 @@ module.exports = async function () {
     return [];
   }
 
-  const signedPosts = [];
+  const cleanPosts = [];
 
   for (const post of data) {
     if (
@@ -32,38 +32,23 @@ module.exports = async function () {
       post.image_url.includes('/object/sign/')
     ) continue;
 
-    console.log("🔍 Raw image_url:", post.image_url);
-
-
+    let imagePath = null;
     try {
       const url = new URL(post.image_url);
-      const rawPath = decodeURIComponent(
-        url.pathname.replace('/storage/v1/object/public/media/', '')
-      );
-
-
-
-      // ✅ Use correct folder inside 'media' bucket
-      const correctedPath = rawPath.replace(/^Posts\//, 'post-images/');
-
-      const { data: signed } = await supabase.storage
-        .from('media')
-        .createSignedUrl(rawPath, 3600);
-
-
-      if (signed?.signedUrl) {
-        signedPosts.push({
-          ...post,
-          image_url: signed.signedUrl,
-        });
-      } else {
-        console.warn(`⚠️ No signed URL returned for ${correctedPath}`);
-      }
+      imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/media\//, 'media/');
     } catch (e) {
-      console.error(`❌ Failed to sign post image: ${post.title}`, e);
+      console.error(`❌ Failed to extract image path for post: ${post.title}`, e);
+      imagePath = null;
+    }
+
+    if (imagePath) {
+      cleanPosts.push({
+        ...post,
+        image_path: imagePath, // only the storage key, e.g. 'media/public/image.jpg'
+      });
     }
   }
 
-  console.log("✅ Final signed posts:", signedPosts.map(p => p.image_url));
-  return signedPosts;
+  console.log("✅ Final posts with storage keys:", cleanPosts.map(p => p.slug));
+  return cleanPosts;
 };

@@ -1,3 +1,3 @@
 # Local Netlify folder
 .netlify
-.env.local
+.env.local.env.local

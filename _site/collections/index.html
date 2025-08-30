@@ -24,10 +24,11 @@
 
 <body class="site-body">
   <nav class="floating-nav">
-    <div class="brand">
-      <a href="/">XY</a>
-    </div>
-    <ul>
+    <div class="brand">XY</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/posts">Posts</a></li>
       <li><a href="/collections">Collections</a></li>
@@ -52,6 +53,7 @@
     <section class="collection-thumbnail" data-slug="2025-06-burnaby">
       <a href="/collections/2025-06-burnaby/" class="collection-link">
         <div class="thumbnail-wrapper">
+          <div class="image-skeleton"></div>
           <img
             data-photo="public/2025-06-burnaby-photo-1.jpeg"
             class="collection-thumb supabase-image"
@@ -71,6 +73,7 @@
     <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
       <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
         <div class="thumbnail-wrapper">
+          <div class="image-skeleton"></div>
           <img
             data-photo="public/2025-07-darkness-in-shower-photo-1.jpeg"
             class="collection-thumb supabase-image"
@@ -90,6 +93,7 @@
     <section class="collection-thumbnail" data-slug="soft-against-the-window">
       <a href="/collections/soft-against-the-window/" class="collection-link">
         <div class="thumbnail-wrapper">
+          <div class="image-skeleton"></div>
           <img
             data-photo="public/soft-against-the-window-photo-1.jpeg"
             class="collection-thumb supabase-image"
@@ -124,7 +128,30 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".supabase-image");
 
+    images.forEach(img => {
+      const skeleton = img.previousElementSibling;
+
+      const applyFadeIn = () => {
+        img.classList.add("loaded");
+        if (skeleton) skeleton.style.display = "none";
+      };
+
+      if (img.complete && img.naturalWidth !== 0) {
+        applyFadeIn();
+      } else {
+        img.addEventListener("load", applyFadeIn);
+      }
+
+      img.addEventListener("error", () => {
+        console.warn("🚫 Image failed to load:", img.src);
+      });
+    });
+  });
+</script>
     </div>
   </main>
 
@@ -147,12 +174,21 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- Supabase -->
-  <script>
-    window.SUPABASE_CONFIG = {"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"};
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
   <script src="/assets/auth.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  });
+</script>
+
+
 </body>
 
 </html>

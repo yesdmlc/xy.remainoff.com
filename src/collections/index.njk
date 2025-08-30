@@ -20,6 +20,7 @@ pagination:
     <section class="collection-thumbnail" data-slug="{{ collection.slug }}">
       <a href="/collections/{{ collection.slug }}/" class="collection-link">
         <div class="thumbnail-wrapper">
+          <div class="image-skeleton"></div>
           <img
             data-photo="{{ collection.cover_image_path }}"
             class="collection-thumb supabase-image"
@@ -58,3 +59,27 @@ pagination:
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".supabase-image");
+
+    images.forEach(img => {
+      const skeleton = img.previousElementSibling;
+
+      const applyFadeIn = () => {
+        img.classList.add("loaded");
+        if (skeleton) skeleton.style.display = "none";
+      };
+
+      if (img.complete && img.naturalWidth !== 0) {
+        applyFadeIn();
+      } else {
+        img.addEventListener("load", applyFadeIn);
+      }
+
+      img.addEventListener("error", () => {
+        console.warn("🚫 Image failed to load:", img.src);
+      });
+    });
+  });
+</script>

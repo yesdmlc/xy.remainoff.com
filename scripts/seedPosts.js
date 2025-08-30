@@ -36,7 +36,8 @@ for (const level of accessLevels) {
         title: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
         access_level: level,
         photo_count: 1,
-        image_url: imageKey // ✅ correct format for signing
+        image_url: imageKey
+        date: new Date().toISOString().split('T')[0] // e.g. "2025-08-29"
       });
     } else {
       const entry = postMap.get(slug);

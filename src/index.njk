@@ -4,12 +4,10 @@ title: Home
 ---
 
 <header class="hero">
-  <img
-    src="https://images.unsplash.com/photo-1563688139-bb5832571d4b?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    alt="Hero Image" />
+  <img src="{{ homeData.heroImageUrl }}" class="hero-image supabase-image" alt="I am lying shirtless on a bed, gazing upward" />
   <div class="overlay">
-    <h1 class="hero-title">Lonely doesn’t mean lifeless.</h1>
-    <p class="hero-subtitle">This is my quiet—documented in motion, muscle, and memory.</p>
+    <h1 class="hero-title">Collected Without Commentary.</h1>
+    <p class="hero-subtitle">Quiet Stills From a Place That Remains Off. Unposed. Undisturbed.</p>
   </div>
 </header>
 
@@ -18,9 +16,14 @@ title: Home
     <h2>Latest Collections</h2>
     <ul class="collection-list">
       {% for c in signedPhotoCollections %}
-      <li>
-        <a href="/collections/{{ c.slug }}/">
-          <img data-path="{{ c.cover_image_path }}" class="collection-thumb supabase-image" alt="{{ c.title }}" loading="lazy">
+      <li class="collection-item">
+        <a href="/collections/{{ c.slug }}/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-path="{{ c.cover_image_path }}" src="{{ c.signed_cover_image_url }}"
+              class="collection-thumb supabase-image" alt="{{ c.title }}" {% if loop.index0 < 3 %}loading="eager" {%
+              else %}loading="lazy" {% endif %} />
+          </div>
           <span>{{ c.title }}</span>
         </a>
       </li>
@@ -57,18 +60,4 @@ title: Home
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll("img");
-
-    images.forEach(img => {
-      img.addEventListener("error", () => {
-        console.warn("🚫 Image failed to load:", img.src);
-      });
-
-      img.addEventListener("load", () => {
-        console.log("✅ Image loaded:", img.src);
-      });
-    });
-  });
-</script>
+<script src="/assets/home.js" defer></script>

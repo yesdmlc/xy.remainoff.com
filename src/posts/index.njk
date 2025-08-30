@@ -9,6 +9,7 @@ permalink: "/posts/"
 
 <section class="post-feed">
   {% for post in publicSupabasePosts %}
+  {% set isFirstThree = loop.index0 < 3 %}
   <article class="post-entry">
     <a href="{{ post.url }}" class="post-link">
       <div class="post-card">
@@ -17,12 +18,18 @@ permalink: "/posts/"
             src="{{ post.signed_cover_image_url }}"
             alt="{{ post.alt or post.title }}"
             class="post-cover"
-            loading="lazy"
+            {% if not isFirstThree %}loading="lazy"{% endif %}
           />
         </div>
         <div class="post-caption">
           <p>{{ post.caption }}</p>
-          <small>{{ post.date | date("yyyy-MM-dd") }}{% if post.mood %} · {{ post.mood }}{% endif %}</small>
+          <small>
+            {% if post.date and (post.date | date('yyyy')) != 'Invalid DateTime' %}
+              {{ post.date | date("MMM d, yyyy") }}{% if post.mood %} · {{ post.mood }}{% endif %}
+            {% else %}
+              No date
+            {% endif %}
+          </small>
         </div>
       </div>
     </a>

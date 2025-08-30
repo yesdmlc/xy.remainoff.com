@@ -24,10 +24,11 @@
 
 <body class="site-body">
   <nav class="floating-nav">
-    <div class="brand">
-      <a href="/">XY</a>
-    </div>
-    <ul>
+    <div class="brand">XY</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/posts">Posts</a></li>
       <li><a href="/collections">Collections</a></li>
@@ -42,12 +43,10 @@
     <div class="container">
       
 <header class="hero">
-  <img
-    src="https://images.unsplash.com/photo-1563688139-bb5832571d4b?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    alt="Hero Image" />
+  <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/xy-home-cover.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMveHktaG9tZS1jb3Zlci5qcGciLCJpYXQiOjE3NTY1MzM4MTksImV4cCI6MTc1NjUzNzQxOX0.9WZjS3DwukHWrWo8-Kbls0z4gkf_QhlbVG2iAVNV2Yo" class="hero-image supabase-image" alt="I am lying shirtless on a bed, gazing upward" />
   <div class="overlay">
-    <h1 class="hero-title">Lonely doesn’t mean lifeless.</h1>
-    <p class="hero-subtitle">This is my quiet—documented in motion, muscle, and memory.</p>
+    <h1 class="hero-title">Collected Without Commentary.</h1>
+    <p class="hero-subtitle">Quiet Stills From a Place That Remains Off. Unposed. Undisturbed.</p>
   </div>
 </header>
 
@@ -56,23 +55,35 @@
     <h2>Latest Collections</h2>
     <ul class="collection-list">
       
-      <li>
-        <a href="/collections/2025-06-burnaby/">
-          <img data-path="public/2025-06-burnaby-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 06 Burnaby" loading="lazy">
+      <li class="collection-item">
+        <a href="/collections/2025-06-burnaby/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-path="public/2025-06-burnaby-photo-1.jpeg" src=""
+              class="collection-thumb supabase-image" alt="2025 06 Burnaby" loading="eager"  />
+          </div>
           <span>2025 06 Burnaby</span>
         </a>
       </li>
       
-      <li>
-        <a href="/collections/2025-07-darkness-in-shower/">
-          <img data-path="public/2025-07-darkness-in-shower-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 07 Darkness In Shower" loading="lazy">
+      <li class="collection-item">
+        <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-path="public/2025-07-darkness-in-shower-photo-1.jpeg" src=""
+              class="collection-thumb supabase-image" alt="2025 07 Darkness In Shower" loading="eager"  />
+          </div>
           <span>2025 07 Darkness In Shower</span>
         </a>
       </li>
       
-      <li>
-        <a href="/collections/soft-against-the-window/">
-          <img data-path="public/soft-against-the-window-photo-1.jpeg" class="collection-thumb supabase-image" alt="Soft Against The Window" loading="lazy">
+      <li class="collection-item">
+        <a href="/collections/soft-against-the-window/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-path="public/soft-against-the-window-photo-1.jpeg" src=""
+              class="collection-thumb supabase-image" alt="Soft Against The Window" loading="eager"  />
+          </div>
           <span>Soft Against The Window</span>
         </a>
       </li>
@@ -86,22 +97,27 @@
   <section class="home-latest-post">
     <h2>Latest Posts</h2>
 
-    <p>Loaded 3 posts</p>
+    <p>Loaded 4 posts</p>
 
     <div class="post-grid">
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY1MDQ1NTYsImV4cCI6MTc1NjUwODE1Nn0.kGzliUIYVUTzjH_0jRuW2MLFPEUhF2NmoX5SUux0Nb4" alt="In The Forest" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/xy-home-cover.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMveHktaG9tZS1jb3Zlci5qcGciLCJpYXQiOjE3NTY1MzM4MjAsImV4cCI6MTc1NjYyMDIyMH0.p2V0QPIvwDAXRobfXtlXyV9ApguLMmiKTafpG2AeQfs" alt="Xy Home Cover" class="post-thumb" loading="lazy">
+        <p>Xy Home Cover</p>
+      </article>
+      
+      <article class="post-entry">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/in-the-forest.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvaW4tdGhlLWZvcmVzdC5qcGciLCJpYXQiOjE3NTY1MzM4MjEsImV4cCI6MTc1NjYyMDIyMX0.dpu44X2goNN3Hlirss6QYnL6desj4SYlbSvmU9azLYU" alt="In The Forest" class="post-thumb" loading="lazy">
         <p>In The Forest</p>
       </article>
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/looking-around-in-woods.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvbG9va2luZy1hcm91bmQtaW4td29vZHMuanBnIiwiaWF0IjoxNzU2NTA0NTU3LCJleHAiOjE3NTY1MDgxNTd9.aeCDr0DX-AlsCMae18lIyrwDoWtvm6T7FwNAP1DxRos" alt="Looking Around In Woods" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/looking-around-in-woods.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvbG9va2luZy1hcm91bmQtaW4td29vZHMuanBnIiwiaWF0IjoxNzU2NTMzODIxLCJleHAiOjE3NTY2MjAyMjF9.aj05FZWYIu-gINIB2WrMAAIlt9qLl7bmLZguVZLmBlY" alt="Looking Around In Woods" class="post-thumb" loading="lazy">
         <p>Looking Around In Woods</p>
       </article>
       
       <article class="post-entry">
-        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/trail-walk-path.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvdHJhaWwtd2Fsay1wYXRoLmpwZyIsImlhdCI6MTc1NjUwNDU1OCwiZXhwIjoxNzU2NTA4MTU4fQ.Dmkfd7ZYnPGtkWE0WRtuIvgS0MItC5T5wNmSl1z8I-8" alt="Trail Walk Path" class="post-thumb" loading="lazy">
+        <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/sign/media/post-images/public/trail-walk-path.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jZDM5ZjBiYi1jZmY0LTQzMDUtOWFlNS00OWQ3NDFiNGFiMTgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9wb3N0LWltYWdlcy9wdWJsaWMvdHJhaWwtd2Fsay1wYXRoLmpwZyIsImlhdCI6MTc1NjUzMzgyMiwiZXhwIjoxNzU2NjIwMjIyfQ.hrQtWpQd0M8Y8XJPT4F8SzAeSBTYoyuOj6WCxwGy6WM" alt="Trail Walk Path" class="post-thumb" loading="lazy">
         <p>Trail Walk Path</p>
       </article>
       
@@ -116,21 +132,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll("img");
-
-    images.forEach(img => {
-      img.addEventListener("error", () => {
-        console.warn("🚫 Image failed to load:", img.src);
-      });
-
-      img.addEventListener("load", () => {
-        console.log("✅ Image loaded:", img.src);
-      });
-    });
-  });
-</script>
+<script src="/assets/home.js" defer></script>
     </div>
   </main>
 
@@ -153,12 +155,21 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- Supabase -->
-  <script>
-    window.SUPABASE_CONFIG = {"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"};
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
   <script src="/assets/auth.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  });
+</script>
+
+
 </body>
 
 </html>

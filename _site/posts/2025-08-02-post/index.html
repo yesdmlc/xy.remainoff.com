@@ -24,10 +24,11 @@
 
 <body class="site-body">
   <nav class="floating-nav">
-    <div class="brand">
-      <a href="/">XY</a>
-    </div>
-    <ul>
+    <div class="brand">XY</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/posts">Posts</a></li>
       <li><a href="/collections">Collections</a></li>
@@ -138,12 +139,21 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- Supabase -->
-  <script>
-    window.SUPABASE_CONFIG = {"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"};
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
   <script src="/assets/auth.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  });
+</script>
+
+
 </body>
 
 </html>

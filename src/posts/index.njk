@@ -1,5 +1,5 @@
 ---
-layout: base.njk
+layout: layouts/base.njk
 title: All Posts
 eleventyExcludeFromCollections: true
 permalink: "/posts/"
@@ -7,33 +7,42 @@ permalink: "/posts/"
 
 <h1>All Posts</h1>
 
+{% set supabasePosts = publicSupabasePosts %}
+{% set markdownPosts = collections.posts | filterPublicMarkdownPosts %}
+{% set allPosts = (supabasePosts | merge(markdownPosts)) | sortByDate %}
+
 <section class="post-feed">
-  {% for post in publicSupabasePosts %}
-  {% set isFirstThree = loop.index0 < 3 %}
-  <article class="post-entry">
-    <a href="{{ post.url }}" class="post-link">
-      <div class="post-card">
-        <div class="post-thumb-wrapper">
-          <img
-            src="{{ post.signed_cover_image_url }}"
-            alt="{{ post.alt or post.title }}"
-            class="post-cover"
-            {% if not isFirstThree %}loading="lazy"{% endif %}
-          />
-        </div>
-        <div class="post-caption">
-          <p>{{ post.caption }}</p>
-          <small>
-            {% if post.date and (post.date | date('yyyy')) != 'Invalid DateTime' %}
-              {{ post.date | date("MMM d, yyyy") }}{% if post.mood %} · {{ post.mood }}{% endif %}
-            {% else %}
-              No date
+  {% for post in allPosts %}
+    {% set isFirstThree = loop.index0 < 3 %}
+    {% set data = post.data or post %}
+    <article class="post-entry">
+      <a href="{{ post.url or '/posts/' + data.slug + '/' }}" class="post-link">
+        <div class="post-card">
+          <div class="post-thumb-wrapper">
+            {% if data.signed_cover_image_url or data.image %}
+              <img
+                src="{{ data.signed_cover_image_url or data.image }}"
+                alt="{{ data.alt or data.title }}"
+                class="post-cover"
+                {% if not isFirstThree %}loading="lazy"{% endif %}
+              />
             {% endif %}
-          </small>
+          </div>
+          <div class="post-caption">
+            {% if data.caption %}
+              <p>{{ data.caption }}</p>
+            {% endif %}
+            <small>
+              {% if data.date %}
+                {{ data.date | date("MMM d, yyyy") }}{% if data.mood %} · {{ data.mood }}{% endif %}
+              {% else %}
+                No date
+              {% endif %}
+            </small>
+          </div>
         </div>
-      </div>
-    </a>
-  </article>
+      </a>
+    </article>
   {% endfor %}
 </section>
 

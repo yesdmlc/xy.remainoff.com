@@ -7,33 +7,39 @@ const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBL
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const getPostsWithSignedImageUrls = require('../../scripts/fetchPosts'); // adjust path if needed
+
+/*
+pagination:
+  data: supabasePosts
+  size: 1
+  alias: post
+  addAllPagesToCollections: true
+  key: "{{ post.slug }}"
+*/
+
 module.exports = async function () {
-  const { data: posts, error } = await supabase
-    .from('posts')
-    .select('*, date')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('❌ Supabase posts fetch error:', error);
-    return [];
-  }
-
+  const posts = await getPostsWithSignedImageUrls();
   const cleanPosts = [];
   const expiresIn = 60 * 60 * 24; // 24 hours
 
+  const seen = new Set();
+
   for (const post of posts) {
     if (post.access_level !== 'public') continue;
+    if (!post.slug || seen.has(post.slug)) continue;
+    seen.add(post.slug);
 
-    // Get image_url for this post
+    // Get signed image URL
     let signedUrl = null;
     if (post.image_url) {
-      const { data: signed, error: signError } = await supabase.storage
+      const { data: signed } = await supabase.storage
         .from('media')
         .createSignedUrl(post.image_url, expiresIn);
       signedUrl = signed?.signedUrl || null;
     }
 
-    // Ensure date is a JS Date object for Nunjucks compatibility
+    // Normalize date
     let date = post.date;
     if (date && typeof date === 'string' && date.length === 10) {
       date = new Date(date + 'T00:00:00Z');
@@ -48,6 +54,14 @@ module.exports = async function () {
     });
   }
 
-  console.log("✅ Final posts with signed URLs:", cleanPosts.map(p => p.slug));
+  console.log("✅ Final deduplicated posts:", cleanPosts.map(p => p.slug));
+
+  const slugCounts = {};
+  cleanPosts.forEach(post => {
+    if (!post.slug) return;
+    slugCounts[post.slug] = (slugCounts[post.slug] || 0) + 1;
+  });
+  console.log("🔍 Slug counts:", slugCounts);
+
   return cleanPosts;
 };

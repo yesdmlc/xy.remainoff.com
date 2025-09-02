@@ -14,6 +14,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("optimizedImage", imageShortcode);
   eleventyConfig.addPassthroughCopy("src/assets");
 
+
   eleventyConfig.addCollection("posts", collection => {
     // Include nested posts and multiple template types
     return collection.getFilteredByGlob("src/posts/**/*.{md,njk,html}");
@@ -66,16 +67,47 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("merge", (arr1, arr2) => {
+    return [...(Array.isArray(arr1) ? arr1 : []), ...(Array.isArray(arr2) ? arr2 : [])];
+  });
+
+  eleventyConfig.addFilter("sortByDate", (arr) => {
+    return arr.slice().sort((a, b) => {
+      const aDate = new Date(a.data?.date || a.date);
+      const bDate = new Date(b.data?.date || b.date);
+      return bDate - aDate;
+    });
+  });
+
+  // ✅ Register custom filter
+  eleventyConfig.addFilter("filterPublicMarkdownPosts", function (posts) {
+    return posts.filter(post =>
+      post.data &&
+      post.data.access_level === "public" &&
+      typeof post.data.slug === "string" &&
+      post.data.slug.length > 0 &&
+      typeof post.data.image === "string" &&
+      post.data.image.length > 0
+    );
+  });
+
+  eleventyConfig.on('beforeBuild', ({ templateMap }) => {
+    if (templateMap) {
+      const inputs = templateMap.getInputPaths();
+      const duplicates = inputs.filter((item, index) => inputs.indexOf(item) !== index);
+      console.log("🔍 All input templates:", inputs);
+      if (duplicates.length) {
+        console.warn("⚠️ Duplicate input paths detected:", duplicates);
+      }
+    }
+  });
+
   return {
     dir: {
       input: "src",
       includes: "_includes",
-      layouts: "_includes/layouts",
-      output: "_site"
+      data: "_data",
     },
-    templateFormats: ["njk", "md", "html"],
-    data: {
-      env: process.env
-    }
-  }
+    templateFormats: ["njk", "11ty.js"],
+  };
 };

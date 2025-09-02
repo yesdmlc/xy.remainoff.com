@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+
+  <script type="module"
+    integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w=="
+    src="/.11ty/reload-client.js"></script>
+
+</head>
+
+<body class="site-body">
+  <nav class="floating-nav">
+    <div class="brand">XY</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      ☰
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="/collections">Collections</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/login/">Login</a></li>
+    </ul>
+  </nav>
+
+  <header></header>
+
+  <main class="site-main">
+    <div class="container">
+      
+<h1>This is a test</h1>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/posts">Posts</a>
+      <a href="/collections">Collections</a>
+      <a href="/about">About</a>
+      <a href="https://instagram.com/mc88xx" target="_blank">Instagram</a>
+    </nav>
+
+    <div class="footer-meta">
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without
+        permission.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="/assets/auth.js" defer></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  });
+</script>
+
+
+</body>
+
+</html>

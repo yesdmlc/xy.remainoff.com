@@ -1,10 +1,13 @@
 ---
-layout: base.njk
+layout: layouts/base.njk
 title: Home
 ---
 
 <header class="hero">
-  <img src="{{ homeData.heroImageUrl }}" class="hero-image supabase-image" alt="I am lying shirtless on a bed, gazing upward" />
+  <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/open/xy-home-cover.jpg"
+     class="hero-image"
+     alt="I am lying shirtless on a bed, gazing upward"
+     loading="eager" />
   <div class="overlay">
     <h1 class="hero-title">Collected Without Commentary.</h1>
     <p class="hero-subtitle">Quiet Stills From a Place That Remains Off. Unposed. Undisturbed.</p>
@@ -13,7 +16,9 @@ title: Home
 
 <main>
   <section class="home-collections">
-    <h2>Latest Collections</h2>
+    <h2>Private Records</h2>
+    <p class="home-section-subtext">A sequence of stills, kept for no one in particular.</p>
+    <div class="collection-wrapper"></div>
     <ul class="collection-list">
       {% for c in signedPhotoCollections %}
       <li class="collection-item">
@@ -29,6 +34,7 @@ title: Home
       </li>
       {% endfor %}
     </ul>
+    </div>
   </section>
 
   {% set publicPosts = supabasePosts
@@ -37,22 +43,24 @@ title: Home
   | selectattr("image_url", "contains", "/object/sign/") %}
 
 
-  <section class="home-latest-post">
-    <h2>Latest Posts</h2>
+<section class="home-latest-post">
+  <h2>Unposted Thoughts</h2>
+  <p class="home-section-subtext">Thoughts that didn’t ask to be heard. Quiet reflections from elsewhere.</p>
 
-    <p>Loaded {{ publicSupabasePosts | length }} posts</p>
-
-    <div class="post-grid">
-      {% for post in publicSupabasePosts %}
-      <article class="post-entry">
+  <div class="latest-post-grid">
+    {% for post in publicSupabasePosts %}
+      <a href="/posts/{{ post.slug }}" class="latest-post-entry">
         <img src="{{ post.signed_cover_image_url }}" alt="{{ post.title }}" class="post-thumb" loading="lazy">
         <p>{{ post.title }}</p>
-      </article>
-      {% endfor %}
-    </div>
+      </a>
+    {% endfor %}
+  </div>
 
-    <p><a href="/posts">View all posts →</a></p>
-  </section>
+  <p class="view-all-posts">
+    <a href="/posts">View all posts →</a>
+  </p>
+</section>
+
 </main>
 
 <script>

@@ -1,0 +1,16 @@
+---
+pagination:
+  data: supabasePosts
+  size: 1
+  alias: post
+  key: "{{ post.slug }}"
+permalink: "/posts/{{ post.slug }}/"
+layout: post.njk
+---
+
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+  <img src="{{ post.signed_cover_image_url }}" alt="{{ post.alt or post.title }}">
+  {{ post.content | safe }}
+{% endblock %}

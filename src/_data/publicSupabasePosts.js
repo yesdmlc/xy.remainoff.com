@@ -15,7 +15,8 @@ module.exports = async function (data) {
     caption: p.data.caption,
     date: p.data.date,
     url: p.url,
-    content: p.templateContent
+    content: p.templateContent,
+    cover_image_path: p.data.cover_image_path || null // 👈 used for dynamic hydration
   }));
 
   // Combine both sources

@@ -1,83 +1,15 @@
-{% extends "layouts/base.njk" %}
+<article class="post-entry">
+  <h1>{{ title }}</h1>
 
-{% block content %}
-<main class="post-content">
-  <article class="post single-post">
-    {% set isGated = post.access_level and post.access_level != 'public' %}
+  {% if cover_image %}
+    <img src="{{ cover_image }}" alt="{{ title }}" class="post-cover" loading="lazy">
+  {% endif %}
 
-    {% if isGated and (not user or user.access_level != post.access_level) %}
-      {% if post.signed_cover_image_url %}
-        <div class="blurred-post">
-          {% set altText = post.alt or post.title %}
-          <img src="{{ post.signed_cover_image_url }}" alt="{{ altText }}" class="post-thumb" />
-          <div class="overlay">
-            <span class="access-label">{{ post.access_level | capitalize }} Only</span>
-            <a href="/login/" class="access-button">Log In to View</a>
-          </div>
-        </div>
-      {% endif %}
+  <p class="post-meta">
+    {{ date | readableDate }} · {{ access_level | capitalize }}
+  </p>
 
-      <header class="post-header">
-        <h1>{{ post.title }}</h1>
-        <time class="post-date">{{ post.date | date("yyyy-MM-dd") }}</time>
-      </header>
-
-    {% else %}
-      {% if post.signed_cover_image_url %}
-        <div class="post-image-scroll">
-          {% set altText = post.alt or post.title %}
-          <img src="{{ post.signed_cover_image_url }}" alt="{{ altText }}" class="scroll-image" loading="lazy" />
-        </div>
-      {% endif %}
-
-      <header class="post-header">
-        <h1>{{ post.title }}</h1>
-        <time class="post-date">{{ post.date | date("yyyy-MM-dd") }}</time>
-      </header>
-
-      <div class="post-content">
-        {{ post.content | safe }}
-      </div>
-    {% endif %}
-  </article>
-
-  {# Previous/Next navigation #}
-  {% set previousPost = collections.posts | getPreviousCollectionItem(page) %}
-  {% set nextPost = collections.posts | getNextCollectionItem(page) %}
-
-  {% set prevImgSrc = previousPost.data.signed_cover_image_url %}
-  {% set nextImgSrc = nextPost.data.signed_cover_image_url %}
-
-  {% set isGatedPrev = previousPost and previousPost.data.access_level and previousPost.data.access_level != 'public' %}
-  {% set isGatedNext = nextPost and nextPost.data.access_level and nextPost.data.access_level != 'public' %}
-
-  <nav class="post-nav">
-    {% if previousPost %}
-      <a href="{{ previousPost.url }}" class="nav-card prev">
-        {% if prevImgSrc %}
-          {% set altText = previousPost.data.alt or previousPost.data.title %}
-          <div class="nav-thumb{% if isGatedPrev %} blurred{% endif %}">
-            {% set imageOptions = { src: prevImgSrc, alt: altText } %}
-            {% optimizedImage imageOptions %}
-          </div>
-        {% endif %}
-        <span class="nav-label">← Previous</span>
-        <span class="nav-title">{{ previousPost.data.title }}</span>
-      </a>
-    {% endif %}
-    {% if nextPost %}
-      <a href="{{ nextPost.url }}" class="nav-card next">
-        {% if nextImgSrc %}
-          {% set altText = nextPost.data.alt or nextPost.data.title %}
-          <div class="nav-thumb{% if isGatedNext %} blurred{% endif %}">
-            {% set imageOptions = { src: nextImgSrc, alt: altText } %}
-            {% optimizedImage imageOptions %}
-          </div>
-        {% endif %}
-        <span class="nav-label">Next →</span>
-        <span class="nav-title">{{ nextPost.data.title }}</span>
-      </a>
-    {% endif %}
-  </nav>
-</main>
-{% endblock %}
+  <div class="post-content">
+    {{ content | safe }}
+  </div>
+</article>

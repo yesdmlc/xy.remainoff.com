@@ -4,68 +4,96 @@ title: Home
 ---
 
 <header class="hero">
-  <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/open/xy-home-cover.jpg"
-     class="hero-image"
-     alt="I am lying shirtless on a bed, gazing upward"
-     loading="eager" />
+  <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/open/xy-home-cover.jpg" class="hero-image"
+    alt="I am lying shirtless on a bed, gazing upward" loading="eager" />
   <div class="overlay">
     <h1 class="hero-title">Collected Without Commentary.</h1>
     <p class="hero-subtitle">Quiet Stills From a Place That Remains Off. Unposed. Undisturbed.</p>
   </div>
 </header>
 
-<main>
-  <section class="home-collections">
-    <h2>Private Records</h2>
-    <p class="home-section-subtext">A sequence of stills, kept for no one in particular.</p>
-    <div class="collection-wrapper"></div>
-    <ul class="collection-list">
-      {% for c in signedPhotoCollections %}
-      <li class="collection-item">
-        <a href="/collections/{{ c.slug }}/" class="collection-link">
-          <div class="thumbnail-wrapper">
-            <div class="image-skeleton"></div>
-            <img data-path="{{ c.cover_image_path }}" src="{{ c.signed_cover_image_url }}"
-              class="collection-thumb supabase-image" alt="{{ c.title }}" {% if loop.index0 < 3 %}loading="eager" {%
-              else %}loading="lazy" {% endif %} />
-          </div>
-          <span>{{ c.title }}</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
+<main class="site-main">
+    <div class="container">
+
+      <section class="home-collections">
+        <h2>Private Records</h2>
+        <p class="home-section-subtext">A sequence of stills, kept for no one in particular.</p>
+
+        <ul class="collection-list">
+          {% set latestCollections = signedPhotoCollections %}
+          {% for i in range(0, 4) %}
+            {% set c = latestCollections[i] %}
+            {% if c %}
+              <li class="collection-item">
+                <a href="/collections/{{ c.slug }}/" class="collection-link">
+                  <div class="thumbnail-wrapper">
+                    <div class="image-skeleton"></div>
+                    <img data-photo="{{ c.cover_image_path }}" src="" class="collection-thumb supabase-image" alt="{{ c.title }}" loading="lazy">
+                  </div>
+                  <span>{{ c.title }}</span>
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="home-latest-post">
+        <h2>Unposted Thoughts</h2>
+        <p class="home-section-subtext">Thoughts that didn’t ask to be heard. Quiet reflections from elsewhere.</p>
+
+        {% set latestPosts = collections.posts | reverse %}
+        <div class="latest-post-grid">
+          {% for i in range(0, 6) %}
+            {% set post = latestPosts[i] %}
+            {% if post %}
+              <a href="{{ post.url }}" class="latest-post-entry">
+                {% if post.data.cover_image %}
+                  <img src="{{ post.data.cover_image }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy">
+                {% endif %}
+                <p>{{ post.data.title }}</p>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <p class="view-all-posts">
+          <a href="/posts">View all posts →</a>
+        </p>
+      </section>
+
     </div>
-  </section>
+  </main>
 
-  {% set publicPosts = supabasePosts
-  | selectattr("access_level", "equalto", "public")
-  | selectattr("image_url")
-  | selectattr("image_url", "contains", "/object/sign/") %}
-
-
-<section class="home-latest-post">
-  <h2>Unposted Thoughts</h2>
-  <p class="home-section-subtext">Thoughts that didn’t ask to be heard. Quiet reflections from elsewhere.</p>
-
-  <div class="latest-post-grid">
-    {% for post in publicSupabasePosts %}
-      <a href="/posts/{{ post.slug }}" class="latest-post-entry">
-        <img src="{{ post.signed_cover_image_url }}" alt="{{ post.title }}" class="post-thumb" loading="lazy">
-        <p>{{ post.title }}</p>
-      </a>
-    {% endfor %}
-  </div>
-
-  <p class="view-all-posts">
-    <a href="/posts">View all posts →</a>
-  </p>
-</section>
-
-</main>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-  window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
+  document.addEventListener("DOMContentLoaded", async () => {
+    const supabase = window.supabaseClient || window.Supabase.createClient(
+      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
+      "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+    );
+
+    const images = document.querySelectorAll('.supabase-image[data-photo]');
+    for (const img of images) {
+      const path = img.dataset.photo;
+      if (!path) continue;
+      const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+      if (data && data.signedUrl) {
+        img.src = data.signedUrl;
+        img.classList.add('loaded');
+      } else {
+        img.alt = 'Image unavailable';
+      }
+    }
+
+    // Ensure hero image animates when loaded
+    const heroImg = document.querySelector('.hero-image');
+    if (heroImg && heroImg.complete && heroImg.naturalWidth !== 0) {
+      heroImg.classList.add('loaded');
+    } else if (heroImg) {
+      heroImg.addEventListener('load', () => {
+        heroImg.classList.add('loaded');
+      });
+    }
+  });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script src="/assets/auth.js" defer></script>
-<script src="/assets/home.js" defer></script>

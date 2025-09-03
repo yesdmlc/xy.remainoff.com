@@ -22,13 +22,16 @@ module.exports = async function () {
     if (!slug || seenSlugs.has(slug)) continue;
 
     let imagePath = null;
+    let signedCoverImageUrl = null;
     if (c.cover_image_url) {
       try {
         const url = new URL(c.cover_image_url);
         imagePath = url.pathname.replace(/^\/storage\/v1\/object\/public\/photos\//, '');
+        signedCoverImageUrl = c.signed_cover_image_url || c.cover_image_url;
       } catch (e) {
         console.error(`❌ Failed to extract image path for slug "${slug}":`, e);
         imagePath = null;
+        signedCoverImageUrl = null;
       }
     }
 
@@ -37,10 +40,19 @@ module.exports = async function () {
       cleanCollections.push({
         ...c,
         cover_image_path: imagePath, // only the storage key, e.g. 'photos/public/image.jpg'
+        signed_cover_image_url: signedCoverImageUrl
       });
     }
   }
 
   console.log("✅ Final deduplicated slugs with storage keys:", cleanCollections.map(c => c.slug));
+
+  const slugCounts = {};
+  cleanCollections.forEach(post => {
+    if (!post.slug) return;
+    slugCounts[post.slug] = (slugCounts[post.slug] || 0) + 1;
+  });
+  console.log("🔍 Slug counts:", slugCounts);
+
   return cleanCollections;
 };

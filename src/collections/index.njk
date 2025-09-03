@@ -60,23 +60,35 @@ pagination:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll(".supabase-image");
-
+  document.addEventListener("DOMContentLoaded", async () => {
+    const supabase = window.supabaseClient || window.Supabase.createClient(
+      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
+      "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+    );
+    const images = document.querySelectorAll('.supabase-image[data-photo]');
+    for (const img of images) {
+      const path = img.dataset.photo;
+      if (!path) continue;
+      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
+      if (data && data.signedUrl) {
+        img.src = data.signedUrl;
+        img.classList.add('loaded');
+      } else {
+        img.alt = 'Image unavailable';
+      }
+    }
+    // Fade-in logic
     images.forEach(img => {
       const skeleton = img.previousElementSibling;
-
       const applyFadeIn = () => {
         img.classList.add("loaded");
         if (skeleton) skeleton.style.display = "none";
       };
-
       if (img.complete && img.naturalWidth !== 0) {
         applyFadeIn();
       } else {
         img.addEventListener("load", applyFadeIn);
       }
-
       img.addEventListener("error", () => {
         console.warn("🚫 Image failed to load:", img.src);
       });

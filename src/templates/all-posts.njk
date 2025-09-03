@@ -6,6 +6,7 @@ eleventyExcludeFromCollections: false
 
 {% block content %}
 <h1>All Posts</h1>
+
 <div class="view-toggle">
   <button id="toggleView" class="toggle-button">
     <span class="toggle-icon">🔲</span>
@@ -14,27 +15,39 @@ eleventyExcludeFromCollections: false
 </div>
 
 <section class="post-feed">
-  {% for post in collections.posts | reverse %}
-    {% set supa = supabasePosts | selectattr("slug", "equalto", post.data.slug) | first %}
-    {% set imagePath = supa.cover_image_path if supa and supa.cover_image_path else null %}
+  {% set markdownPosts = collections.posts | filterPublicMarkdownPosts %}
+  {% set allPosts = (supabasePosts | merge(markdownPosts)) | sortByDate %}
+
+  {% for post in allPosts %}
+    {% set postData = post.data or post %}
+    {% set imagePath = postData.cover_image_path or postData.cover_image or postData.image %}
+
     <article class="post-entry">
-      <a href="{{ post.url }}" class="post-link">
+      <a href="{{ post.url or '/posts/' + postData.slug + '/' }}" class="post-link">
         <div class="post-card">
           <div class="post-thumb-wrapper">
             {% if imagePath %}
               <img
-                data-path="{{ imagePath }}"
-                alt="{{ post.data.alt or post.data.title or post.fileSlug }}"
+                data-base="{{ imagePath }}"
+                alt="{{ postData.alt or postData.title or post.fileSlug }}"
                 class="post-thumb supabase-image"
                 loading="lazy"
-              >
+              />
             {% endif %}
           </div>
           <div class="post-caption">
-            {% if post.data.caption %}
-              <p>{{ post.data.caption }}</p>
+            {% if postData.caption %}
+              <p>{{ postData.caption }}</p>
+            {% else %}
+              <p>{{ postData.content | striptags | truncate(120, true, '...') }}</p>
             {% endif %}
-            <small>{{ post.date | date("%Y-%m-%d") }}</small>
+            <small>
+              {% if postData.date %}
+                {{ postData.date | date("yyyy-MM-dd") }}
+              {% else %}
+                No date
+              {% endif %}
+            </small>
           </div>
         </div>
       </a>
@@ -45,12 +58,11 @@ eleventyExcludeFromCollections: false
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.getElementById('toggleView');
-    if (!toggleBtn) return;
-    const icon = toggleBtn.querySelector('.toggle-icon');
-    const label = toggleBtn.querySelector('.toggle-label');
+    const icon = toggleBtn?.querySelector('.toggle-icon');
+    const label = toggleBtn?.querySelector('.toggle-label');
     const feed = document.querySelector('.post-feed');
 
-    if (!feed) return;
+    if (!toggleBtn || !feed || !icon || !label) return;
 
     toggleBtn.style.opacity = 0;
     toggleBtn.style.transition = 'opacity 0.8s ease';
@@ -68,22 +80,31 @@ eleventyExcludeFromCollections: false
       label.textContent = isGrid ? 'View as Grid' : 'View as Feed';
     });
 
-    // Supabase image loader
-    // Use global supabaseClient if available
     const supabase = window.supabaseClient || window.Supabase.createClient(
       window.SUPABASE_URL || '',
       window.SUPABASE_ANON_KEY || ''
     );
 
+    const tryExtensions = async (basePath, extensions = ['.jpg', '.jpeg']) => {
+      for (const ext of extensions) {
+        const fullPath = `${basePath}${ext}`;
+        const { data } = await supabase.storage.from('media').createSignedUrl(fullPath, 3600);
+        if (data?.signedUrl) return data.signedUrl;
+      }
+      return null;
+    };
+
     document.querySelectorAll('.supabase-image').forEach(async (img) => {
-      const path = img.dataset.path;
-      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
-      if (data?.signedUrl) {
-        img.src = data.signedUrl;
+      const basePath = img.dataset.base;
+      if (!basePath) return;
+      const signedUrl = await tryExtensions(basePath);
+      if (signedUrl) {
+        img.src = signedUrl;
       }
     });
   });
 </script>
+
 <script>
   window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
 </script>

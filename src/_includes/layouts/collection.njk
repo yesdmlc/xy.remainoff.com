@@ -15,7 +15,11 @@ user:
 </section>
 
 <!-- Public Gallery -->
-<div id="public-gallery" class="collection-gallery"></div>
+<div id="public-gallery" class="collection-gallery">
+  {% for image in collection.images %}
+    <img data-photo="{{ image.path }}" class="collection-photo supabase-image" alt="{{ image.alt or collection.title }}" loading="lazy" />
+  {% endfor %}
+</div>
 <div id="public-gallery-empty" style="display: none;">No public images available.</div>
 
 <!-- Gated Gallery Reveal Button -->
@@ -47,6 +51,24 @@ user:
 <script>
   window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-  // Your full gallery script goes here — no changes needed
+  document.addEventListener("DOMContentLoaded", async () => {
+    const supabase = window.supabaseClient || window.Supabase.createClient(
+      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
+      "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+    );
+    const images = document.querySelectorAll('.supabase-image[data-photo]');
+    for (const img of images) {
+      const path = img.dataset.photo;
+      if (!path) continue;
+      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
+      if (data && data.signedUrl) {
+        img.src = data.signedUrl;
+        img.classList.add('loaded');
+      } else {
+        img.alt = 'Image unavailable';
+      }
+    }
+  });
 </script>

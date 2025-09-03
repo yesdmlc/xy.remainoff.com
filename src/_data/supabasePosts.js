@@ -19,49 +19,5 @@ pagination:
 */
 
 module.exports = async function () {
-  const posts = await getPostsWithSignedImageUrls();
-  const cleanPosts = [];
-  const expiresIn = 60 * 60 * 24; // 24 hours
-
-  const seen = new Set();
-
-  for (const post of posts) {
-    if (post.access_level !== 'public') continue;
-    if (!post.slug || seen.has(post.slug)) continue;
-    seen.add(post.slug);
-
-    // Get signed image URL
-    let signedUrl = null;
-    if (post.image_url) {
-      const { data: signed } = await supabase.storage
-        .from('media')
-        .createSignedUrl(post.image_url, expiresIn);
-      signedUrl = signed?.signedUrl || null;
-    }
-
-    // Normalize date
-    let date = post.date;
-    if (date && typeof date === 'string' && date.length === 10) {
-      date = new Date(date + 'T00:00:00Z');
-    } else if (date && typeof date === 'string') {
-      date = new Date(date);
-    }
-
-    cleanPosts.push({
-      ...post,
-      date,
-      signed_cover_image_url: signedUrl
-    });
-  }
-
-  console.log("✅ Final deduplicated posts:", cleanPosts.map(p => p.slug));
-
-  const slugCounts = {};
-  cleanPosts.forEach(post => {
-    if (!post.slug) return;
-    slugCounts[post.slug] = (slugCounts[post.slug] || 0) + 1;
-  });
-  console.log("🔍 Slug counts:", slugCounts);
-
-  return cleanPosts;
-};
+  return []; // Supabase temporarily disabled
+}

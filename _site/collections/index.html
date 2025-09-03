@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Collections</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
   <link rel="stylesheet" href="/assets/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
 
@@ -16,18 +19,16 @@
     window.PhotoSwipeLightbox = PhotoSwipeLightbox;
   </script>
 
+  <!-- Eleventy Live Reload -->
   <script type="module"
     integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w=="
     src="/.11ty/reload-client.js"></script>
-
 </head>
 
 <body class="site-body">
   <nav class="floating-nav">
     <div class="brand">XY</div>
-    <button class="nav-toggle" aria-label="Toggle navigation">
-      ☰
-    </button>
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/posts">Posts</a></li>
@@ -129,23 +130,35 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll(".supabase-image");
-
+  document.addEventListener("DOMContentLoaded", async () => {
+    const supabase = window.supabaseClient || window.Supabase.createClient(
+      "",
+      ""
+    );
+    const images = document.querySelectorAll('.supabase-image[data-photo]');
+    for (const img of images) {
+      const path = img.dataset.photo;
+      if (!path) continue;
+      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
+      if (data && data.signedUrl) {
+        img.src = data.signedUrl;
+        img.classList.add('loaded');
+      } else {
+        img.alt = 'Image unavailable';
+      }
+    }
+    // Fade-in logic
     images.forEach(img => {
       const skeleton = img.previousElementSibling;
-
       const applyFadeIn = () => {
         img.classList.add("loaded");
         if (skeleton) skeleton.style.display = "none";
       };
-
       if (img.complete && img.naturalWidth !== 0) {
         applyFadeIn();
       } else {
         img.addEventListener("load", applyFadeIn);
       }
-
       img.addEventListener("error", () => {
         console.warn("🚫 Image failed to load:", img.src);
       });
@@ -165,8 +178,7 @@
     </nav>
 
     <div class="footer-meta">
-      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without
-        permission.</p>
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without permission.</p>
     </div>
   </footer>
 
@@ -178,17 +190,18 @@
   <script src="/assets/auth.js" defer></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const toggle = document.querySelector(".nav-toggle");
-    const navLinks = document.querySelector(".nav-links");
-
-    toggle.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelector(".nav-links");
+      toggle?.addEventListener("click", () => {
+        navLinks?.classList.toggle("active");
+      });
     });
-  });
-</script>
+  </script>
 
-
+  <script>
+    window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
+  </script>
 </body>
 
 </html>

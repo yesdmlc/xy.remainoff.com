@@ -4,7 +4,9 @@ body, html {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
+
 
 * {
   margin: 0;
@@ -613,6 +615,78 @@ img.supabase-image {
   text-align: center;
   font-style: italic;
 }
+
+
+
+.collection-hero-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(to bottom, #111, #222);
+  color: #eee;
+  padding: 2rem;
+}
+
+.collection-hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.collection-hero-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.scroll-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #444;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.scroll-button:hover {
+  background: #666;
+}
+
+/* Optional: smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Collections page header */
+.collections-page .page-header {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+  color: #ccc;
+}
+
+.collections-page .page-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.collections-page .page-header .intro-text {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+
+
+
+
+
 
 /* Collection Page Image Skeleton Element */
 

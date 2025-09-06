@@ -54,10 +54,8 @@ user:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
-    const supabase = window.supabaseClient || window.Supabase.createClient(
-      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
-      "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
-    );
+    const { url, anonKey } = window.SUPABASE_CONFIG;
+    const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
     const images = document.querySelectorAll('.supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;

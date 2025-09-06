@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Collections</title>
+  <title>{{ galleryEntry.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
 
@@ -42,107 +42,54 @@
 
   <main class="site-main">
     <div class="container">
-      
-<section class="collection-hero-section">
-  <div class="collection-hero-content">
-    <h1>Curated Visual Stories</h1>
-    <p>Each collection captures a moment, a mood, or a memory. Scroll down to explore the full visual archive.</p>
-    <a href="#collections" class="scroll-button">View Collections ↓</a>
-  </div>
+      <section class="collection-detail page-offset">
+  <h1></h1>
+  
+  <p class="photo-count" id="photo-count">
+    0 photos
+  </p>
 </section>
 
-<section id="collections" class="collections-page">
-  <header class="page-header">
-    <h1>Photo Collections</h1>
-    <p class="intro-text">Moments grouped by mood, session, or silence. Some are open. Some are waiting for you.</p>
-  </header>
+<!-- Public Gallery -->
+<div id="public-gallery" class="collection-gallery">
+  
+</div>
+<div id="public-gallery-empty" style="display: none;">No public images available.</div>
 
-  <div class="collections-grid">
-    
-    <section class="collection-thumbnail" data-slug="2025-06-burnaby">
-      <a href="/collections/2025-06-burnaby/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/2025-06-burnaby-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="2025 06 Burnaby"
-            loading="lazy"
-          />
-        </div>
-        <div class="thumbnail-info">
-          <h2>2025 06 Burnaby</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
-    
-    <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
-      <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/2025-07-darkness-in-shower-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="2025 07 Darkness In Shower"
-            loading="lazy"
-          />
-        </div>
-        <div class="thumbnail-info">
-          <h2>2025 07 Darkness In Shower</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
-    
-    <section class="collection-thumbnail" data-slug="soft-against-the-window">
-      <a href="/collections/soft-against-the-window/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/soft-against-the-window-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="Soft Against The Window"
-            loading="lazy"
-          />
-        </div>
-        <div class="thumbnail-info">
-          <h2>Soft Against The Window</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
-    
+<!-- Gated Gallery Reveal Button -->
+<button id="load-gated-gallery" style="display: none;"></button>
+<div id="gallery-loader" style="display: none;">Loading...</div>
+
+<!-- Gated Gallery Container -->
+<div id="gated-gallery-container" style="display: none;">
+  <h3>Member Gallery</h3>
+  <div id="member-gallery" class="collection-gallery"></div>
+
+  <h3>Premium Gallery</h3>
+  <div id="premium-gallery" class="collection-gallery"></div>
+</div>
+
+<!-- PhotoSwipe Lightbox root markup -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    <div class="pswp__ui pswp__ui--hidden"></div>
   </div>
-
-  <nav class="pagination">
-    
-    
-    <a href="/collections/" class="page-link active">
-      1
-    </a>
-    
-    
-  </nav>
-</section>
+</div>
 
 <script>
   window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
-<script src="/assets/auth.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
-    const supabase = window.supabaseClient || window.Supabase.createClient(
-      "",
-      ""
-    );
+    const { url, anonKey } = window.SUPABASE_CONFIG;
+    const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
     const images = document.querySelectorAll('.supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;
@@ -155,23 +102,6 @@
         img.alt = 'Image unavailable';
       }
     }
-
-    // Fade-in logic
-    images.forEach(img => {
-      const skeleton = img.previousElementSibling;
-      const applyFadeIn = () => {
-        img.classList.add("loaded");
-        if (skeleton) skeleton.style.display = "none";
-      };
-      if (img.complete && img.naturalWidth !== 0) {
-        applyFadeIn();
-      } else {
-        img.addEventListener("load", applyFadeIn);
-      }
-      img.addEventListener("error", () => {
-        console.warn("🚫 Image failed to load:", img.src);
-      });
-    });
   });
 </script>
 

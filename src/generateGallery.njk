@@ -1,11 +1,13 @@
 ---
 pagination:
-  data: photoCollections
+  data: signedPhotoCollections
   size: 1
   alias: galleryEntry
 eleventyExcludeFromCollections: true
-layout: collection.njk
+layout: layouts/collection.njk
 title: "{{ galleryEntry.title }}"
 user:
   access_level: public
+collection: "{{ galleryEntry }}"
+permalink: "/collections/{{ galleryEntry.slug }}/"
 ---

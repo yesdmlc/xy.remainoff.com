@@ -35,14 +35,23 @@ module.exports = async function () {
       }
     }
 
-    if (imagePath) {
-      seenSlugs.add(slug);
-      cleanCollections.push({
-        ...c,
-        cover_image_path: imagePath, // only the storage key, e.g. 'photos/public/image.jpg'
-        signed_cover_image_url: signedCoverImageUrl
-      });
-    }
+    // Normalize image array
+    let images = Array.isArray(c.images) ? c.images : [];
+    images = images.map(img => {
+      const path = img.path || img.url || '';
+      const alt = img.alt || img.caption || c.title || 'Untitled';
+      return path ? { path, alt } : null;
+    }).filter(Boolean);
+
+    seenSlugs.add(slug);
+    cleanCollections.push({
+      ...c,
+      slug,
+      cover_image_path: imagePath,
+      signed_cover_image_url: signedCoverImageUrl,
+      images,
+      photo_count: images.length
+    });
   }
 
   console.log("✅ Final deduplicated slugs with storage keys:", cleanCollections.map(c => c.slug));

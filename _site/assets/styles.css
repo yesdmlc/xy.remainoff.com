@@ -253,6 +253,14 @@ footer {
   opacity: 0.5;
 }
 
+.user-status {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+
 /* ------------------------------------
               HOMEPAGE LAYOUT
 ------------------------------------ */

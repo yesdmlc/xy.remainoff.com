@@ -327,4 +327,33 @@
       }
     });
   });
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loginLink = document.querySelector('.nav-links a[href="/login/"]');
+
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+    if (session) {
+      // User is logged in — change link to "Logout"
+      loginLink.textContent = "Logout";
+      loginLink.href = "#";
+      loginLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        await window.supabaseClient.auth.signOut();
+        window.location.reload(); // or redirect to homepage
+      });
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+    if (session) {
+      const username = session.user.user_metadata?.username || session.user.email;
+      const userStatus = document.getElementById("userStatus");
+      if (userStatus) {
+        userStatus.innerHTML = `<p>Signed in as ${username} · remainoff.com</p>`;
+      }
+    }
+  });
 })();

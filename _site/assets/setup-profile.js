@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const last_name = form.last_name.value.trim();
     const username = form.username.value.trim();
 
-    const MEMBER_PLAN_ID = "your-member-plan-uuid"; // Replace with actual UUID
+    const MEMBER_PLAN_ID = "14144b1c-4fec-4db1-8e62-8c71fbb76689";
 
     const { error } = await window.supabaseClient.from("profiles").insert({
       id: user.id,

@@ -5,19 +5,26 @@ user:
   access_level: public
 ---
 <section class="collection-detail page-offset">
-  <h1>{{ collection.title }}</h1>
-  {% if collection.subtitle %}
-    <p class="subtitle">{{ collection.subtitle }}</p>
+  <h1>{{ galleryEntry.title }}</h1>
+  {% if galleryEntry.subtitle %}
+    <p class="subtitle">{{ galleryEntry.subtitle }}</p>
   {% endif %}
   <p class="photo-count" id="photo-count">
-    {{ collection.photo_count or 0 }} photo{% if (collection.photo_count or 0) != 1 %}s{% endif %}
+    {{ galleryEntry.photo_count or 0 }} photo{% if (galleryEntry.photo_count or 0) != 1 %}s{% endif %}
   </p>
 </section>
 
+<pre>{{ galleryEntry | dump }}</pre> <!-- Debug output updated -->
+
 <!-- Public Gallery -->
 <div id="public-gallery" class="collection-gallery">
-  {% for image in collection.images %}
-    <img data-photo="{{ image.path }}" class="collection-photo supabase-image" alt="{{ image.alt or collection.title }}" loading="lazy" />
+  {% for image in galleryEntry.images %}
+    <img
+      data-photo="{{ image.path }}"
+      class="collection-photo supabase-image"
+      alt="{{ image.alt or galleryEntry.title }}"
+      loading="lazy"
+    />
   {% endfor %}
 </div>
 <div id="public-gallery-empty" style="display: none;">No public images available.</div>
@@ -60,7 +67,7 @@ user:
     for (const img of images) {
       const path = img.dataset.photo;
       if (!path) continue;
-      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
+      const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
       if (data && data.signedUrl) {
         img.src = data.signedUrl;
         img.classList.add('loaded');

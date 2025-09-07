@@ -43,15 +43,73 @@
   <main class="site-main">
     <div class="container">
       <section class="collection-detail page-offset">
-  <h1></h1>
+  <h1>2025 06 Burnaby</h1>
   
   <p class="photo-count" id="photo-count">
-    0 photos
+    8 photos
   </p>
 </section>
 
+<pre>{&quot;id&quot;:&quot;7e9e9588-2ae7-44e9-88cb-4efbd5ac1df8&quot;,&quot;title&quot;:&quot;2025 06 Burnaby&quot;,&quot;slug&quot;:&quot;2025-06-burnaby&quot;,&quot;folder&quot;:&quot;2025-06-burnaby&quot;,&quot;access_level&quot;:&quot;public&quot;,&quot;description&quot;:&quot;Auto-updated collection for 2025 06 Burnaby&quot;,&quot;created_at&quot;:&quot;2025-08-20T20:12:51.779398+00:00&quot;,&quot;cover_image_url&quot;:&quot;https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/photos/public/2025-06-burnaby-photo-1.jpeg&quot;,&quot;is_featured&quot;:false,&quot;updated_at&quot;:&quot;2025-08-25T16:25:25.921498+00:00&quot;,&quot;tags&quot;:null,&quot;published&quot;:true,&quot;visibility_start&quot;:null,&quot;visibility_end&quot;:null,&quot;photo_count&quot;:8,&quot;member_folder&quot;:&quot;member/2025-06-burnaby&quot;,&quot;premium_folder&quot;:&quot;premium/2025-06-burnaby&quot;,&quot;cover_image_path&quot;:&quot;public/2025-06-burnaby-photo-1.jpeg&quot;,&quot;signed_cover_image_url&quot;:&quot;https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/photos/public/2025-06-burnaby-photo-1.jpeg&quot;,&quot;images&quot;:[{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-1_blur.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-1_blurfull.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-1_thumb.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-1.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-2_blur.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-2_blurfull.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-2_thumb.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;},{&quot;path&quot;:&quot;public/2025-06-burnaby-photo-2.jpeg&quot;,&quot;alt&quot;:&quot;2025 06 Burnaby&quot;}],&quot;member_images&quot;:[],&quot;premium_images&quot;:[]}</pre> <!-- Debug output updated -->
+
 <!-- Public Gallery -->
 <div id="public-gallery" class="collection-gallery">
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-1_blur.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-1_blurfull.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-1_thumb.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-1.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-2_blur.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-2_blurfull.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-2_thumb.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
+  
+    <img
+      data-photo="public/2025-06-burnaby-photo-2.jpeg"
+      class="collection-photo supabase-image"
+      alt="2025 06 Burnaby"
+      loading="lazy"
+    />
   
 </div>
 <div id="public-gallery-empty" style="display: none;">No public images available.</div>
@@ -94,7 +152,7 @@
     for (const img of images) {
       const path = img.dataset.photo;
       if (!path) continue;
-      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
+      const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
       if (data && data.signedUrl) {
         img.src = data.signedUrl;
         img.classList.add('loaded');
@@ -104,7 +162,6 @@
     }
   });
 </script>
-
     </div>
   </main>
 

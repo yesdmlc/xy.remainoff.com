@@ -19,7 +19,10 @@ module.exports = async function () {
 
   for (const c of rawCollections) {
     const slug = c.slug?.trim().toLowerCase();
-    if (!slug || seenSlugs.has(slug)) continue;
+    const folder = c.folder?.trim();
+    const accessLevel = c.access_level?.trim().toLowerCase();
+
+    if (!slug || seenSlugs.has(slug) || !folder || !accessLevel) continue;
 
     let imagePath = null;
     let signedCoverImageUrl = null;
@@ -30,18 +33,53 @@ module.exports = async function () {
         signedCoverImageUrl = c.signed_cover_image_url || c.cover_image_url;
       } catch (e) {
         console.error(`❌ Failed to extract image path for slug "${slug}":`, e);
-        imagePath = null;
-        signedCoverImageUrl = null;
       }
     }
 
-    // Normalize image array
-    let images = Array.isArray(c.images) ? c.images : [];
-    images = images.map(img => {
-      const path = img.path || img.url || '';
-      const alt = img.alt || img.caption || c.title || 'Untitled';
-      return path ? { path, alt } : null;
-    }).filter(Boolean);
+    const slugPrefix = `${slug}-`;
+
+    let publicImages = [];
+    let memberImages = [];
+    let premiumImages = [];
+
+    // Load public images
+    try {
+      const { data: files } = await supabase.storage.from('photos').list('public');
+      publicImages = (files || [])
+        .filter(file => file.name.startsWith(slugPrefix))
+        .map(file => ({
+          path: `public/${file.name}`,
+          alt: c.title || file.name
+        }));
+    } catch (e) {
+      console.warn(`⚠️ Failed to load public images for "${slug}":`, e);
+    }
+
+    // Load member images
+    try {
+      const { data: files } = await supabase.storage.from('photos').list('member');
+      memberImages = (files || [])
+        .filter(file => file.name.startsWith(slugPrefix))
+        .map(file => ({
+          path: `member/${file.name}`,
+          alt: c.title || file.name
+        }));
+    } catch (e) {
+      console.warn(`⚠️ Failed to load member images for "${slug}":`, e);
+    }
+
+    // Load premium images
+    try {
+      const { data: files } = await supabase.storage.from('photos').list('premium');
+      premiumImages = (files || [])
+        .filter(file => file.name.startsWith(slugPrefix))
+        .map(file => ({
+          path: `premium/${file.name}`,
+          alt: c.title || file.name
+        }));
+    } catch (e) {
+      console.warn(`⚠️ Failed to load premium images for "${slug}":`, e);
+    }
 
     seenSlugs.add(slug);
     cleanCollections.push({
@@ -49,19 +87,15 @@ module.exports = async function () {
       slug,
       cover_image_path: imagePath,
       signed_cover_image_url: signedCoverImageUrl,
-      images,
-      photo_count: images.length
+      images: publicImages,
+      photo_count: publicImages.length,
+      member_images: memberImages,
+      premium_images: premiumImages
     });
   }
 
-  console.log("✅ Final deduplicated slugs with storage keys:", cleanCollections.map(c => c.slug));
-
-  const slugCounts = {};
-  cleanCollections.forEach(post => {
-    if (!post.slug) return;
-    slugCounts[post.slug] = (slugCounts[post.slug] || 0) + 1;
-  });
-  console.log("🔍 Slug counts:", slugCounts);
+  console.log("✅ Final deduplicated slugs:", cleanCollections.map(c => c.slug));
+  console.log("📸 Photo counts:", cleanCollections.map(c => `${c.slug}: ${c.photo_count}`));
 
   return cleanCollections;
 };

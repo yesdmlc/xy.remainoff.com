@@ -73,12 +73,14 @@ pagination:
       "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
       "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
     );
+
     const images = document.querySelectorAll('.supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;
       if (!path) continue;
-      const { data, error } = await supabase.storage.from('media').createSignedUrl(path, 3600);
-      if (data && data.signedUrl) {
+
+      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+      if (data?.signedUrl) {
         img.src = data.signedUrl;
         img.classList.add('loaded');
       } else {

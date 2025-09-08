@@ -356,4 +356,15 @@
       }
     }
   });
+
+  // After rendering galleries, hydrate images
+  window.renderAndHydrateGalleries = async function(memberImages, premiumImages) {
+    // Render galleries (assume you have a renderGallery function)
+    await renderGallery(memberImages, 'member-gallery', 'member', 'member-gallery-empty');
+    await renderGallery(premiumImages, 'premium-gallery', 'premium', 'premium-gallery-empty');
+    // Now hydrate images
+    if (window.hydrateSignedImages) {
+      await window.hydrateSignedImages();
+    }
+  };
 })();

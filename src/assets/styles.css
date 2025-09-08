@@ -415,6 +415,7 @@ Latest Collections
   transition: transform 0.3s ease;
 }
 
+
 .collection-link:hover .collection-thumb {
   transform: scale(1.05);
 }
@@ -557,25 +558,26 @@ Latest Posts Grid
 -----------------------------
 */
 
+/* 📸 Supabase Image Styling — Always Visible */
 .supabase-image {
-  width: 100%;
-  height: auto;
   display: block;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
   position: relative;
   z-index: 2;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.supabase-image.loaded {
-  opacity: 1;
+/* 🖱️ Optional Hover Effect */
+.supabase-image:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
 }
 
-img.supabase-image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+
+
 
 .collections-grid {
   display: grid;
@@ -722,33 +724,19 @@ html {
 }
 
 /* Collections index thumbnails: match individual gallery look */
+/* 🔲 Thumbnail Wrapper */
 .thumbnail-wrapper {
-  border-radius: 8px;
-  aspect-ratio: 3 / 4;
-  width: 100%;
-  display: block;
   position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
+  border-radius: 8px; /* Use consistent rounding */
   background-color: #1c1c1e;
 }
 
-.collections-grid .thumbnail-wrapper {
-  aspect-ratio: 3 / 4;
-  width: 100%;
-  background-color: #1c1c1e;
-  border-radius: 6px;
-  overflow: hidden;
-  position: relative;
-  display: block;
-}
 
-.thumbnail-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-}
+
 
 /* Pagination */
 .pagination {
@@ -780,8 +768,61 @@ html {
 INDIVIDUAL COLLECTION & GALLERY
 */
 
+/* 📸 Collection Photo Base Styles */
+
+.collection-photo {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  min-height: 150px;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+/* 🖱️ Hover Effect */
+.collection-photo:hover {
+  transform: scale(1.02);
+}
+
+/* 🖼️ Loaded State */
+.collection-photo.loaded {
+  opacity: 1;
+}
+
+/* 🌫️ Blurred Variant */
+.collection-photo.blurred {
+  filter: blur(4px);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* 🧱 Gallery Layout */
+.collection-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* 🧱 Gated Gallery Container */
+#gated-gallery-container {
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+/* 🏷️ Section Headings */
+#gated-gallery-container h3 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 600;
+}
+
+
+
 /* 📸 Public & Gated Collection Galleries */
-.collection-gallery,
 .gallery-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -795,23 +836,7 @@ INDIVIDUAL COLLECTION & GALLERY
   outline: none;
 }
 
-.collection-photo {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
 
-.collection-photo:hover {
-  transform: scale(1.02);
-}
-
-.collection-photo.blurred {
-  filter: blur(4px);
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
 
 .access-overlay {
   position: absolute;
@@ -849,32 +874,9 @@ INDIVIDUAL COLLECTION & GALLERY
   background-color: #444;
 }
 
-/* 🧱 Gated Gallery Container */
-#gated-gallery-container {
-  margin-top: 2rem;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-/* 🏷️ Section Headings */
-#gated-gallery-container h3 {
-  margin-top: 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-}
 
 
-/* Staggered Fade-in for Collection Galleries*/
-.collection-photo {
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
 
-.collection-photo.loaded {
-  opacity: 1;
-}
 
 
 /* Lightbox */

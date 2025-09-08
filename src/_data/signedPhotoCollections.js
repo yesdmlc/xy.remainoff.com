@@ -8,6 +8,36 @@ const supabase = SUPABASE_URL && SUPABASE_ANON_KEY
   ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
 
+function groupVariants(files, folder, slugPrefix, altText) {
+  const map = {};
+  for (const file of files || []) {
+    if (!file.name.startsWith(slugPrefix)) continue;
+
+    const isThumb = file.name.endsWith('_thumb.jpeg');
+    const isBlur = file.name.endsWith('_blur.jpeg');
+    const isFull = (file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) && !file.name.includes('_');
+
+    if (!isThumb && !isBlur && !isFull) continue;
+
+    const base = file.name
+      .replace(/_thumb\.jpeg$/, '')
+      .replace(/_blur\.jpeg$/, '')
+      .replace(/\.jpg$/, '')
+      .replace(/\.jpeg$/, '');
+
+    if (!map[base]) map[base] = { base, alt: altText };
+
+    if (isThumb) {
+      map[base].thumb = `${folder}/${file.name}`;
+    } else if (isBlur) {
+      map[base].blur = `${folder}/${file.name}`;
+    } else if (isFull) {
+      map[base].full = `${folder}/${file.name}`;
+    }
+  }
+  return Object.values(map);
+}
+
 module.exports = async function () {
   if (!supabase) return [];
 
@@ -36,47 +66,32 @@ module.exports = async function () {
       }
     }
 
-    const slugPrefix = `${slug}-`;
+    const slugPrefix = `${slug}-photo-`;
 
     let publicImages = [];
     let memberImages = [];
     let premiumImages = [];
 
-    // Load public images
+    // Load and group public images
     try {
       const { data: files } = await supabase.storage.from('photos').list('public');
-      publicImages = (files || [])
-        .filter(file => file.name.startsWith(slugPrefix))
-        .map(file => ({
-          path: `public/${file.name}`,
-          alt: c.title || file.name
-        }));
+      publicImages = groupVariants(files, 'public', slugPrefix, c.title);
     } catch (e) {
       console.warn(`⚠️ Failed to load public images for "${slug}":`, e);
     }
 
-    // Load member images
+    // Load and group member images
     try {
       const { data: files } = await supabase.storage.from('photos').list('member');
-      memberImages = (files || [])
-        .filter(file => file.name.startsWith(slugPrefix))
-        .map(file => ({
-          path: `member/${file.name}`,
-          alt: c.title || file.name
-        }));
+      memberImages = groupVariants(files, 'member', slugPrefix, c.title);
     } catch (e) {
       console.warn(`⚠️ Failed to load member images for "${slug}":`, e);
     }
 
-    // Load premium images
+    // Load and group premium images
     try {
       const { data: files } = await supabase.storage.from('photos').list('premium');
-      premiumImages = (files || [])
-        .filter(file => file.name.startsWith(slugPrefix))
-        .map(file => ({
-          path: `premium/${file.name}`,
-          alt: c.title || file.name
-        }));
+      premiumImages = groupVariants(files, 'premium', slugPrefix, c.title);
     } catch (e) {
       console.warn(`⚠️ Failed to load premium images for "${slug}":`, e);
     }

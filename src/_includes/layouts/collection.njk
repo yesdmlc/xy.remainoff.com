@@ -1,79 +1,157 @@
 ---
 layout: layouts/base.njk
-title: Collection
+title: "{{ galleryEntry.title }}"
 user:
   access_level: public
 ---
-<section class="collection-detail page-offset">
-  <h1>{{ galleryEntry.title }}</h1>
-  {% if galleryEntry.subtitle %}
-    <p class="subtitle">{{ galleryEntry.subtitle }}</p>
-  {% endif %}
-  <p class="photo-count" id="photo-count">
-    {{ galleryEntry.photo_count or 0 }} photo{% if (galleryEntry.photo_count or 0) != 1 %}s{% endif %}
-  </p>
-</section>
 
-<pre>{{ galleryEntry | dump }}</pre> <!-- Debug output updated -->
+{% set title = galleryEntry.title %}
 
-<!-- Public Gallery -->
-<div id="public-gallery" class="collection-gallery">
-  {% for image in galleryEntry.images %}
-    <img
-      data-photo="{{ image.path }}"
-      class="collection-photo supabase-image"
-      alt="{{ image.alt or galleryEntry.title }}"
-      loading="lazy"
-    />
-  {% endfor %}
-</div>
-<div id="public-gallery-empty" style="display: none;">No public images available.</div>
+<main class="site-main">
+  <div class="container">
+    {% block content %}
+    <section class="collection-detail page-offset">
+      <h1>{{ galleryEntry.title }}</h1>
+      {% if galleryEntry.subtitle %}
+      <p class="subtitle">{{ galleryEntry.subtitle }}</p>
+      {% endif %}
+      <p class="photo-count" id="photo-count">
+        {{ galleryEntry.photo_count or 0 }} photo{% if (galleryEntry.photo_count or 0) != 1 %}s{% endif %}
+      </p>
+    </section>
 
-<!-- Gated Gallery Reveal Button -->
-<button id="load-gated-gallery" style="display: none;"></button>
-<div id="gallery-loader" style="display: none;">Loading...</div>
 
-<!-- Gated Gallery Container -->
-<div id="gated-gallery-container" style="display: none;">
-  <h3>Member Gallery</h3>
-  <div id="member-gallery" class="collection-gallery"></div>
-
-  <h3>Premium Gallery</h3>
-  <div id="premium-gallery" class="collection-gallery"></div>
-</div>
-
-<!-- PhotoSwipe Lightbox root markup -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="pswp__bg"></div>
-  <div class="pswp__scroll-wrap">
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
+    <h3>Public Gallery test</h3>
+    <!-- Public Gallery -->
+    <div id="public-gallery" class="collection-gallery">
+      {% for image in galleryEntry.images %}
+      {% if image.thumb %}
+      <img data-photo="{{ image.thumb }}" class="collection-photo supabase-image"
+        alt="{{ image.alt or galleryEntry.title }}" loading="lazy" />
+      {% endif %}
+      {% endfor %}
     </div>
-    <div class="pswp__ui pswp__ui--hidden"></div>
-  </div>
-</div>
+    <div id="public-gallery-empty" style="display: none;">No public images available.</div>
 
-<script>
-  window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", async () => {
-    const { url, anonKey } = window.SUPABASE_CONFIG;
-    const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
-    const images = document.querySelectorAll('.supabase-image[data-photo]');
-    for (const img of images) {
-      const path = img.dataset.photo;
-      if (!path) continue;
-      const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
-      if (data && data.signedUrl) {
-        img.src = data.signedUrl;
-        img.classList.add('loaded');
-      } else {
-        img.alt = 'Image unavailable';
-      }
-    }
-  });
-</script>
+
+    <!-- Gated Gallery Container -->
+
+    <div id="gated-gallery-container">
+      <h3>Member Gallery</h3>
+      <div id="member-gallery" class="collection-gallery">
+        <div class="gallery-loading-message">Loading member images...</div>
+      </div>
+      <p id="member-gallery-empty" style="display: none;">No member images available.</p>
+
+      <h3>Premium Gallery</h3>
+      <div id="premium-gallery" class="collection-gallery">
+        <div class="gallery-loading-message">Loading premium images...</div>
+      </div>
+      <p id="premium-gallery-empty" style="display: none;">No premium images available.</p>
+    </div>
+
+
+
+    <!-- PhotoSwipe Lightbox root markup -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="pswp__bg"></div>
+      <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+          <div class="pswp__item"></div>
+          <div class="pswp__item"></div>
+          <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden"></div>
+      </div>
+    </div>
+
+    <script>
+      window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
+      window.GALLERY_DATA = {
+        accessLevel: "{{ user.access_level }}",
+        memberImages: {{ galleryEntry.member_images | dump | safe }},
+        premiumImages: {{ galleryEntry.premium_images | dump | safe }}
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const { url, anonKey } = window.SUPABASE_CONFIG;
+        const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
+
+        // Load public images
+        const publicImages = document.querySelectorAll('.supabase-image[data-photo]');
+        for (const img of publicImages) {
+          const path = img.dataset.photo;
+          if (!path) continue;
+          const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
+          if (data?.signedUrl) {
+            img.src = data.signedUrl;
+            img.classList.add('loaded');
+          } else {
+            console.warn("❌ Failed to sign public image:", path, error);
+            img.alt = 'Image unavailable';
+          }
+        }
+
+        // Render gated galleries
+        const { accessLevel, memberImages, premiumImages } = window.GALLERY_DATA;
+
+        const renderGallery = async (images, containerId, galleryType, emptyId) => {
+          const container = document.getElementById(containerId);
+          const emptyMessage = document.getElementById(emptyId);
+          if (!container) return;
+
+          console.log(`🔍 Rendering ${galleryType} gallery with ${images.length} images`);
+          container.innerHTML = ''; // Clear placeholder
+
+          if (!images || images.length === 0) {
+            if (emptyMessage) emptyMessage.style.display = 'block';
+            return;
+          }
+
+          for (const image of images) {
+            console.log("🖼️ Image object:", image);
+
+            const hasAccess =
+              (accessLevel === 'premium') ||
+              (accessLevel === 'member' && galleryType === 'member');
+
+            const thumbPath = hasAccess ? image.thumb : image.blur;
+            const fullPath = hasAccess ? image.full : null;
+
+            if (!thumbPath) {
+              console.warn("⚠️ No thumbnail path found for image:", image);
+              continue;
+            }
+
+            const { data, error } = await supabase.storage.from('photos').createSignedUrl(thumbPath, 3600);
+            if (!data?.signedUrl) {
+              console.warn("❌ Failed to sign gated image:", thumbPath, error);
+              continue;
+            }
+
+            const img = document.createElement('img');
+            img.className = 'collection-photo supabase-image';
+            img.alt = image.alt || 'Untitled';
+            img.src = data.signedUrl;
+
+            if (fullPath && hasAccess) {
+              img.setAttribute('data-full', fullPath);
+              img.classList.add('lightbox-enabled');
+            } else {
+              img.classList.add('lightbox-disabled');
+            }
+
+            container.appendChild(img);
+            console.log("📦 Appended image to", containerId);
+          }
+        };
+
+        await renderGallery(memberImages, 'member-gallery', 'member', 'member-gallery-empty');
+        await renderGallery(premiumImages, 'premium-gallery', 'premium', 'premium-gallery-empty');
+      });
+    </script>
+    {% endblock %}
+  </div>
+</main>

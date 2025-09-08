@@ -28,7 +28,7 @@ title: Home
                 <a href="/collections/{{ c.slug }}/" class="collection-link">
                   <div class="thumbnail-wrapper">
                     <div class="image-skeleton"></div>
-                    <img data-photo="{{ c.cover_image_path }}" src="" class="collection-thumb supabase-image" alt="{{ c.title }}" loading="lazy">
+                    <img data-photo="{{ c.cover_image_path }}" class="collection-thumb supabase-image" alt="{{ c.title }}" loading="lazy">
                   </div>
                   <span>{{ c.title }}</span>
                 </a>
@@ -73,14 +73,34 @@ title: Home
       "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
     );
 
-    const images = document.querySelectorAll('.supabase-image[data-photo]');
+    // Dynamically set fresh signed URLs for home-collections images
+    const images = document.querySelectorAll('.home-collections .supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;
       if (!path) continue;
+
       const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
       if (data && data.signedUrl) {
         img.src = data.signedUrl;
-        img.classList.add('loaded');
+
+        // ✅ Hide skeleton once image loads
+        const skeleton = img.previousElementSibling;
+        const applyFadeIn = () => {
+          img.classList.add('loaded');
+          if (skeleton) skeleton.style.display = 'none';
+        };
+
+        if (img.complete && img.naturalWidth !== 0) {
+          applyFadeIn();
+        } else {
+          img.addEventListener('load', applyFadeIn);
+        }
+
+        img.addEventListener('error', () => {
+          console.warn("🚫 Image failed to load:", img.src);
+          if (skeleton) skeleton.style.display = 'none';
+          img.alt = 'Image unavailable';
+        });
       } else {
         img.alt = 'Image unavailable';
       }

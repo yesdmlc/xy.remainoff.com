@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{{ title or site.title }}</title>
+  {% if galleryEntry and galleryEntry.title %}
+    <title>{{ galleryEntry.title }}</title>
+  {% else %}
+    <title>{{ title or site.title }}</title>
+  {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% if description %}
   <meta name="description" content="{{ description }}">

@@ -3,7 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Collections</title>
+  
+    <title>Collections</title>
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
 
@@ -50,133 +52,128 @@
     <a href="#collections" class="scroll-button">View Collections ↓</a>
   </div>
 </section>
-
 <section id="collections" class="collections-page">
   <header class="page-header">
     <h1>Photo Collections</h1>
     <p class="intro-text">Moments grouped by mood, session, or silence. Some are open. Some are waiting for you.</p>
   </header>
-
   <div class="collections-grid">
     
-    <section class="collection-thumbnail" data-slug="2025-06-burnaby">
-      <a href="/collections/2025-06-burnaby/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/2025-06-burnaby-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="2025 06 Burnaby"
-            loading="lazy"
-          />
+      <section class="collection-thumbnail" data-slug="2025-06-burnaby">
+        <a href="/collections/2025-06-burnaby/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-photo="public/2025-06-burnaby-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 06 Burnaby" loading="lazy"/>
+          </div>
+          <div class="thumbnail-info">
+            <h2>2025 06 Burnaby</h2>
+          </div>
+        </a>
+        <div class="collection-meta">
+          <p class="photo-count">Loading...</p>
+          <p class="debug-count" style="font-size: 0.8em; color: gray;">Not updated</p>
         </div>
-        <div class="thumbnail-info">
-          <h2>2025 06 Burnaby</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
+      </section>
     
-    <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
-      <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/2025-07-darkness-in-shower-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="2025 07 Darkness In Shower"
-            loading="lazy"
-          />
+      <section class="collection-thumbnail" data-slug="2025-07-darkness-in-shower">
+        <a href="/collections/2025-07-darkness-in-shower/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-photo="public/2025-07-darkness-in-shower-photo-1.jpeg" class="collection-thumb supabase-image" alt="2025 07 Darkness In Shower" loading="lazy"/>
+          </div>
+          <div class="thumbnail-info">
+            <h2>2025 07 Darkness In Shower</h2>
+          </div>
+        </a>
+        <div class="collection-meta">
+          <p class="photo-count">Loading...</p>
+          <p class="debug-count" style="font-size: 0.8em; color: gray;">Not updated</p>
         </div>
-        <div class="thumbnail-info">
-          <h2>2025 07 Darkness In Shower</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
+      </section>
     
-    <section class="collection-thumbnail" data-slug="soft-against-the-window">
-      <a href="/collections/soft-against-the-window/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="public/soft-against-the-window-photo-1.jpeg"
-            class="collection-thumb supabase-image"
-            alt="Soft Against The Window"
-            loading="lazy"
-          />
+      <section class="collection-thumbnail" data-slug="soft-against-the-window">
+        <a href="/collections/soft-against-the-window/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-photo="public/soft-against-the-window-photo-1.jpeg" class="collection-thumb supabase-image" alt="Soft Against The Window" loading="lazy"/>
+          </div>
+          <div class="thumbnail-info">
+            <h2>Soft Against The Window</h2>
+          </div>
+        </a>
+        <div class="collection-meta">
+          <p class="photo-count">Loading...</p>
+          <p class="debug-count" style="font-size: 0.8em; color: gray;">Not updated</p>
         </div>
-        <div class="thumbnail-info">
-          <h2>Soft Against The Window</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
+      </section>
     
   </div>
-
   <nav class="pagination">
     
     
-    <a href="/collections/" class="page-link active">
-      1
-    </a>
+      <a href="/collections/" class="page-link active">
+        1
+      </a>
     
     
   </nav>
 </section>
-
 <script>
   window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
+<script src="/assets/collectionPhotoCounts.js" defer></script>
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
     const supabase = window.supabaseClient || window.Supabase.createClient(
-      "",
-      ""
+      "", ""
     );
-
     const images = document.querySelectorAll('.supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;
-      if (!path) continue;
-
-      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
-      if (data?.signedUrl) {
+      if (! path) 
+        continue;
+      
+      const {data} = await supabase
+        .storage
+        .from('photos')
+        .createSignedUrl(path, 3600);
+      if (data ?. signedUrl) {
         img.src = data.signedUrl;
         img.classList.add('loaded');
       } else {
         img.alt = 'Image unavailable';
       }
     }
-
     // Fade-in logic
-    images.forEach(img => {
-      const skeleton = img.previousElementSibling;
-      const applyFadeIn = () => {
-        img.classList.add("loaded");
-        if (skeleton) skeleton.style.display = "none";
-      };
-      if (img.complete && img.naturalWidth !== 0) {
-        applyFadeIn();
-      } else {
-        img.addEventListener("load", applyFadeIn);
-      }
-      img.addEventListener("error", () => {
-        console.warn("🚫 Image failed to load:", img.src);
+    await Promise.all(Array.from(images).map(img => {
+      return new Promise(resolve => {
+        const skeleton = img.previousElementSibling;
+        const applyFadeIn = () => {
+          img.classList.add("loaded");
+          if (skeleton) 
+            skeleton.style.display = "none";
+          
+          resolve();
+        };
+        if (img.complete && img.naturalWidth !== 0) {
+          applyFadeIn();
+        } else {
+          img.addEventListener("load", applyFadeIn);
+          img.addEventListener("error", () => {
+            console.warn("🚫 Image failed to load:", img.src);
+            resolve();
+          });
+        }
       });
-    });
+    }));
+    // ✅ Now that all images are loaded and faded in, update photo counts
+    if (window.updatePhotoCounts) 
+      await window.updatePhotoCounts();
+    
   });
 </script>
-
     </div>
   </main>
 

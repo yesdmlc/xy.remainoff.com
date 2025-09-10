@@ -46,155 +46,183 @@
     <div class="container">
       
 
-
 <main class="site-main">
   <div class="container">
     
-    <section class="collection-detail page-offset">
-      <h1>2025 06 Burnaby</h1>
-      
-      <p class="photo-count" id="photo-count">
-        2 photos
-      </p>
-    </section>
-
-
-    <h3>Public Gallery test</h3>
-    <!-- Public Gallery -->
-    <div id="public-gallery" class="collection-gallery">
-      
-      
-      <img data-photo="public/2025-06-burnaby-photo-1_thumb.jpeg" class="collection-photo supabase-image"
-        alt="2025 06 Burnaby" loading="lazy" />
-      
-      
-      
-      <img data-photo="public/2025-06-burnaby-photo-2_thumb.jpeg" class="collection-photo supabase-image"
-        alt="2025 06 Burnaby" loading="lazy" />
-      
-      
-    </div>
-    <div id="public-gallery-empty" style="display: none;">No public images available.</div>
-
-
-    <!-- Gated Gallery Container -->
-
-    <div id="gated-gallery-container">
-      <h3>Member Gallery</h3>
-      <div id="member-gallery" class="collection-gallery">
-        <div class="gallery-loading-message">Loading member images...</div>
+      <!-- Collection Header -->
+      <section class="collection-detail page-offset">
+        <h1>2025 06 Burnaby</h1>
+        
+        <p class="photo-count" id="photo-count">
+          2 photos
+        </p>
+      </section>
+      <!-- Public Gallery -->
+      <h3>The Gallery</h3>
+      <div id="public-gallery" class="collection-gallery">
+        
+          
+             <img data-photo="public/2025-06-burnaby-photo-1_thumb.jpeg" data-full="public/2025-06-burnaby-photo-1.jpeg" class="collection-photo supabase-image lightbox-enabled" alt="2025 06 Burnaby" loading="lazy"/>
+          
+        
+          
+             <img data-photo="public/2025-06-burnaby-photo-2_thumb.jpeg" data-full="public/2025-06-burnaby-photo-2.jpeg" class="collection-photo supabase-image lightbox-enabled" alt="2025 06 Burnaby" loading="lazy"/>
+          
+        
       </div>
-      <p id="member-gallery-empty" style="display: none;">No member images available.</p>
-
-      <h3>Premium Gallery</h3>
-      <div id="premium-gallery" class="collection-gallery">
-        <div class="gallery-loading-message">Loading premium images...</div>
-      </div>
-      <p id="premium-gallery-empty" style="display: none;">No premium images available.</p>
-    </div>
-
-
-
-    <!-- PhotoSwipe Lightbox root markup -->
-    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="pswp__bg"></div>
-      <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-          <div class="pswp__item"></div>
-          <div class="pswp__item"></div>
-          <div class="pswp__item"></div>
+      <p id="public-gallery-empty" style="display: none;">No public images available.</p>
+      <!-- Member Gallery Section -->
+      <div id="member-gallery-section">
+        <h3>The Studio</h3>
+        <div class="gallery-access-prompt">
+          <p>This gallery is reserved for members.
+            <a href="/login">log in</a>
+            or
+            <a href="/signup">create an account</a>
+            to experience it without the blur.</p>
         </div>
-        <div class="pswp__ui pswp__ui--hidden"></div>
+        <div id="member-gallery" class="collection-gallery">
+          <div class="gallery-loading-message">Loading member images...</div>
+        </div>
+        <p id="member-gallery-empty" style="display: none;">No member images available.</p>
       </div>
-    </div>
-
-    <script>
-      window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
-      window.GALLERY_DATA = {
-        accessLevel: "public",
-        memberImages: [],
-        premiumImages: []
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const { url, anonKey } = window.SUPABASE_CONFIG;
-        const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
-
-        // Load public images
-        const publicImages = document.querySelectorAll('.supabase-image[data-photo]');
-        for (const img of publicImages) {
-          const path = img.dataset.photo;
-          if (!path) continue;
-          const { data, error } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
-          if (data?.signedUrl) {
-            img.src = data.signedUrl;
-            img.classList.add('loaded');
-          } else {
-            console.warn("❌ Failed to sign public image:", path, error);
-            img.alt = 'Image unavailable';
-          }
-        }
-
-        // Render gated galleries
-        const { accessLevel, memberImages, premiumImages } = window.GALLERY_DATA;
-
-        const renderGallery = async (images, containerId, galleryType, emptyId) => {
-          const container = document.getElementById(containerId);
-          const emptyMessage = document.getElementById(emptyId);
-          if (!container) return;
-
-          console.log(`🔍 Rendering ${galleryType} gallery with ${images.length} images`);
-          container.innerHTML = ''; // Clear placeholder
-
-          if (!images || images.length === 0) {
-            if (emptyMessage) emptyMessage.style.display = 'block';
-            return;
-          }
-
-          for (const image of images) {
-            console.log("🖼️ Image object:", image);
-
-            const hasAccess =
-              (accessLevel === 'premium') ||
-              (accessLevel === 'member' && galleryType === 'member');
-
-            const thumbPath = hasAccess ? image.thumb : image.blur;
-            const fullPath = hasAccess ? image.full : null;
-
-            if (!thumbPath) {
-              console.warn("⚠️ No thumbnail path found for image:", image);
-              continue;
-            }
-
-            const { data, error } = await supabase.storage.from('photos').createSignedUrl(thumbPath, 3600);
-            if (!data?.signedUrl) {
-              console.warn("❌ Failed to sign gated image:", thumbPath, error);
-              continue;
-            }
-
-            const img = document.createElement('img');
-            img.className = 'collection-photo supabase-image';
-            img.alt = image.alt || 'Untitled';
-            img.src = data.signedUrl;
-
-            if (fullPath && hasAccess) {
-              img.setAttribute('data-full', fullPath);
-              img.classList.add('lightbox-enabled');
-            } else {
-              img.classList.add('lightbox-disabled');
-            }
-
-            container.appendChild(img);
-            console.log("📦 Appended image to", containerId);
-          }
+      <!-- Premium Gallery Section -->
+      <div id="premium-gallery-section">
+        <h3>The Vault</h3>
+        <p>
+          <strong>Premium access:</strong>
+          Upgrade your membership to unlock this gallery.</p>
+        <div id="premium-gallery" class="collection-gallery">
+          <div class="gallery-loading-message">Loading premium images...</div>
+        </div>
+        <p id="premium-gallery-empty" style="display: none;">No premium images available.</p>
+      </div>
+      <!-- Custom Lightbox Container -->
+      <div id="lightbox-overlay" class="lightbox-overlay" style="display: none;">
+        <button class="lightbox-close">×</button>
+        <img id="lightbox-image" src="" alt="Full image"/>
+        <button class="lightbox-prev">←</button>
+        <button class="lightbox-next">→</button>
+      </div>
+      <!-- PhotoSwipe Lightbox -->
+      <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+          </div>
+          <div class="pswp__ui pswp__ui--hidden"></div>
+        </div>
+      </div>
+      <!-- Lightbox Loader -->
+      <div id="lightbox-loader" class="lightbox-loader" style="display: none;">
+        <div class="spinner"></div>
+      </div>
+      <!-- Supabase Config -->
+      <script>
+        window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
+        window.GALLERY_DATA = {
+          accessLevel: "public",
+          memberImages: [],
+          premiumImages: []
         };
-
-        await renderGallery(memberImages, 'member-gallery', 'member', 'member-gallery-empty');
-        await renderGallery(premiumImages, 'premium-gallery', 'premium', 'premium-gallery-empty');
-      });
-    </script>
+      </script>
+      <!-- Supabase Client -->
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+          const {url, anonKey} = window.SUPABASE_CONFIG;
+          const supabase = window.supabaseClient || window.Supabase.createClient(url, anonKey);
+          window.supabaseClient = supabase;
+          // Load public images
+          const publicImages = document.querySelectorAll('.supabase-image[data-photo]');
+          for (const img of publicImages) {
+            const thumbPath = img.dataset.photo;
+            const fullPath = img.dataset.full;
+            if (! thumbPath) 
+              continue;
+            
+            const {data, error} = await supabase
+              .storage
+              .from('photos')
+              .createSignedUrl(thumbPath, 3600);
+            if (data ?. signedUrl) {
+              img.src = data.signedUrl;
+              img.classList.add('loaded');
+              if (fullPath) {
+                img.classList.add('lightbox-enabled');
+                img.setAttribute('data-full-url', fullPath); // optional alias
+              }
+            } else {
+              console.warn("❌ Failed to sign public image:", thumbPath, error);
+              img.alt = 'Image unavailable';
+            }
+          }
+          // Render gated galleries
+          const {accessLevel, memberImages, premiumImages} = window.GALLERY_DATA;
+          const renderGallery = async (images, containerId, galleryType, emptyId, sectionId) => {
+            const container = document.getElementById(containerId);
+            const emptyMessage = document.getElementById(emptyId);
+            const section = document.getElementById(sectionId);
+            if (! container || ! section) 
+              return;
+            
+            container.innerHTML = ''; // Clear placeholder
+            if (!images || images.length === 0) {
+              console.log (`🚫 No images found for ${galleryType} gallery`);
+              if (emptyMessage) 
+                emptyMessage.style.display = 'block';
+              
+              section.style.display = 'none'; // Hide the entire section
+              return;
+            }
+            for (const image of images) {
+              const hasAccess = (accessLevel === 'premium') || (accessLevel === 'member' && galleryType === 'member');
+              const thumbPath = hasAccess
+                ? image.thumb
+                : image.blur;
+              const fullPath = hasAccess
+                ? image.full
+                : null;
+              if (! thumbPath) 
+                continue;
+              
+              const {data, error} = await supabase
+                .storage
+                .from('photos')
+                .createSignedUrl(thumbPath, 3600);
+              if (!data ?. signedUrl) 
+                continue;
+              
+              const img = document.createElement('img');
+              img.className = 'collection-photo supabase-image';
+              img.alt = image.alt || 'Untitled';
+              img.onload = () => {
+                img.classList.add('loaded');
+              };
+              img.src = data.signedUrl;
+              if (fullPath && hasAccess) {
+                img.setAttribute('data-full', fullPath);
+                img.classList.add('lightbox-enabled');
+              } else {
+                img.classList.add('lightbox-disabled');
+              } container.appendChild(img);
+            }
+          };
+          await renderGallery(memberImages, 'member-gallery', 'member', 'member-gallery-empty', 'member-gallery-section');
+          await renderGallery(premiumImages, 'premium-gallery', 'premium', 'premium-gallery-empty', 'premium-gallery-section');
+          // Refresh lightbox gallery after dynamic images are added
+          if (window.refreshLightboxGallery) {
+            window.refreshLightboxGallery();
+          }
+        });
+      </script>
+      <!-- Custom Lightbox Assets -->
+      <link rel="stylesheet" href="/assets/lightbox.css"/>
+      <script src="/assets/lightbox.js" defer></script>
+      <script src="/assets/collectionPhotoCounts.js" defer></script>
     
   </div>
 </main>

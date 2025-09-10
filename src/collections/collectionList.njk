@@ -7,6 +7,7 @@ pagination:
   data: signedPhotoCollections
   size: 12
   alias: photoCollections
+permalink: /collections/
 ---
 
 <section class="collection-hero-section">
@@ -16,93 +17,97 @@ pagination:
     <a href="#collections" class="scroll-button">View Collections ↓</a>
   </div>
 </section>
-
 <section id="collections" class="collections-page">
   <header class="page-header">
     <h1>Photo Collections</h1>
     <p class="intro-text">Moments grouped by mood, session, or silence. Some are open. Some are waiting for you.</p>
   </header>
-
   <div class="collections-grid">
     {% for collection in photoCollections %}
-    <section class="collection-thumbnail" data-slug="{{ collection.slug }}">
-      <a href="/collections/{{ collection.slug }}/" class="collection-link">
-        <div class="thumbnail-wrapper">
-          <div class="image-skeleton"></div>
-          <img
-            data-photo="{{ collection.cover_image_path }}"
-            class="collection-thumb supabase-image"
-            alt="{{ collection.title }}"
-            loading="lazy"
-          />
+      <section class="collection-thumbnail" data-slug="{{ collection.slug }}">
+        <a href="/collections/{{ collection.slug }}/" class="collection-link">
+          <div class="thumbnail-wrapper">
+            <div class="image-skeleton"></div>
+            <img data-photo="{{ collection.cover_image_path }}" class="collection-thumb supabase-image" alt="{{ collection.title }}" loading="lazy"/>
+          </div>
+          <div class="thumbnail-info">
+            <h2>{{ collection.title }}</h2>
+          </div>
+        </a>
+        <div class="collection-meta">
+          <p class="photo-count">Loading...</p>
+          <p class="debug-count" style="font-size: 0.8em; color: gray;">Not updated</p>
         </div>
-        <div class="thumbnail-info">
-          <h2>{{ collection.title }}</h2>
-        </div>
-      </a>
-      <div class="collection-meta">
-        <p class="photo-count">Loading...</p>
-      </div>
-    </section>
+      </section>
     {% endfor %}
   </div>
-
   <nav class="pagination">
     {% if pagination.href.previous %}
-    <a href="{{ pagination.href.previous }}" class="page-link">←</a>
+      <a href="{{ pagination.href.previous }}" class="page-link">←</a>
     {% endif %}
     {% for href in pagination.hrefs %}
-    <a href="{{ href }}" class="page-link {% if loop.index0 == pagination.pageNumber %}active{% endif %}">
-      {{ loop.index }}
-    </a>
+      <a href="{{ href }}" class="page-link {% if loop.index0 == pagination.pageNumber %}active{% endif %}">
+        {{ loop.index }}
+      </a>
     {% endfor %}
     {% if pagination.href.next %}
-    <a href="{{ pagination.href.next }}" class="page-link">→</a>
+      <a href="{{ pagination.href.next }}" class="page-link">→</a>
     {% endif %}
   </nav>
 </section>
-
 <script>
   window.SUPABASE_CONFIG = JSON.parse('{{ "" | supabaseConfig | safe }}');
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script src="/assets/auth.js" defer></script>
+<script src="/assets/collectionPhotoCounts.js" defer></script>
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
     const supabase = window.supabaseClient || window.Supabase.createClient(
-      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}",
-      "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+      "{{ env.SUPABASE_URL or env.NEXT_PUBLIC_SUPABASE_URL }}", "{{ env.SUPABASE_ANON_KEY or env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
     );
-
     const images = document.querySelectorAll('.supabase-image[data-photo]');
     for (const img of images) {
       const path = img.dataset.photo;
-      if (!path) continue;
-
-      const { data } = await supabase.storage.from('photos').createSignedUrl(path, 3600);
-      if (data?.signedUrl) {
+      if (! path) 
+        continue;
+      
+      const {data} = await supabase
+        .storage
+        .from('photos')
+        .createSignedUrl(path, 3600);
+      if (data ?. signedUrl) {
         img.src = data.signedUrl;
         img.classList.add('loaded');
       } else {
         img.alt = 'Image unavailable';
       }
     }
-
     // Fade-in logic
-    images.forEach(img => {
-      const skeleton = img.previousElementSibling;
-      const applyFadeIn = () => {
-        img.classList.add("loaded");
-        if (skeleton) skeleton.style.display = "none";
-      };
-      if (img.complete && img.naturalWidth !== 0) {
-        applyFadeIn();
-      } else {
-        img.addEventListener("load", applyFadeIn);
-      }
-      img.addEventListener("error", () => {
-        console.warn("🚫 Image failed to load:", img.src);
+    await Promise.all(Array.from(images).map(img => {
+      return new Promise(resolve => {
+        const skeleton = img.previousElementSibling;
+        const applyFadeIn = () => {
+          img.classList.add("loaded");
+          if (skeleton) 
+            skeleton.style.display = "none";
+          
+          resolve();
+        };
+        if (img.complete && img.naturalWidth !== 0) {
+          applyFadeIn();
+        } else {
+          img.addEventListener("load", applyFadeIn);
+          img.addEventListener("error", () => {
+            console.warn("🚫 Image failed to load:", img.src);
+            resolve();
+          });
+        }
       });
-    });
+    }));
+    // ✅ Now that all images are loaded and faded in, update photo counts
+    if (window.updatePhotoCounts) 
+      await window.updatePhotoCounts();
+    
   });
 </script>

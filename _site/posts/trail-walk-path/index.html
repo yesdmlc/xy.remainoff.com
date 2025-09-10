@@ -1,33 +1,124 @@
-<article class="post-entry">
-  <h1>Walking the Trail Path</h1>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Walking the Trail Path</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+  <link rel="stylesheet" href="/assets/styles.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
+
+  <!-- PhotoSwipe CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css" />
+
+  <!-- PhotoSwipe JS -->
+  <script type="module">
+    import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.js';
+    window.PhotoSwipeLightbox = PhotoSwipeLightbox;
+  </script>
+
+  <!-- Eleventy Live Reload -->
+  <script type="module"
+    integrity="sha512-7Y25+FX/kRUbZEHtQBOSLffzofBxz8ABQErLAVpGkfzactkpJU5wtTmhIfIZeTw7VHg1JeTIC5kHkzPq7LqR1w=="
+    src="/.11ty/reload-client.js"></script>
+</head>
+
+<body class="site-body">
+  <nav class="floating-nav">
+    <div class="brand">XY</div>
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="/collections">Collections</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/login/">Login</a></li>
+    </ul>
+  </nav>
+
+  <header></header>
+
+  <main class="site-main">
+    <div class="container">
+      
+
+
+<article class="post-entry">
   
     <img src="https://kaqqyhjsvddvfxtyhmak.supabase.co/storage/v1/object/public/open/posts/trail-walk-path.jpg" alt="Walking the Trail Path" class="post-cover" loading="lazy">
   
 
+  <h1>Walking the Trail Path</h1>
+
   <p class="post-meta">
-    August 12, 2025 · Public
+    August 12, 2025
   </p>
 
   <div class="post-content">
     <p>It’s been a few days since the first post, and things are already evolving.</p>
 <p>We’ve been experimenting with new ideas, tweaking layouts, and diving deeper into what this site could become. It’s still early, but the momentum is real — and it’s exciting.</p>
-<h3>🧪 Experiments in Progress</h3>
-<ul>
-<li>Playing with dynamic content blocks</li>
-<li>Testing out tag-based filtering</li>
+<h2>🧪 Experiments in Progress</h2>
+<ul> 
+    <li>Playing with dynamic content blocks</li>
+    <li>Testing out tag-based filtering</li>
 <li>Exploring how to integrate user feedback</li>
 </ul>
-<h3>📚 Lessons Learned</h3>
-<ul>
+<h2>📚 Lessons Learned</h2>
 <li>Simplicity wins — every time</li>
 <li>Good design is invisible until it’s missing</li>
 <li>Writing regularly is harder than it looks (but worth it)</li>
 </ul>
-<h3>🌱 What’s Next</h3>
+<h2>🌱 What’s Next</h2>
 <p>We’re thinking about adding a “Now” page — a living snapshot of what’s happening behind the scenes. Also considering a section for short notes, like digital breadcrumbs.</p>
 <p>This space is a sandbox, and we’re just getting started.</p>
 <p>Thanks for following along.</p>
-
   </div>
 </article>
+    </div>
+  </main>
+
+  <div id="userStatus" class="user-status"></div>
+
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/posts">Posts</a>
+      <a href="/collections">Collections</a>
+      <a href="/about">About</a>
+      <a href="https://instagram.com/mc88xx" target="_blank">Instagram</a>
+    </nav>
+
+    <div class="footer-meta">
+      <p>© <span id="year"></span> xy.remainoff.com · stillness in frames · Images may not be reproduced without
+        permission.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <script src="/assets/auth.js" defer></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelector(".nav-links");
+      toggle?.addEventListener("click", () => {
+        navLinks?.classList.toggle("active");
+      });
+    });
+  </script>
+
+  <script>
+    window.SUPABASE_CONFIG = JSON.parse('{"url":"https://kaqqyhjsvddvfxtyhmak.supabase.co","anonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthcXF5aGpzdmRkdmZ4dHlobWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NjIyNDcsImV4cCI6MjA3MTAzODI0N30.qqxi-RQ0bTQZu-3JfHJTroaKam_JeEjw7R8CKjXVyas"}');
+  </script>
+</body>
+
+</html>

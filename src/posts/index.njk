@@ -4,7 +4,15 @@ title: All Posts
 permalink: "/posts/"
 ---
 
+{# 
+  Template: Post Archive
+  Purpose: Renders the /posts/ page with a list of all blog posts.
+  Source: Uses the "posts" collection defined in .eleventy.js
+  Output: /posts/index.html
+#}
+
 <section class="post-archive">
+
   <h1>All Posts</h1>
   <ul class="post-list">
     {% for post in collections.posts | reverse %}
@@ -12,13 +20,16 @@ permalink: "/posts/"
         <li class="post-list-item">
           <a href="{{ post.url }}">
             {% if post.data.cover_image %}
-              <img src="{{ post.data.cover_image }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy">
-            {% endif %}
-            <h2>{{ post.data.title }}</h2>
-            <p>{{ post.data.excerpt or '' }}</p>
-          </a>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-</section>
+              <div class="post-image-wrapper">
+                <img src="{{ post.data.cover_image }}" alt="{{ post.data.title }}" class="post-thumb" loading="lazy"></div>
+              {% endif %}
+              <div class="post-info">
+                <h2>{{ post.data.title }}</h2>
+                <p>{{ post.data.excerpt or '' }}</p>
+              </div>
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </section>

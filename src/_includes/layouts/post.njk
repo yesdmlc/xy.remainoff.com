@@ -1,12 +1,24 @@
-<article class="post-entry">
-  <h1>{{ title }}</h1>
+---
+layout: layouts/base.njk
+title: "{{ title }}"
+---
 
+{# 
+  Layout: Single Post
+  Purpose: Renders individual blog posts (e.g. /posts/my-first-post/)
+  Used by: Markdown files with layout: layouts/post.njk
+  Output: /posts/[slug]/index.html
+#}
+
+<article class="post-entry">
   {% if cover_image %}
     <img src="{{ cover_image }}" alt="{{ title }}" class="post-cover" loading="lazy">
   {% endif %}
 
+  <h1>{{ title }}</h1>
+
   <p class="post-meta">
-    {{ date | readableDate }} · {{ access_level | capitalize }}
+    {{ date | readableDate }}
   </p>
 
   <div class="post-content">

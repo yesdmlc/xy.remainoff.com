@@ -20,9 +20,10 @@
   opacity: 0;
 }
 
-#lightbox-overlay[style*="display: flex"] #lightbox-image[src] {
+#lightbox-overlay.active #lightbox-image[src] {
   opacity: 1;
 }
+
 
 .lightbox-overlay img {
   max-width: 90%;

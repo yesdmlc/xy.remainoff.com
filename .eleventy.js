@@ -66,8 +66,9 @@ module.exports = function (eleventyConfig) {
     });
   });
 
-  // Passthrough
+  // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy("src/images"); // ✅ Enables local post cover images
 
   // Collections
   eleventyConfig.addCollection("posts", collection => {

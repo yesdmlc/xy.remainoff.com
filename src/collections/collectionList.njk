@@ -12,15 +12,15 @@ permalink: /collections/
 
 <section class="collection-hero-section">
   <div class="collection-hero-content">
-    <h1>Curated Visual Stories</h1>
-    <p>Each collection captures a moment, a mood, or a memory. Scroll down to explore the full visual archive.</p>
+    <h1>Collected, Not Rushed</h1>
+    <p>These moments weren’t meant to be hurried. Let them load slowly. Let them arrive.</p>
     <a href="#collections" class="scroll-button">View Collections ↓</a>
   </div>
 </section>
 <section id="collections" class="collections-page">
   <header class="page-header">
-    <h1>Photo Collections</h1>
-    <p class="intro-text">Moments grouped by mood, session, or silence. Some are open. Some are waiting for you.</p>
+    <h1>Collected Moments</h1>
+    <p class="intro-text">Grouped by feeling. Held without commentary. This is the visual archive.</p>
   </header>
   <div class="collections-grid">
     {% for collection in photoCollections %}
@@ -35,9 +35,8 @@ permalink: /collections/
           </div>
         </a>
         <div class="collection-meta">
-          <p class="photo-count">Loading...</p>
-          <p class="debug-count" style="font-size: 0.8em; color: gray;">Not updated</p>
-        </div>
+  <p class="photo-count loading">Loading…</p>
+</div>
       </section>
     {% endfor %}
   </div>
@@ -89,6 +88,8 @@ permalink: /collections/
         const skeleton = img.previousElementSibling;
         const applyFadeIn = () => {
           img.classList.add("loaded");
+          img.style.position = "relative";
+          img.style.zIndex = "1";
           if (skeleton) 
             skeleton.style.display = "none";
           

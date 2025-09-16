@@ -15,11 +15,11 @@ window.updatePhotoCounts = async function () {
   for (const section of sections) {
     const slug = section.dataset.slug;
     const photoCountEl = section.querySelector('.photo-count');
-    const debugEl = section.querySelector('.debug-count');
-    if (debugEl) {
-      debugEl.textContent = '✅ Count attempted';
-    }
     if (!slug || !photoCountEl) continue;
+
+    // Set initial loading state
+    photoCountEl.classList.add('loading');
+    photoCountEl.textContent = 'Loading…';
 
     try {
       const { data, error } = await supabase
@@ -31,15 +31,22 @@ window.updatePhotoCounts = async function () {
       if (error || !data) {
         console.warn(`❌ Failed to fetch photo count for "${slug}"`, error);
         photoCountEl.textContent = 'Error';
+        photoCountEl.classList.remove('loading');
+        photoCountEl.classList.add('loaded');
         continue;
       }
 
       const count = typeof data.photo_count === 'number' ? data.photo_count : 0;
       photoCountEl.textContent = `${count} photo${count !== 1 ? 's' : ''}`;
+      photoCountEl.classList.remove('loading');
+      photoCountEl.classList.add('loaded');
+
       console.log(`📸 ${slug}: ${count} photo${count !== 1 ? 's' : ''}`);
     } catch (err) {
       console.error(`⚠️ Unexpected error for "${slug}"`, err);
       photoCountEl.textContent = 'Error';
+      photoCountEl.classList.remove('loading');
+      photoCountEl.classList.add('loaded');
     }
   }
 };

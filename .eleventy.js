@@ -48,6 +48,11 @@ module.exports = function (eleventyConfig) {
     }
   });
 
+  eleventyConfig.addFilter("intersect", function (arr1, arr2) {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2)) return [];
+    return arr1.filter(value => arr2.includes(value));
+  });
+
   // Shortcodes
   eleventyConfig.addNunjucksAsyncShortcode("optimizedImage", imageShortcode);
 

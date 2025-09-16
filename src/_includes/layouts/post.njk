@@ -4,7 +4,7 @@ title: "{{ title }}"
 ---
 
 {# 
-  Layout: Single Post
+  Layout: SINGLE POST
   Purpose: Renders individual blog posts (e.g. /posts/my-first-post/)
   Used by: Markdown files with layout: layouts/post.njk
   Output: /posts/[slug]/index.html
@@ -25,3 +25,31 @@ title: "{{ title }}"
     {{ content | safe }}
   </div>
 </article>
+
+<section class="home-latest-post">
+        <h2>Latest Thoughts</h2>
+        <div class="latest-post-list two-row-grid">
+          {% set latestPosts = collections.posts | reverse %}
+          {% for i in range(0, 4) %}
+            {% set post = latestPosts[i] %}
+            {% if post and post.url != page.url %}
+              <article class="post-card">
+                {% if post.data.cover_image %}
+                  <a href="{{ post.url }}">
+                    <img src="{{ post.data.cover_image }}" alt="{{ post.data.title }}" class="latest-post-image" loading="lazy"></a>
+                  {% endif %}
+                  <div class="post-content">
+                    <h3>
+                      <a href="{{ post.url }}">{{ post.data.title }}</a>
+                    </h3>
+                    <p class="post-date">{{ post.date | readableDate }}</p>
+                    </p>
+                  </div>
+                </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <p class="view-all-posts">
+          <a href="/posts">View all posts →</a>
+        </p>
+      </section>

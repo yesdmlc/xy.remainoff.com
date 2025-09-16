@@ -106,6 +106,7 @@ Navigation Bar
   color: #f5f5f5;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
 
 
@@ -115,11 +116,13 @@ Navigation Bar
   color: #f5f5f5;
   text-decoration: none;
   transition: color 0.3s ease;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .floating-nav a:hover {
   color: #b76e79;
-  /* muted rose accent */
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
 }
 
 
@@ -404,14 +407,9 @@ Latest Collections
   padding-right: 0 !important;
 }
 
-
-.collection-item {
-  width: 220px;
-  text-align: center;
-}
-
 .thumbnail-wrapper {
   position: relative;
+  z-index: 0;
   overflow: hidden;
   border-radius: 6px;
 }
@@ -422,65 +420,179 @@ Latest Collections
   object-fit: cover;
   border-radius: 6px;
   transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+@media (max-width: 600px) {
+  .collection-thumb {
+    height: 180px;
+  }
+}
+
+/* Dim overlay */
+.thumbnail-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 6px;
+  will-change: opacity;
 }
 
 
-.collection-link:hover .collection-thumb {
-  transform: scale(1.05);
-}
 
-.collection-link span {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #ccc;
-}
-
-/* ----------------
-Latest Posts Grid
----------------- */
+/* Latest Post on Homepage */
 
 .home-latest-post {
-  margin-top: 4rem;
-  padding: 2rem 0;
-}
-
-.latest-post-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 0;
-  list-style: none;
+  padding: 4rem 2rem;
 }
 
-.latest-post-entry {
-  text-decoration: none;
-  color: inherit;
-  text-align: center;
-  transition: opacity 0.3s ease;
+.latest-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 1.5rem;
 }
 
-.latest-post-entry:hover {
-  opacity: 0.85;
+.latest-post-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
 
-.post-thumb {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 6px;
-  transition: transform 0.4s ease;
-}
-
-.latest-post-entry:hover .post-thumb {
+.latest-post-card:hover {
   transform: scale(1.02);
 }
 
-.view-all-posts {
-  text-align: center;
-  margin-top: 2rem;
+
+.latest-post-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
 }
+
+.latest-post-content {
+  padding: 1.5rem;
+}
+
+.latest-post-content h3 a {
+  font-size: 1.25rem;
+  font-family: 'Playfair Display', serif;
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+.latest-post-content h3 a:hover {
+  text-decoration: underline;
+}
+
+.latest-post-date {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.latest-post-excerpt {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+
+
+/* ----------------
+Post Listing Page
+---------------- */
+
+
+
+.post-archive {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.archive-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.archive-header h1 {
+  font-size: 2rem;
+  font-family: 'Playfair Display', serif;
+  color: #f5f5f5;
+}
+
+.archive-header p {
+  font-size: 1rem;
+  color: #ccc;
+  opacity: 0.8;
+}
+
+.post-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.post-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+}
+
+.post-card-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #333;
+}
+
+.post-card-content h2 a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+.post-card-content h2 a:hover {
+  text-decoration: underline;
+}
+
+.post-card-date,
+.post-card-excerpt {
+  pointer-events: none;
+}
+
+.post-card-date {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.post-card-excerpt {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+
 
 /*
 -----------------------------
@@ -490,9 +602,19 @@ Latest Posts Grid
 
 /* Archive Section Layout */
 .post-archive {
-  padding: 4rem 0;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
   text-align: center;
 }
+
+@media (min-width: 1024px) {
+  .post-archive {
+    max-width: 720px;
+    padding: 6rem 2rem;
+  }
+}
+
 
 .post-archive h1 {
   font-family: 'Playfair Display', serif;
@@ -509,6 +631,10 @@ Latest Posts Grid
   padding: 0;
   margin: 0 auto;
   max-width: 1200px;
+}
+
+.archive-header {
+  margin-bottom: 2rem;
 }
 
 /* Individual Post Card */
@@ -558,7 +684,37 @@ Latest Posts Grid
 }
 
 
+.related-posts {
+  margin-top: 4rem;
+}
 
+.related-posts h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #f5f5f5;
+}
+
+.related-post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.related-post-grid li {
+  text-align: center;
+}
+
+.related-thumb {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
 
 /*
@@ -628,11 +784,20 @@ Latest Posts Grid
 }
 
 .photo-count {
-  font-size: 0.75rem;
-  color: #999;
-  margin-top: 0.25rem;
-  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.photo-count.loading {
+  opacity: 0.5;
   font-style: italic;
+}
+
+.photo-count.loaded {
+  opacity: 1;
+  font-style: normal;
 }
 
 
@@ -744,7 +909,47 @@ html {
   background-color: #1c1c1e;
 }
 
+.thumbnail-info h2 {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  color: #ccc;
+  font-weight: 400;
+}
 
+.collection-link {
+  text-decoration: none;
+}
+
+/* Reveal overlay on hover */
+.collection-link:hover .thumbnail-wrapper::before {
+  opacity: 0;
+}
+
+.collection-link:hover .thumbnail-info h2 {
+  color: #eee;
+  transform: translateY(-2px);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Zoom image on hover */
+.collection-link:hover .collection-thumb {
+  transform: scale(1.05);
+}
+
+
+.collection-link span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.collection-link:hover span {
+  color: #eee;
+  transform: translateY(-2px);
+}
 
 
 /* Pagination */
@@ -924,11 +1129,14 @@ INDIVIDUAL COLLECTION & GALLERY
 }
 
 
-/*
-SINGLE POST LAYOUT
-*/
 
-.post-page {
+/* SINGLE POST LAYOUT */
+
+
+
+
+.post-page,
+.post-entry {
   max-width: 800px;
   margin: 0 auto;
   padding: 4rem 2rem;
@@ -936,107 +1144,34 @@ SINGLE POST LAYOUT
   font-family: 'Georgia', serif;
 }
 
-
-.post-page .post-meta {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 2rem;
-}
-
-.post-page img {
-  max-width: 100%;
-  border-radius: 6px;
-  margin: 2rem 0;
-}
-
-.post-page p {
-  line-height: 1.7;
-  font-size: 1.05rem;
-  margin-bottom: 1.5rem;
-}
-
-.post-entry h1,
-.post-page h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #f5f5f5;
-}
-
-
 @media (min-width: 1024px) {
-  .post-page {
+  .post-page,
+  .post-entry {
     padding: 6rem 3rem;
   }
-
-  .post-content h2,
-  .post-content h3 {
-    font-size: 1.75rem;
-  }
-
-  .post-content p {
-    font-size: 1.1rem;
-  }
 }
 
-
-/* Container for the post */
-.post-entry {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
-}
-
-/* Cover image */
-.post-image-wrapper {
-  max-width: 600px; /* Ideal for portrait */
-  margin: 0 auto 2rem;
-  text-align: center;
-}
-
+/* Cover Image */
 .post-cover {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.post-thumb {
+  display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
   border-radius: 6px;
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem; /* Increased spacing below image */
 }
 
-.post-list-item:hover .post-thumb {
-  transform: scale(1.02);
-}
-
-
-.post-info {
-  padding: 0 1rem;
-  text-align: center;
-}
-
-.post-info h2 {
-  font-size: 1.25rem;
-  margin: 0.75rem 0 0.5rem;
-  color: #f5f5f5;
+/* Title */
+.post-entry h1 {
   font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 0rem; /* Increased spacing below title */
+  text-align: center;
+  color: #f5f5f5;
 }
 
-.post-info p {
-  font-size: 0.9rem;
-  color: #ccc;
-  opacity: 0.8;
-  margin: 0;
-}
-
-
-/* Meta info */
+/* Meta Info */
 .post-meta {
   font-size: 0.9rem;
   color: #aaa;
@@ -1044,18 +1179,24 @@ SINGLE POST LAYOUT
   margin-bottom: 2rem;
 }
 
-/* Content block */
+/* Content */
 .post-content {
   font-size: 1.05rem;
   line-height: 1.7;
   color: #ddd;
 }
 
-/* Headings inside content */
-.post-content h2 {
-  font-size: 1.5rem;
+.post-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.post-content h2,
+.post-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
   margin-top: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
   color: #f5f5f5;
 }
 
@@ -1067,39 +1208,36 @@ SINGLE POST LAYOUT
 
 .post-content li {
   margin-bottom: 0.5rem;
-  color: #ccc;
-}
-
-
-/* .md Post Content Layout */
-.post-content h2,
-.post-content h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: #f5f5f5;
-}
-
-.post-content p {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-  color: #ddd;
-}
-
-.post-content ul {
-  padding-left: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.post-content li {
-  margin-bottom: 0.5rem;
   font-size: 1rem;
   color: #ccc;
 }
 
+.post-content a {
+  text-decoration: none;
+}
 
+.post-content a {
+  text-decoration: none;
+  color: inherit; /* or specify a color */
+}
+
+.post-content a:hover {
+  text-decoration: underline; /* optional */
+  color: #ddd; /* or any hover color you prefer */
+}
+
+
+
+.two-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 700px) {
+  .two-row-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ----------------
 About Page Styling
